@@ -5,10 +5,16 @@ import { SphereShowcaseComponent } from './pages/sphere-showcase/sphere-showcase
 import { DesignSystemComponent } from './pages/design-system/design-system';
 
 export const routes: Routes = [
-  { path: 'landing-a', component: LandingAComponent },
-  { path: 'landing-b', component: LandingBComponent },
-  { path: 'sphere', component: SphereShowcaseComponent },
-  { path: 'design-system', component: DesignSystemComponent },
-  { path: '', redirectTo: 'landing-b', pathMatch: 'full' },
-  { path: '**', redirectTo: 'landing-b' }
+  {
+    path: 'draft',
+    children: [
+      { path: 'landing-a', component: LandingAComponent },
+      { path: 'landing-b', component: LandingBComponent },
+      { path: 'sphere', component: SphereShowcaseComponent },
+      { path: 'design-system', component: DesignSystemComponent },
+      { path: '', redirectTo: 'landing-b', pathMatch: 'full' }
+    ]
+  },
+  { path: '', redirectTo: 'draft/landing-b', pathMatch: 'full' },
+  { path: '**', redirectTo: 'draft/landing-b' }
 ];
