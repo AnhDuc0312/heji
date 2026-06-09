@@ -1,0 +1,298 @@
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-white/5 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.8)]">
+  <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-md max-w-[1440px] mx-auto">
+    <div class="font-headline-md text-headline-md font-bold text-on-surface tracking-tighter">NEURALIS</div>
+    <div class="hidden md:flex gap-xl">
+      <a class="text-primary border-b-2 border-primary pb-1 font-body-md text-body-md tracking-wider" href="#">Platform</a>
+      <a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-md text-body-md tracking-wider" href="#">Ecosystem</a>
+      <a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-md text-body-md tracking-wider" href="#">Showcase</a>
+      <a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-md text-body-md tracking-wider" href="#">Docs</a>
+    </div>
+    <button class="bg-gradient-to-r from-primary to-secondary text-on-primary px-lg py-sm rounded-full font-label-md hover:shadow-[0_0_20px_rgba(176,198,255,0.4)] transition-all active:scale-95">Connect</button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative min-h-screen lg:h-screen flex items-center justify-center overflow-hidden pt-32 pb-16 lg:py-0">
+  <!-- Parallax Background Image -->
+  <div class="absolute inset-0 z-0 opacity-40 parallax-bg" [style.transform]="parallaxTransform" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBFxd6yXOmk984zpJE3WziraoUY8oMsX0DP52yzHLMMzh8zF0ec2zNd5upxOx--QorTWE1vYCgEFSQJ4NKhVNV3aoCcuIoVX09raLmmVWl2AOuLD4-MTExacq4_P4asA1cCGN7k9HhpJhGLfCs_gVMTxc_NW9bFCVas-y7P1oRsufFKhojsqCniW5hP--n7_bxLWEx-neiD5sPoWQ8is0Z4wxLTifCBCCSeBP8u6CZ6XbH4mLUYEMb2QA5g0BWS2O_GNJ0FE1i-Xhfr');"></div>
+  <div class="absolute inset-0 z-10 hero-glow"></div>
+  <div class="relative z-20 px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto grid grid-cols-12 gap-gutter items-center h-full">
+    <div class="col-span-12 lg:col-span-6 flex flex-col items-start gap-lg">
+      <div class="inline-block px-md py-xs rounded-full glass-plate text-primary font-label-sm border border-primary/20">
+        VERSION 4.0 NOW LIVE
+      </div>
+      <h1 class="font-display-lg text-[32px] leading-[1.1] md:text-[48px] lg:text-display-lg text-on-surface max-w-xl">
+        THE FUTURE OF <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-tertiary">INTELLECT.</span>
+      </h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+        Experience the next generation of neural computing with immersive 3D intelligence and decentralized processing power.
+      </p>
+      <div class="flex gap-md mt-lg">
+        <button class="bg-gradient-to-r from-primary to-secondary text-on-primary px-xl py-md rounded-lg font-label-md shadow-[0_0_30px_rgba(176,198,255,0.3)] hover:scale-105 transition-transform">
+          Get Started
+        </button>
+        <button class="glass-plate border border-white/15 text-on-surface px-xl py-md rounded-lg font-label-md hover:bg-white/10 transition-all">
+          View Documentation
+        </button>
+      </div>
+    </div>
+    <!-- Hero Centerpiece -->
+    <div class="col-span-12 lg:col-span-6 flex justify-center items-center relative">
+      <div class="relative w-full max-w-[500px] aspect-square flex items-center justify-center animate-float">
+        <!-- Rotating Ring -->
+        <div class="absolute w-full h-full rounded-full border border-primary/20 animate-[spin_10s_linear_infinite]"></div>
+        <div class="absolute w-[80%] h-[80%] rounded-full border border-secondary/10 animate-[spin_15s_linear_infinite_reverse]"></div>
+        <!-- Main Crystal Image -->
+        <img alt="NEURALIS Holographic Core" class="relative z-30 w-[85%] h-[85%] object-contain drop-shadow-[0_0_50px_rgba(176,198,255,0.5)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5hUV9D2Or8Nxk_J2CyWsVXxsSDzkexRLEqnGgrfIlScnzZ-oq36_iC72yr-cc-HK4ZyOCzPZhqPxJOpdXwdVmxOTHPQ90XbWXzGG3EIqtLbKeoWoppbgsP51HgpaDnxADHxn6y7VsXT9xIjPvHqd49BYaEv6ci3mP7D_8RA5Vn8pnzCdGGyLi_BCjI5nUEPICAiV_6rFyYUsXzX3V8eFQdPq44myPRhU-02ngmB6gJRzhpzVwFBI1-0i8J-GRwB8tm3BtX063Ky0T"/>
+        <!-- Decorative Particles -->
+        <div class="absolute top-10 left-20 w-1 h-1 bg-primary rounded-full animate-pulse shadow-[0_0_10px_#b0c6ff]"></div>
+        <div class="absolute bottom-20 right-10 w-2 h-2 bg-secondary rounded-full animate-pulse shadow-[0_0_10px_#ecb2ff]"></div>
+        <div class="absolute top-1/2 left-0 w-1 h-1 bg-tertiary rounded-full animate-pulse shadow-[0_0_10px_#00dbe9]"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-3xl px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
+  <div class="flex flex-col items-center mb-2xl text-center">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">Engineered Excellence</h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+    <!-- Feature 1 -->
+    <div class="glass-plate p-xl rounded-xl group hover:translate-y-[-8px] transition-all duration-500 relative overflow-hidden" (mousemove)="onMouseMove($event, card1)" #card1>
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div class="w-12 h-12 glass-plate rounded-lg flex items-center justify-center mb-lg border-primary/30 text-primary">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">speed</span>
+      </div>
+      <h3 class="font-headline-md text-headline-md text-on-surface mb-md">Quantum Processing</h3>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        Utilizing non-linear algorithmic structures to process petabytes of data with near-zero thermal signatures and infinite scalability.
+      </p>
+      <div class="mt-lg flex items-center gap-sm text-primary font-label-sm">
+        EXPLORE SPECS <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </div>
+    </div>
+    <!-- Feature 2 -->
+    <div class="glass-plate p-xl rounded-xl group hover:translate-y-[-8px] transition-all duration-500 relative overflow-hidden" (mousemove)="onMouseMove($event, card2)" #card2>
+      <div class="absolute inset-0 bg-gradient-to-br from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div class="w-12 h-12 glass-plate rounded-lg flex items-center justify-center mb-lg border-secondary/30 text-secondary">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">hub</span>
+      </div>
+      <h3 class="font-headline-md text-headline-md text-on-surface mb-md">Neural Mesh</h3>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        A self-healing distributed network architecture that maintains 100% integrity even under extreme node variance conditions.
+      </p>
+      <div class="mt-lg flex items-center gap-sm text-secondary font-label-sm">
+        VIEW NETWORK <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </div>
+    </div>
+    <!-- Feature 3 -->
+    <div class="glass-plate p-xl rounded-xl group hover:translate-y-[-8px] transition-all duration-500 relative overflow-hidden" (mousemove)="onMouseMove($event, card3)" #card3>
+      <div class="absolute inset-0 bg-gradient-to-br from-tertiary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div class="w-12 h-12 glass-plate rounded-lg flex items-center justify-center mb-lg border-tertiary/30 text-tertiary">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sync_alt</span>
+      </div>
+      <h3 class="font-headline-md text-headline-md text-on-surface mb-md">Bio-Sync</h3>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        Advanced haptic and cognitive synchronization layers that bridge the gap between human intent and machine execution.
+      </p>
+      <div class="mt-lg flex items-center gap-sm text-tertiary font-label-sm">
+        LEARN SYNC <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Showcase Section -->
+<section class="py-3xl relative overflow-hidden bg-surface-container-lowest">
+  <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
+    <div class="grid grid-cols-12 gap-gutter items-center">
+      <div class="col-span-12 lg:col-span-5">
+        <span class="text-tertiary font-label-md tracking-widest uppercase mb-sm block">Performance First</span>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface mb-lg">Architected for Global Scale</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-xl leading-relaxed">
+          NEURALIS isn't just a platform; it's a foundation. We've optimized every layer of the stack—from the bare metal to the front-facing API—to deliver an uncompromising cinematic experience.
+        </p>
+        <div class="space-y-md">
+          <div class="flex items-center gap-md">
+            <div class="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_#b0c6ff]"></div>
+            <span class="font-body-md text-on-surface">End-to-end encrypted neural pathways</span>
+          </div>
+          <div class="flex items-center gap-md">
+            <div class="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_#b0c6ff]"></div>
+            <span class="font-body-md text-on-surface">Real-time collaborative workspace synchronization</span>
+          </div>
+          <div class="flex items-center gap-md">
+            <div class="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_#b0c6ff]"></div>
+            <span class="font-body-md text-on-surface">Dynamic resource allocation based on intent</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-12 lg:col-span-7 mt-xl lg:mt-0 relative group">
+        <div class="absolute -inset-4 bg-gradient-to-r from-primary/10 to-tertiary/10 blur-3xl opacity-50"></div>
+        <div class="relative glass-plate rounded-2xl overflow-hidden shadow-2xl border-white/5" (mousemove)="onMouseMove($event, showcaseCard)" #showcaseCard>
+          <img class="w-full h-auto grayscale-[0.2] group-hover:scale-105 transition-transform duration-700" alt="Control Room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdj0MHVs0rTPy-lM5-BHYY2lqg7SsLWyMiwwWnfp8Oao99MHD1K0c9Ob93rWtXO3pTxck2RjOvMOjfivOzhnSNch7dhZ8qdT0JiKRCrplfsq9tsphcyBB7IE_9Vfp6M8QN05IwWTFh-d2dR2eJaltHdyMk534LA6dNfyzM_HO0Ofa2tPba_85zbdHFS0YiCct_pDNaTnlK5xIRUuCettKksIWvGAvE6QDOUAMZyxbIRZAPguW1gLN9gpTtpAI6W7B5kgDFg1-nOfJr"/>
+          <div class="absolute bottom-0 left-0 right-0 p-lg bg-gradient-to-t from-surface-container-lowest to-transparent">
+            <div class="flex justify-between items-center">
+              <div class="font-label-sm text-on-surface-variant">SYS_REPORTS: ALPHA_STABLE</div>
+              <div class="flex gap-sm">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <div class="font-label-sm text-green-400">OPERATIONAL</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-2xl px-margin-mobile md:px-margin-desktop border-y border-white/5 bg-surface-lowest">
+  <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-xl">
+    <div class="text-center group">
+      <div class="text-[64px] font-bold text-primary font-headline-lg group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(176,198,255,0.4)]">99.9%</div>
+      <div class="font-label-md text-on-surface-variant tracking-widest uppercase">Platform Uptime</div>
+    </div>
+    <div class="text-center group">
+      <div class="text-[64px] font-bold text-tertiary font-headline-lg group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(0,219,233,0.4)]">250ms</div>
+      <div class="font-label-md text-on-surface-variant tracking-widest uppercase">Global Latency</div>
+    </div>
+    <div class="text-center group">
+      <div class="text-[64px] font-bold text-secondary font-headline-lg group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(236,178,255,0.4)]">1.2M</div>
+      <div class="font-label-md text-on-surface-variant tracking-widest uppercase">Active Nodes</div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-3xl overflow-hidden bg-surface-lowest">
+  <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop mb-xl">
+    <h2 class="font-headline-lg text-headline-lg text-on-surface">Trusted by Pioneers</h2>
+  </div>
+  <div class="flex gap-gutter px-margin-mobile md:px-margin-desktop overflow-x-auto pb-lg no-scrollbar">
+    <!-- Testimonial 1 -->
+    <div class="min-w-[400px] glass-plate p-xl rounded-xl relative border-white/10" (mousemove)="onMouseMove($event, test1)" #test1>
+      <span class="material-symbols-outlined text-primary mb-md" style="font-size: 32px;">format_quote</span>
+      <p class="font-body-md text-body-md text-on-surface mb-xl italic leading-relaxed">
+        "The shift to NEURALIS was the single most impactful infrastructure decision we've made in a decade. The speed is incomparable."
+      </p>
+      <div class="flex items-center gap-md">
+        <div class="w-12 h-12 rounded-full bg-surface-container-high border border-primary/30 overflow-hidden">
+          <img alt="Portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk6QFcm69CQldL-ueek5urwXx0nEHtYoUkKSa8IZYr8npuCRhCoFc8Z4MzafNl05ZY4s9Ttlkl4XvKX3_MEZ8iVPVpaPT5xj2gCYmB7eBvay3m9jsYV1UGuxvpfYPybX7lgozzwa8Ra9m-AHckPMCfvrK1cYyO02da9K2gf8mMrwZyJTbfrC-epMpYexYL_6MdtpNGvtGSgmcStmCet_kiHjKEJfsPNajN9Jdjo6vHpDFPIm_WJAQr_U1gxaBgP6yRAPy1BghHVlp6"/>
+        </div>
+        <div>
+          <div class="font-label-md text-on-surface">Marcus Thorne</div>
+          <div class="font-label-sm text-on-surface-variant">CTO, AETHER SYSTEMS</div>
+        </div>
+      </div>
+    </div>
+    <!-- Testimonial 2 -->
+    <div class="min-w-[400px] glass-plate p-xl rounded-xl relative border-white/10" (mousemove)="onMouseMove($event, test2)" #test2>
+      <span class="material-symbols-outlined text-secondary mb-md" style="font-size: 32px;">format_quote</span>
+      <p class="font-body-md text-body-md text-on-surface mb-xl italic leading-relaxed">
+        "We needed a platform that felt as premium as our brand. Neuralis delivered a UI and API experience that is purely cinematic."
+      </p>
+      <div class="flex items-center gap-md">
+        <div class="w-12 h-12 rounded-full bg-surface-container-high border border-secondary/30 overflow-hidden">
+          <img alt="Portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq6WJkIFoLz1uMN-iugljzvTSxpTLbcowwl2kbXXbS8JfR84wI06M7fGXARF-gh4dFO-s0dSVtIKQ6i__un9Q5ontz_Z-_f4YS_LI2QHKgFSH5lTZPfyp1SbYci6WlxgMF7ylxvvW_hlX4xUlRe4GTLZZ7sYWbgHQltNfsm2-7XSNIj46fncve75p_1MYlx36DJE8p0ArcAbPdrzR8R5taOwfbK_ptOzVa_2TbPfsRk3C23JoTHLQ5N7_yg0kNXrFc9tblnn5vvmWT"/>
+        </div>
+        <div>
+          <div class="font-label-md text-on-surface">Elena Vance</div>
+          <div class="font-label-sm text-on-surface-variant">Design Lead, NOVA LABS</div>
+        </div>
+      </div>
+    </div>
+    <!-- Testimonial 3 -->
+    <div class="min-w-[400px] glass-plate p-xl rounded-xl relative border-white/10" (mousemove)="onMouseMove($event, test3)" #test3>
+      <span class="material-symbols-outlined text-tertiary mb-md" style="font-size: 32px;">format_quote</span>
+      <p class="font-body-md text-body-md text-on-surface mb-xl italic leading-relaxed">
+        "Scaling was always a pain point until we moved to the mesh. Now, growth is a simple parameter shift. Absolutely brilliant."
+      </p>
+      <div class="flex items-center gap-md">
+        <div class="w-12 h-12 rounded-full bg-surface-container-high border border-tertiary/30 overflow-hidden">
+          <img alt="Portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk6BRkQSdqSM0qUCfc59adwEhk0441k8H0pFjbJ-Vc_xgPX2GFP26xtV8VC_AMWn1g11LEpjw8HKdpoRiW4MDGD9WGVeb7Zm1xOgj8xJZ2iab7Os0RvTlpD7y6U_y-7Wrsnl8x48RT8GzHq3UrIP67MvGeG_YbJDI-ggd36rOyYazHWZXZ51nByjvoNydk1kUWmrtvsaVpzOwHKttPK3m0hGgUy4UMShx-xywVFSiPh4mg_to9-oBCQBdlmgVJ1ZjqhkK1CdutbnV7"/>
+        </div>
+        <div>
+          <div class="font-label-md text-on-surface">Soren Kjeldsen</div>
+          <div class="font-label-sm text-on-surface-variant">Founder, NEXUS CORP</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA Section -->
+<section class="py-3xl px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+  <div class="max-w-[1440px] mx-auto rounded-3xl overflow-hidden relative min-h-[400px] flex items-center justify-center text-center">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 z-0">
+      <img class="w-full h-full object-cover" alt="Space Tech Background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6b2e4l-9NY9UiKRINRcaKasjm4X_M8Q3CDn7M2_DTwm-og4BoP5tKSdt6lZJMxNZxFMbUwmiEG8VOAQ_mpt0fkMRL_l0Bifhaed7I1r43ZCo4PbDXnr5Ne5kSoGmdwBKQjfqZSvKt1BtFTw9lxBSOV3izj8xDF54pzbv_NyUJehzmK8tBM2ACiEbCMbPedsr3MZ9rtj4xsis_1hWe04ZCZjsWjmYcRXVFYq9ma6HG1ABmAdH-MV9muHWQRMBCaN_gullO0Wqu5kcG"/>
+      <div class="absolute inset-0 bg-gradient-to-r from-[#050505] via-transparent to-[#050505]"></div>
+      <div class="absolute inset-0 bg-[#050505]/60 backdrop-blur-sm"></div>
+    </div>
+    <div class="relative z-10 p-xl flex flex-col items-center gap-lg max-w-2xl">
+      <h2 class="font-display-lg text-headline-lg text-on-surface">JOIN THE VANGUARD.</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">
+        Become part of the most advanced neural computing network in existence. Secured, scalable, and built for the architects of tomorrow.
+      </p>
+      <button class="mt-lg bg-gradient-to-r from-primary to-secondary text-on-primary px-3xl py-md rounded-lg font-label-md shadow-[0_0_40px_rgba(176,198,255,0.4)] hover:shadow-[0_0_60px_rgba(176,198,255,0.6)] transition-all hover:scale-105 active:scale-95">
+        Initialize Access
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="w-full mt-3xl bg-surface-lowest border-t border-white/5 shadow-[0_-20px_40px_rgba(0,0,0,0.5)]">
+  <div class="grid grid-cols-12 gap-gutter px-margin-mobile md:px-margin-desktop py-2xl max-w-[1440px] mx-auto">
+    <div class="col-span-12 lg:col-span-4 flex flex-col gap-md">
+      <div class="font-headline-lg text-headline-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">NEURALIS</div>
+      <p class="font-body-md text-body-md text-on-surface-variant max-w-xs">
+        Pioneering the boundary between human intuition and machine intelligence.
+      </p>
+    </div>
+    <div class="col-span-6 lg:col-span-2">
+      <h4 class="font-label-md text-on-surface mb-lg">PLATFORM</h4>
+      <div class="flex flex-col gap-sm">
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Features</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Solutions</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Integrations</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Pricing</a>
+      </div>
+    </div>
+    <div class="col-span-6 lg:col-span-2">
+      <h4 class="font-label-md text-on-surface mb-lg">RESOURCES</h4>
+      <div class="flex flex-col gap-sm">
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Documentation</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">API Reference</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Changelog</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Support</a>
+      </div>
+    </div>
+    <div class="col-span-12 lg:col-span-4 mt-xl lg:mt-0">
+      <h4 class="font-label-md text-on-surface mb-lg">STAY UPDATED</h4>
+      <div class="flex gap-sm">
+        <input class="bg-white/5 border border-white/10 rounded-lg px-md py-sm flex-grow font-body-md focus:outline-none focus:border-primary transition-colors" placeholder="Email address" type="email"/>
+        <button class="bg-white/10 px-lg py-sm rounded-lg hover:bg-white/20 transition-all font-label-md">Join</button>
+      </div>
+      <div class="flex gap-lg mt-xl">
+        <a class="text-on-surface-variant hover:text-primary transition-all duration-200 hover:translate-x-1" href="#"><span class="material-symbols-outlined">public</span></a>
+        <a class="text-on-surface-variant hover:text-primary transition-all duration-200 hover:translate-x-1" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+        <a class="text-on-surface-variant hover:text-primary transition-all duration-200 hover:translate-x-1" href="#"><span class="material-symbols-outlined">share</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="px-margin-mobile md:px-margin-desktop py-lg border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-md max-w-[1440px] mx-auto">
+    <div class="font-label-md text-label-md text-tertiary">© 2024 NEURALIS. ALL RIGHTS RESERVED.</div>
+    <div class="flex gap-xl">
+      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Privacy</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Terms</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Twitter</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Discord</a>
+    </div>
+  </div>
+</footer>

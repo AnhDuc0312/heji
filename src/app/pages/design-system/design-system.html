@@ -1,0 +1,157 @@
+<div class="min-h-screen w-full bg-[#050505] text-[#e5e2e1] pt-24 pb-16 px-margin-desktop max-w-[1440px] mx-auto flex flex-col gap-3xl">
+  
+  <!-- Header / Narrative -->
+  <div class="flex flex-col gap-md">
+    <div class="inline-block px-md py-xs rounded-full glass-plate text-primary font-label-sm border border-primary/20 max-w-fit">
+      DESIGN SYSTEM SPECIFICATION
+    </div>
+    <h1 class="font-display-lg text-display-lg tracking-tight">Obsidian Flux</h1>
+    <p class="font-body-lg text-on-surface-variant max-w-3xl leading-relaxed">
+      Built on a "Cinematic Futurist" narrative, Obsidian Flux balances the void-like depth of deep obsidian backgrounds with the vibrant energy of neon light. It utilizes "Controlled Diffusion"—polished glass surfaces with micro-borders and subtle backdrop blurs suggesting physical layers of light and data.
+    </p>
+  </div>
+
+  <hr class="border-white/10" />
+
+  <!-- Colors Section -->
+  <div class="flex flex-col gap-lg">
+    <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">1. Color Palette</h2>
+    <p class="font-body-md text-on-surface-variant max-w-2xl">
+      Click on any color tile to copy its hexadecimal code directly to your clipboard.
+    </p>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-md">
+      <div *ngFor="let color of colors" 
+           class="glass-plate p-sm rounded-xl border-white/5 flex flex-col gap-sm cursor-pointer hover:scale-[1.03] transition-all group"
+           (click)="copyToClipboard(color.value)">
+        <div class="w-full aspect-square rounded-lg shadow-inner flex items-end justify-end p-xs"
+             [style.background-color]="color.value">
+          <span class="material-symbols-outlined text-[16px] text-white bg-black/40 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">content_copy</span>
+        </div>
+        <div class="flex flex-col gap-3xs">
+          <span class="font-label-sm text-on-surface text-[12px] truncate">{{ color.name }}</span>
+          <span class="font-label-md text-on-surface-variant text-[11px] font-bold">{{ color.value }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="border-white/10" />
+
+  <!-- Typography Section -->
+  <div class="flex flex-col gap-lg">
+    <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">2. Typography Scale</h2>
+    
+    <div class="flex flex-col gap-md glass-plate p-xl rounded-2xl border-white/10 overflow-x-auto">
+      <table class="w-full text-left min-w-[700px] border-collapse">
+        <thead>
+          <tr class="border-b border-white/10 font-label-sm text-on-surface-variant pb-xs">
+            <th class="py-sm">Token</th>
+            <th class="py-sm">Family / Weight</th>
+            <th class="py-sm">Size / Line Height</th>
+            <th class="py-sm">Preview</th>
+          </tr>
+        </thead>
+        <tbody class="font-body-md">
+          <tr *ngFor="let ty of typography" class="border-b border-white/5 hover:bg-white/2">
+            <td class="py-md font-label-md text-primary">{{ ty.token }}</td>
+            <td class="py-md text-on-surface-variant">{{ ty.family }} / {{ ty.weight }}</td>
+            <td class="py-md text-on-surface-variant">{{ ty.size }} / {{ ty.lh }}</td>
+            <td class="py-md text-on-surface" [style.font-family]="ty.family" [style.font-size]="ty.size" [style.font-weight]="ty.weight">
+              Neuralis System
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="border-white/10" />
+
+  <!-- Layout & Components Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-xl">
+    
+    <!-- Spacing Scale -->
+    <div class="flex flex-col gap-lg">
+      <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">3. Spacing System</h2>
+      <div class="glass-plate p-xl rounded-2xl border-white/10 flex flex-col gap-md">
+        <div *ngFor="let space of spacing" class="flex items-center gap-md py-xs border-b border-white/5 last:border-b-0">
+          <span class="w-16 font-label-md text-secondary">{{ space.token }}</span>
+          <span class="w-16 font-body-md text-on-surface-variant">{{ space.value }}</span>
+          <div class="h-4 bg-gradient-to-r from-primary/30 to-tertiary/30 rounded"
+               [style.width]="space.pixelValue + 'px'"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Components Showcase -->
+    <div class="flex flex-col gap-lg">
+      <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">4. Interactive Components</h2>
+      <div class="glass-plate p-xl rounded-2xl border-white/10 flex flex-col gap-xl">
+        
+        <!-- Buttons -->
+        <div class="flex flex-col gap-sm">
+          <span class="font-label-sm text-on-surface-variant">BUTTON STATES</span>
+          <div class="flex flex-wrap gap-md">
+            <button class="bg-gradient-to-r from-primary to-secondary text-on-primary px-lg py-sm rounded-lg font-label-md shadow-[0_0_20px_rgba(176,198,255,0.3)] hover:scale-[1.03] transition-all">
+              Primary Action
+            </button>
+            <button class="glass-plate border border-white/15 text-on-surface px-lg py-sm rounded-lg font-label-md hover:bg-white/10 transition-all">
+              Secondary Action
+            </button>
+            <button class="text-primary hover:underline px-lg py-sm font-label-md bg-transparent">
+              Ghost Link
+            </button>
+          </div>
+        </div>
+
+        <!-- Badges / Status Indicators -->
+        <div class="flex flex-col gap-sm">
+          <span class="font-label-sm text-on-surface-variant">STATUS PILLS</span>
+          <div class="flex gap-md">
+            <span class="glass-plate px-md py-xs rounded-full text-green-400 font-label-sm border border-green-500/20 flex items-center gap-sm">
+              <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_#4ade80]"></span>
+              SYS_OPERATIONAL
+            </span>
+            <span class="glass-plate px-md py-xs rounded-full text-red-400 font-label-sm border border-red-500/20 flex items-center gap-sm">
+              <span class="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse shadow-[0_0_8px_#f87171]"></span>
+              SYS_FAILED
+            </span>
+          </div>
+        </div>
+
+        <!-- Glass Cards with custom cursor spotlight -->
+        <div class="flex flex-col gap-sm">
+          <span class="font-label-sm text-on-surface-variant">CONTROLLED DIFFUSION PLATE (HOVER ME)</span>
+          <div class="glass-plate p-lg rounded-xl border-white/10 relative overflow-hidden"
+               (mousemove)="onCardMove($event, demoCard)" #demoCard>
+            <h4 class="font-headline-md text-on-surface text-[18px] mb-xs">Interactive Spotlighting</h4>
+            <p class="font-body-md text-on-surface-variant text-[14px]">
+              Move your mouse over this panel to see the subtle radial gradient spotlight effect matching our design system narrative.
+            </p>
+          </div>
+        </div>
+
+        <!-- Forms -->
+        <div class="flex flex-col gap-sm">
+          <span class="font-label-sm text-on-surface-variant">INPUT FIELDS</span>
+          <div class="relative w-full">
+            <input type="text" 
+                   placeholder="Enter neural access code..."
+                   class="w-full bg-white/3 border-b border-white/15 focus:border-primary px-sm py-sm text-on-surface placeholder:text-on-surface-variant/30 focus:outline-none transition-colors" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="fixed bottom-6 right-6 glass-plate px-lg py-sm rounded-xl border-primary/30 text-primary font-label-md flex items-center gap-sm shadow-[0_10px_30px_rgba(0,0,0,0.8)] transition-transform duration-300 z-50"
+       [style.transform]="toastVisible ? 'translateY(0)' : 'translateY(150%)'">
+    <span class="material-symbols-outlined text-[18px]">check_circle</span>
+    {{ toastMessage }}
+  </div>
+
+</div>

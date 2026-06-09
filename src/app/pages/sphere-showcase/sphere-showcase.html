@@ -1,0 +1,90 @@
+<div class="relative min-h-screen w-full overflow-hidden bg-cover bg-center flex items-center justify-center pt-24 pb-12"
+     [style.background-image]="'url(' + backgroundUrl + ')'">
+  <!-- Dark Obsidian Overlay -->
+  <div class="absolute inset-0 bg-[#050505]/40 backdrop-blur-xs z-0"></div>
+
+  <!-- Ambient Light Streak Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-br from-purple-900/10 via-transparent to-cyan-900/10 z-0"></div>
+
+  <div class="relative z-10 w-full max-w-[1440px] mx-auto px-margin-desktop grid grid-cols-12 gap-gutter items-center">
+    
+    <!-- Left Sidebar: Spec Sheet -->
+    <div class="col-span-12 lg:col-span-4 flex flex-col gap-lg glass-plate p-xl rounded-2xl border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-md">
+      <div>
+        <span class="text-tertiary font-label-sm tracking-widest uppercase block mb-xs">Neural Centerpiece</span>
+        <h2 class="font-headline-lg text-headline-md text-on-surface tracking-tight">CRYSTAL CORE</h2>
+        <div class="w-12 h-0.5 bg-gradient-to-r from-primary to-secondary mt-sm"></div>
+      </div>
+
+      <p class="font-body-md text-on-surface-variant leading-relaxed">
+        A futuristic, translucent 3D holographic crystal sphere with internal fractals and electric cyan glowing cores. Rendering details are optimized for direct hardware-accelerated displays.
+      </p>
+
+      <div class="border-t border-white/10 pt-lg space-y-md">
+        <div class="flex justify-between items-center py-xs border-b border-white/5">
+          <span class="font-label-sm text-on-surface-variant">RESOLUTION</span>
+          <span class="font-label-md text-primary">8K ULTRA DETAILED</span>
+        </div>
+        <div class="flex justify-between items-center py-xs border-b border-white/5">
+          <span class="font-label-sm text-on-surface-variant">ENGINE STYLE</span>
+          <span class="font-label-md text-tertiary">UNREAL ENGINE 5</span>
+        </div>
+        <div class="flex justify-between items-center py-xs border-b border-white/5">
+          <span class="font-label-sm text-on-surface-variant">LIGHTING STYLE</span>
+          <span class="font-label-md text-secondary">CINEMATIC LOW-KEY</span>
+        </div>
+        <div class="flex justify-between items-center py-xs border-b border-white/5">
+          <span class="font-label-sm text-on-surface-variant">RAY TRACING</span>
+          <span class="font-label-md text-green-400">ACTIVE REFRACTION</span>
+        </div>
+      </div>
+
+      <div class="flex gap-md mt-sm">
+        <button class="flex-1 bg-white/10 hover:bg-white/20 text-on-surface px-lg py-sm rounded-lg font-label-sm transition-all border border-white/10"
+                (click)="toggleMode('sphere')">
+          Focus Core
+        </button>
+        <button class="flex-1 bg-white/10 hover:bg-white/20 text-on-surface px-lg py-sm rounded-lg font-label-sm transition-all border border-white/10"
+                (click)="toggleMode('bg')">
+          Focus Environment
+        </button>
+      </div>
+    </div>
+
+    <!-- Center Stage: The Sphere -->
+    <div class="col-span-12 lg:col-span-8 flex justify-center items-center relative min-h-[500px]" #stage>
+      <!-- Glowing Radial Backing -->
+      <div class="absolute w-[400px] h-[400px] rounded-full bg-cyan-500/10 blur-[100px] z-0 transition-transform duration-300"
+           [style.transform]="glowTransform"></div>
+
+      <!-- Interactive 3D Sphere Frame -->
+      <div class="relative w-full max-w-[480px] aspect-square flex items-center justify-center animate-float z-10"
+           [style.transform]="sphereTransform"
+           [style.opacity]="focusMode === 'bg' ? '0.1' : '1'"
+           style="transition: opacity 0.5s ease, transform 0.1s ease-out;">
+        
+        <!-- Outer energy orbits -->
+        <div class="absolute w-[108%] h-[108%] rounded-full border border-dashed border-cyan-400/20 animate-[spin_25s_linear_infinite]"></div>
+        <div class="absolute w-[104%] h-[104%] rounded-full border border-primary/20 animate-[spin_35s_linear_infinite_reverse]"></div>
+        <div class="absolute w-[98%] h-[98%] rounded-full border border-purple-500/15 animate-[spin_12s_linear_infinite]"></div>
+
+        <!-- Sphere Image Asset -->
+        <img [src]="sphereUrl"
+             alt="Holographic Sphere"
+             class="w-[85%] h-[85%] object-contain drop-shadow-[0_0_80px_rgba(0,219,233,0.5)] z-10 select-none pointer-events-none" />
+
+        <!-- Micro particle flashes -->
+        <div class="absolute top-12 left-16 w-1.5 h-1.5 bg-tertiary rounded-full animate-ping shadow-[0_0_12px_#00dbe9]"></div>
+        <div class="absolute bottom-16 right-16 w-1.5 h-1.5 bg-primary rounded-full animate-ping shadow-[0_0_12px_#b0c6ff]"></div>
+      </div>
+
+      <!-- Floating Tech HUD Overlay (Only visible in environment mode) -->
+      <div class="absolute bottom-6 glass-plate px-md py-sm rounded-full border-white/10 text-on-surface-variant font-label-sm z-20 flex items-center gap-sm"
+           *ngIf="focusMode === 'bg'">
+        <span class="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></span>
+        HUD_ACTIVE: TRUE OBSIDIAN ENVIRONMENT PREVIEW
+      </div>
+    </div>
+
+  </div>
+</div>
