@@ -1,4 +1,5 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-landing-a',
@@ -8,6 +9,7 @@ import { Component, HostListener } from '@angular/core';
   styleUrl: './landing-a.scss'
 })
 export class LandingAComponent {
+  public readonly lang = inject(LanguageService);
   parallaxTransform = 'translateY(0px)';
 
   @HostListener('window:scroll', [])

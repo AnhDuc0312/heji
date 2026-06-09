@@ -1,4 +1,5 @@
-import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild, HostListener, inject } from '@angular/core';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-landing-b',
@@ -8,6 +9,7 @@ import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild, HostListene
   styleUrl: './landing-b.scss'
 })
 export class LandingBComponent implements AfterViewInit, OnDestroy {
+  public readonly lang = inject(LanguageService);
   @ViewChild('particleCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('crystal') crystalRef!: ElementRef<HTMLElement>;
   @ViewChild('heroGlow') heroGlowRef!: ElementRef<HTMLElement>;

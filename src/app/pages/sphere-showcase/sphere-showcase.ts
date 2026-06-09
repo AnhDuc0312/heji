@@ -1,5 +1,6 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-sphere-showcase',
@@ -9,6 +10,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './sphere-showcase.scss'
 })
 export class SphereShowcaseComponent {
+  public readonly lang = inject(LanguageService);
   sphereUrl = 'assets/stitch/Futuristic Holographic Crystal Sphere (7edb3e4314be4941911b5e3c79d16bbe) - Screenshot.png';
   backgroundUrl = 'assets/stitch/Abstract Cinematic Background (949ed693e7034135ab4738012f4aef77) - Screenshot.png';
   

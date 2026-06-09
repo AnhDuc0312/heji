@@ -1,0 +1,224 @@
+<div class="relative min-h-screen bg-[#050505] text-[#e5e2e1] pt-32 pb-16 px-margin-mobile md:px-margin-desktop overflow-hidden">
+  
+  <!-- Ambient Grid Background -->
+  <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+  <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/10 blur-[120px] pointer-events-none"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-secondary/10 blur-[120px] pointer-events-none"></div>
+
+  <div class="relative z-10 max-w-[1440px] mx-auto flex flex-col gap-lg">
+    
+    <!-- Title Area -->
+    <div class="flex flex-col gap-xs mb-md">
+      <div class="inline-block px-md py-xs rounded-full glass-plate text-primary font-label-sm border border-primary/20 self-start text-[11px] tracking-widest uppercase">
+        SYS_STATUS: ACTIVE
+      </div>
+      <h1 class="font-display-lg text-[28px] md:text-[36px] tracking-tight font-bold text-on-surface">
+        {{ lang.t('CONSOLE_TITLE') }}
+      </h1>
+    </div>
+
+    <!-- Grid Columns -->
+    <div class="grid grid-cols-12 gap-lg">
+      
+      <!-- 1. Resource Allocator Column (3/12 wide on desktop) -->
+      <div class="col-span-12 lg:col-span-4 flex flex-col gap-lg">
+        <div class="glass-plate p-xl rounded-xl border border-white/10 flex flex-col gap-xl">
+          <div class="flex items-center justify-between border-b border-white/5 pb-md">
+            <h2 class="font-headline-sm text-headline-sm font-semibold tracking-wide text-primary">{{ lang.t('SYS_ALLOCATOR') }}</h2>
+            <span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+          </div>
+
+          <!-- Dials & Efficiency Score -->
+          <div class="flex items-center justify-center py-md">
+            <div class="relative w-40 h-40 flex items-center justify-center">
+              <svg class="w-full h-full transform -rotate-90">
+                <!-- Background track -->
+                <circle cx="80" cy="80" r="64" stroke="rgba(255,255,255,0.03)" stroke-width="12" fill="transparent"/>
+                <!-- Glow track -->
+                <circle cx="80" cy="80" r="64" 
+                        [attr.stroke]="efficiency > 80 ? '#00dbe9' : (efficiency > 50 ? '#b0c6ff' : '#ecb2ff')" 
+                        stroke-width="12" fill="transparent"
+                        [attr.stroke-dasharray]="251.2 * 1.6"
+                        [attr.stroke-dashoffset]="dialOffset * 1.6"
+                        stroke-linecap="round"
+                        class="transition-all duration-300 drop-shadow-[0_0_10px_rgba(0,219,233,0.5)]"/>
+              </svg>
+              <div class="absolute flex flex-col items-center justify-center">
+                <span class="text-3xl font-bold font-headline-lg" 
+                      [ngClass]="{'text-primary': efficiency > 80, 'text-secondary': efficiency <= 80 && efficiency > 50, 'text-tertiary': efficiency <= 50}">
+                  {{ efficiency }}%
+                </span>
+                <span class="text-[9px] uppercase tracking-wider text-on-surface-variant font-bold mt-1">{{ lang.t('EFFICIENCY_DIAL') }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Sliders -->
+          <div class="flex flex-col gap-lg mt-md">
+            <!-- CPU Slider -->
+            <div class="flex flex-col gap-xs">
+              <div class="flex justify-between font-label-md text-label-md text-on-surface-variant">
+                <span>{{ lang.t('CPU_ALLOC') }}</span>
+                <span class="font-bold text-on-surface">{{ cpuAlloc }}%</span>
+              </div>
+              <input type="range" min="10" max="100" step="5" [(ngModel)]="cpuAlloc" 
+                     class="w-full accent-primary bg-white/5 rounded-lg h-1.5 cursor-pointer"/>
+            </div>
+
+            <!-- RAM Slider -->
+            <div class="flex flex-col gap-xs">
+              <div class="flex justify-between font-label-md text-label-md text-on-surface-variant">
+                <span>{{ lang.t('MEM_ALLOC') }}</span>
+                <span class="font-bold text-on-surface">{{ ramAlloc }}%</span>
+              </div>
+              <input type="range" min="10" max="100" step="5" [(ngModel)]="ramAlloc" 
+                     class="w-full accent-secondary bg-white/5 rounded-lg h-1.5 cursor-pointer"/>
+            </div>
+
+            <!-- Network Slider -->
+            <div class="flex flex-col gap-xs">
+              <div class="flex justify-between font-label-md text-label-md text-on-surface-variant">
+                <span>{{ lang.t('NET_ALLOC') }}</span>
+                <span class="font-bold text-on-surface">{{ netAlloc }}%</span>
+              </div>
+              <input type="range" min="10" max="100" step="5" [(ngModel)]="netAlloc" 
+                     class="w-full accent-tertiary bg-white/5 rounded-lg h-1.5 cursor-pointer"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Node Map & Node Info Column (5/12 wide on desktop) -->
+      <div class="col-span-12 lg:col-span-5 flex flex-col gap-lg">
+        <!-- SVG Node Map -->
+        <div class="glass-plate p-xl rounded-xl border border-white/10 flex flex-col gap-lg">
+          <div class="flex items-center justify-between border-b border-white/5 pb-md">
+            <h2 class="font-headline-sm text-headline-sm font-semibold tracking-wide text-secondary">{{ lang.t('NODE_MAP') }}</h2>
+            <span class="material-symbols-outlined text-secondary text-[20px]">hub</span>
+          </div>
+
+          <div class="relative w-full aspect-[4/3] bg-black/40 rounded-lg overflow-hidden border border-white/5 flex items-center justify-center">
+            <svg class="w-full h-full" viewBox="0 0 400 300">
+              <!-- Grid Pattern Overlay inside SVG -->
+              <defs>
+                <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#smallGrid)" />
+
+              <!-- Connection Lines -->
+              <!-- Line 1 to 2 -->
+              <line x1="100" y1="80" x2="260" y2="70" stroke="rgba(0,219,233,0.3)" stroke-width="1.5" [attr.stroke-dasharray]="nodes[0].status === 'operational' && nodes[1].status === 'operational' ? '4,4' : 'none'" class="animate-dash" />
+              <!-- Line 1 to 3 -->
+              <line x1="100" y1="80" x2="160" y2="190" stroke="rgba(236,178,255,0.3)" stroke-width="1.5" [attr.stroke-dasharray]="nodes[0].status === 'operational' && nodes[2].status === 'operational' ? '4,4' : 'none'" class="animate-dash" />
+              <!-- Line 2 to 4 -->
+              <line x1="260" y1="70" x2="320" y2="170" stroke="rgba(0,219,233,0.3)" stroke-width="1.5" [attr.stroke-dasharray]="nodes[1].status === 'operational' && nodes[3].status === 'operational' ? '4,4' : 'none'" class="animate-dash" />
+              <!-- Line 3 to 5 -->
+              <line x1="160" y1="190" x2="230" y2="270" [attr.stroke]="nodes[4].status === 'critical' ? 'rgba(239,68,68,0.3)' : 'rgba(0,219,233,0.3)'" stroke-width="1.5" [attr.stroke-dasharray]="nodes[2].status === 'operational' && nodes[4].status === 'operational' ? '4,4' : 'none'" class="animate-dash" />
+              <!-- Line 4 to 5 -->
+              <line x1="320" y1="170" x2="230" y2="270" [attr.stroke]="nodes[4].status === 'critical' ? 'rgba(239,68,68,0.3)' : 'rgba(0,219,233,0.3)'" stroke-width="1.5" [attr.stroke-dasharray]="nodes[3].status === 'operational' && nodes[4].status === 'operational' ? '4,4' : 'none'" class="animate-dash" />
+
+              <!-- Map Node Groups -->
+              <g *ngFor="let node of nodes" (click)="selectNode(node)" class="cursor-pointer group">
+                <!-- Outer halo pulse -->
+                <circle [attr.cx]="node.x" [attr.cy]="node.y" r="14" 
+                        [attr.fill]="node.status === 'operational' ? 'rgba(0,219,233,0.05)' : (node.status === 'warning' ? 'rgba(236,178,255,0.05)' : 'rgba(239,68,68,0.05)')"
+                        [attr.stroke]="node.status === 'operational' ? 'rgba(0,219,233,0.2)' : (node.status === 'warning' ? 'rgba(236,178,255,0.2)' : 'rgba(239,68,68,0.2)')"
+                        stroke-width="1"
+                        [class.animate-pulse]="node.status !== 'operational'"/>
+                <!-- Inner solid dot -->
+                <circle [attr.cx]="node.x" [attr.cy]="node.y" r="6" 
+                        [attr.fill]="node.status === 'operational' ? '#00dbe9' : (node.status === 'warning' ? '#ecb2ff' : '#ef4444')"
+                        [class.selected-node]="selectedNode?.id === node.id"
+                        class="transition-all duration-300 drop-shadow-[0_0_8px_currentColor]"/>
+                <!-- Node name text hover -->
+                <text [attr.x]="node.x" [attr.y]="node.y - 14" 
+                      text-anchor="middle" 
+                      class="text-[9px] font-bold tracking-wider opacity-60 group-hover:opacity-100 transition-opacity fill-[#e5e2e1]">
+                  {{ node.name }}
+                </text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Node Info Panel -->
+        <div *ngIf="selectedNode" class="glass-plate p-xl rounded-xl border border-white/10 flex flex-col gap-md">
+          <div class="flex items-center justify-between border-b border-white/5 pb-sm">
+            <h3 class="font-headline-sm text-headline-sm font-semibold tracking-wide text-on-surface">{{ lang.t('NODE_DETAILS') }}</h3>
+            <div class="flex items-center gap-xs">
+              <span class="w-2.5 h-2.5 rounded-full" 
+                    [ngClass]="{
+                      'bg-[#00dbe9] shadow-[0_0_8px_#00dbe9]': selectedNode.status === 'operational', 
+                      'bg-[#ecb2ff] shadow-[0_0_8px_#ecb2ff]': selectedNode.status === 'warning', 
+                      'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.7)]': selectedNode.status === 'critical'
+                    }"></span>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">{{ selectedNode.status }}</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-md text-xs font-label-md">
+            <div>
+              <span class="text-on-surface-variant font-medium">{{ lang.t('NODE_NAME') }}:</span>
+              <div class="text-on-surface font-bold text-sm mt-0.5">{{ selectedNode.name }}</div>
+            </div>
+            <div>
+              <span class="text-on-surface-variant font-medium">IP:</span>
+              <div class="text-on-surface font-mono font-bold text-sm mt-0.5">{{ selectedNode.ip }}</div>
+            </div>
+            <div>
+              <span class="text-on-surface-variant font-medium">{{ lang.t('NODE_LATENCY') }}:</span>
+              <div class="text-on-surface font-bold text-sm mt-0.5" 
+                   [ngClass]="{'text-red-400': selectedNode.latency > 150}">
+                {{ selectedNode.latency }} ms
+              </div>
+            </div>
+            <div>
+              <span class="text-on-surface-variant font-medium">{{ lang.t('NODE_TEMP') }}:</span>
+              <div class="text-on-surface font-bold text-sm mt-0.5"
+                   [ngClass]="{'text-orange-400': selectedNode.temp > 60}">
+                {{ selectedNode.temp }}°C
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Retro Terminal Command Line Column (4/12 wide on desktop) -->
+      <div class="col-span-12 lg:col-span-4 flex">
+        <div class="glass-plate p-xl rounded-xl border border-white/10 flex flex-col gap-md w-full bg-black/60 relative overflow-hidden">
+          
+          <!-- Monospace terminal lines overlay -->
+          <div class="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_4px,3px_100%] pointer-events-none z-20"></div>
+
+          <div class="flex items-center justify-between border-b border-white/5 pb-md z-10">
+            <h2 class="font-headline-sm text-headline-sm font-semibold tracking-wide text-tertiary">{{ lang.t('TERMINAL_TITLE') }}</h2>
+            <span class="w-2.5 h-2.5 rounded-full bg-tertiary animate-ping shadow-[0_0_8px_#00dbe9]"></span>
+          </div>
+
+          <!-- Logs Screen -->
+          <div class="flex-grow min-h-[300px] max-h-[400px] lg:max-h-[500px] overflow-y-auto font-mono text-[11px] text-[#00dbe9] leading-relaxed p-sm rounded bg-[#030303] border border-white/5 z-10 scrollbar-terminal" #terminalBody>
+            <div *ngFor="let log of terminalLogs" class="whitespace-pre-wrap select-text selection:bg-[#00dbe9]/20 selection:text-white border-none py-[2px]">{{ log }}</div>
+            <div *ngIf="isProcessing" class="flex items-center gap-xs mt-xs">
+              <span class="w-1.5 h-3 bg-[#00dbe9] animate-pulse inline-block"></span>
+              <span class="text-[10px] animate-pulse">OPTIMIZING PATHWAYS...</span>
+            </div>
+          </div>
+
+          <!-- Command Input -->
+          <form (submit)="executeCommand()" class="flex items-center gap-xs bg-black/80 rounded border border-white/10 px-md py-sm z-10 mt-xs">
+            <span class="font-mono text-tertiary text-sm font-bold select-none">&gt;</span>
+            <input type="text" [(ngModel)]="cmdInput" name="cliInput" [disabled]="isProcessing"
+                   [placeholder]="lang.t('CLI_PROMPT')" 
+                   class="bg-transparent border-none outline-none flex-grow font-mono text-[11px] text-[#00dbe9] placeholder-[#00dbe9]/40 py-[2px] focus:ring-0 focus:border-none w-full"
+                   autocomplete="off"/>
+            <button type="submit" [disabled]="isProcessing" class="hidden">Run</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

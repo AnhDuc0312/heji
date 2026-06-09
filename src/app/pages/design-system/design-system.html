@@ -7,7 +7,7 @@
     </div>
     <h1 class="font-display-lg text-display-lg tracking-tight">Obsidian Flux</h1>
     <p class="font-body-lg text-on-surface-variant max-w-3xl leading-relaxed">
-      Built on a "Cinematic Futurist" narrative, Obsidian Flux balances the void-like depth of deep obsidian backgrounds with the vibrant energy of neon light. It utilizes "Controlled Diffusion"—polished glass surfaces with micro-borders and subtle backdrop blurs suggesting physical layers of light and data.
+      {{ lang.t('DS_SUBTITLE') }}
     </p>
   </div>
 
@@ -15,7 +15,7 @@
 
   <!-- Colors Section -->
   <div class="flex flex-col gap-lg">
-    <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">1. Color Palette</h2>
+    <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">1. {{ lang.t('COLOR_PALETTE') }}</h2>
     <p class="font-body-md text-on-surface-variant max-w-2xl">
       Click on any color tile to copy its hexadecimal code directly to your clipboard.
     </p>
@@ -40,7 +40,7 @@
 
   <!-- Typography Section -->
   <div class="flex flex-col gap-lg">
-    <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">2. Typography Scale</h2>
+    <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">2. {{ lang.t('TYPO_TOKENS') }}</h2>
     
     <div class="flex flex-col gap-md glass-plate p-xl rounded-2xl border-white/10 overflow-x-auto">
       <table class="w-full text-left min-w-[700px] border-collapse">
@@ -73,7 +73,7 @@
     
     <!-- Spacing Scale -->
     <div class="flex flex-col gap-lg">
-      <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">3. Spacing System</h2>
+      <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">3. {{ lang.t('SPACING_SCALE') }}</h2>
       <div class="glass-plate p-xl rounded-2xl border-white/10 flex flex-col gap-md">
         <div *ngFor="let space of spacing" class="flex items-center gap-md py-xs border-b border-white/5 last:border-b-0">
           <span class="w-16 font-label-md text-secondary">{{ space.token }}</span>

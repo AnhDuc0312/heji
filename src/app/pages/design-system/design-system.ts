@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-design-system',
@@ -9,6 +10,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './design-system.scss'
 })
 export class DesignSystemComponent {
+  public readonly lang = inject(LanguageService);
   toastVisible = false;
   toastMessage = '';
 
