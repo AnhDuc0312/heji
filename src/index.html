@@ -8,52 +8,90 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <style>
+    /* Critical inline styles to prevent white/raw flash */
+    body {
+      background-color: #050505 !important;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    #global-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      font-family: 'Inter', sans-serif;
+      position: fixed;
+      inset: 0;
+      background-color: #050505;
+      z-index: 99999;
+      opacity: 1;
+      transition: opacity 0.5s ease-out, visibility 0.5s;
+    }
+    #global-loader.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .orb-glow {
+      width: 120px;
+      height: 120px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .orb-inner {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #00dbe9 0%, #b0c6ff 60%, #002b3d 100%);
+      box-shadow: 0 0 30px rgba(0, 219, 233, 0.8),
+                  0 0 60px rgba(176, 198, 255, 0.4);
+      animation: pulse-orb 2.5s ease-in-out infinite alternate;
+    }
+    .orb-ring {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border: 1px solid rgba(0, 219, 233, 0.2);
+      border-top: 1px solid rgba(0, 219, 233, 0.8);
+      border-radius: 50%;
+      animation: spin-ring 1.5s linear infinite;
+    }
+    .loader-text {
+      color: #e5e2e1;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(229, 226, 225, 0.2);
+      animation: text-pulse 1.8s ease-in-out infinite alternate;
+    }
+    @keyframes pulse-orb {
+      0% { transform: scale(0.85); filter: brightness(0.9); }
+      100% { transform: scale(1.15); filter: brightness(1.2); }
+    }
+    @keyframes spin-ring {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes text-pulse {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-  <app-root>
-    <style>
-      .loader-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 24px;
-        font-family: 'Inter', sans-serif;
-        position: fixed;
-        inset: 0;
-        background-color: #050505;
-        z-index: 9999;
-      }
-      .orb {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: radial-gradient(circle, #00dbe9 0%, #b0c6ff 50%, transparent 100%);
-        filter: blur(8px);
-        box-shadow: 0 0 40px rgba(0, 219, 233, 0.6);
-        animation: pulse 2s ease-in-out infinite alternate;
-      }
-      .text {
-        color: #e5e2e1;
-        font-size: 13px;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        font-weight: 500;
-        animation: fade 1.5s ease-in-out infinite alternate;
-      }
-      @keyframes pulse {
-        0% { transform: scale(0.8); opacity: 0.5; }
-        100% { transform: scale(1.2); opacity: 1; }
-      }
-      @keyframes fade {
-        0% { opacity: 0.3; }
-        100% { opacity: 1; }
-      }
-    </style>
-    <div class="loader-container">
-      <div class="orb"></div>
-      <div class="text">Initializing Access...</div>
+  <div id="global-loader">
+    <div class="orb-glow">
+      <div class="orb-ring"></div>
+      <div class="orb-inner"></div>
     </div>
-  </app-root>
+    <div class="loader-text">Initializing Access...</div>
+  </div>
+  <app-root></app-root>
 </body>
 </html>
