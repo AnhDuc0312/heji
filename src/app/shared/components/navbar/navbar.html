@@ -18,6 +18,8 @@
 
         <!-- Dropdown Menu -->
         <div class="absolute top-full left-1/2 -translate-x-1/2 bg-[#0c0c0e]/95 border border-white/5 backdrop-blur-2xl rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.95)] py-md px-md min-w-[240px] opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50 flex flex-col gap-xs">
+          <!-- Bridge the hover gap -->
+          <div class="absolute -top-4 inset-x-0 h-4 bg-transparent"></div>
           <div class="absolute -top-[1px] left-1/2 -translate-x-1/2 w-16 h-[1px] bg-gradient-to-r from-primary to-secondary"></div>
           
           <a *ngFor="let link of cat.links" 

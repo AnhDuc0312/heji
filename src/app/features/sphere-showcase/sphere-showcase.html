@@ -6,10 +6,10 @@
   <!-- Ambient Light Streak Overlay -->
   <div class="absolute inset-0 bg-gradient-to-br from-purple-900/10 via-transparent to-cyan-900/10 z-0"></div>
 
-  <div class="relative z-10 w-full max-w-[1440px] mx-auto px-margin-desktop grid grid-cols-12 gap-gutter items-center">
+  <div class="relative z-10 w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-12 gap-gutter items-center">
     
     <!-- Left Sidebar: Spec Sheet -->
-    <div class="col-span-12 lg:col-span-4 flex flex-col gap-lg glass-plate p-xl rounded-2xl border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-md">
+    <div class="col-span-12 lg:col-span-4 order-2 lg:order-1 flex flex-col gap-lg glass-plate p-xl rounded-2xl border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-md">
       <div>
         <span class="text-tertiary font-label-sm tracking-widest uppercase block mb-xs">Neural Centerpiece</span>
         <h2 class="font-headline-lg text-headline-md text-on-surface tracking-tight">CRYSTAL CORE</h2>
@@ -52,7 +52,7 @@
     </div>
 
     <!-- Center Stage: The Sphere -->
-    <div class="col-span-12 lg:col-span-8 flex justify-center items-center relative min-h-[500px]" #stage>
+    <div class="col-span-12 lg:col-span-8 order-1 lg:order-2 flex justify-center items-center relative min-h-[500px]" #stage>
       <!-- Glowing Radial Backing -->
       <div class="absolute w-[400px] h-[400px] rounded-full bg-cyan-500/10 blur-[100px] z-0 transition-transform duration-300"
            [style.transform]="glowTransform"></div>
