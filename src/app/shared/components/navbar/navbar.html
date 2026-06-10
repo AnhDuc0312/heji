@@ -1,6 +1,6 @@
 <!-- Top Navigation -->
 <nav class="fixed top-0 w-full z-45 bg-[#0a0a0c]/70 backdrop-blur-xl border-b border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
-  <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-md max-w-[1440px] mx-auto h-[72px]">
+  <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto h-[72px]">
     
     <!-- Logo -->
     <div routerLink="/draft/landing-b" class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tighter cursor-pointer hover:opacity-80 transition-all select-none">
@@ -17,7 +17,7 @@
         </button>
 
         <!-- Dropdown Menu -->
-        <div class="absolute top-[72px] left-1/2 -translate-x-1/2 bg-[#0c0c0e]/95 border border-white/5 backdrop-blur-2xl rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.95)] py-md px-md min-w-[240px] opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50 flex flex-col gap-xs">
+        <div class="absolute top-full left-1/2 -translate-x-1/2 bg-[#0c0c0e]/95 border border-white/5 backdrop-blur-2xl rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.95)] py-md px-md min-w-[240px] opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50 flex flex-col gap-xs">
           <div class="absolute -top-[1px] left-1/2 -translate-x-1/2 w-16 h-[1px] bg-gradient-to-r from-primary to-secondary"></div>
           
           <a *ngFor="let link of cat.links" 
