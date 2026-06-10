@@ -1,24 +1,8 @@
-<!-- Top Navigation -->
-<nav class="fixed top-0 w-full z-50 bg-white/5 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.8)]">
-  <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-md max-w-[1440px] mx-auto">
-    <div class="font-headline-md text-headline-md font-bold text-on-surface tracking-tighter cursor-pointer hover:opacity-80 transition-opacity">NEURALIS</div>
-    <div class="hidden md:flex gap-xl">
-      <a class="text-primary border-b-2 border-primary pb-1 font-body-md text-body-md tracking-wider transition-all" href="#">Platform</a>
-      <a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-md text-body-md tracking-wider" href="#">Ecosystem</a>
-      <a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-md text-body-md tracking-wider" href="#">Showcase</a>
-      <a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-md text-body-md tracking-wider" href="#">Docs</a>
-    </div>
-    <button class="bg-gradient-to-r from-primary to-secondary text-on-primary px-lg py-sm rounded-full font-label-md hover:shadow-[0_0_20px_rgba(176,198,255,0.4)] transition-all active:scale-95">{{ lang.t('CONNECT_BTN') }}</button>
-  </div>
-</nav>
-
 <!-- Hero Section -->
-<section class="relative min-h-screen lg:h-screen flex items-center justify-center overflow-hidden pt-32 pb-16 lg:py-0" id="hero">
-  <!-- Particle Canvas -->
-  <canvas #particleCanvas id="particle-canvas"></canvas>
+<section class="relative min-h-screen lg:h-screen flex items-center justify-center overflow-hidden pt-32 pb-16 lg:py-0">
   <!-- Parallax Background Image -->
-  <div class="absolute inset-0 z-0 opacity-40 parallax-bg" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBFxd6yXOmk984zpJE3WziraoUY8oMsX0DP52yzHLMMzh8zF0ec2zNd5upxOx--QorTWE1vYCgEFSQJ4NKhVNV3aoCcuIoVX09raLmmVWl2AOuLD4-MTExacq4_P4asA1cCGN7k9HhpJhGLfCs_gVMTxc_NW9bFCVas-y7P1oRsufFKhojsqCniW5hP--n7_bxLWEx-neiD5sPoWQ8is0Z4wxLTifCBCCSeBP8u6CZ6XbH4mLUYEMb2QA5g0BWS2O_GNJ0FE1i-Xhfr');"></div>
-  <div class="absolute inset-0 z-10 hero-glow" #heroGlow></div>
+  <div class="absolute inset-0 z-0 opacity-40 parallax-bg" [style.transform]="parallaxTransform" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBFxd6yXOmk984zpJE3WziraoUY8oMsX0DP52yzHLMMzh8zF0ec2zNd5upxOx--QorTWE1vYCgEFSQJ4NKhVNV3aoCcuIoVX09raLmmVWl2AOuLD4-MTExacq4_P4asA1cCGN7k9HhpJhGLfCs_gVMTxc_NW9bFCVas-y7P1oRsufFKhojsqCniW5hP--n7_bxLWEx-neiD5sPoWQ8is0Z4wxLTifCBCCSeBP8u6CZ6XbH4mLUYEMb2QA5g0BWS2O_GNJ0FE1i-Xhfr');"></div>
+  <div class="absolute inset-0 z-10 hero-glow"></div>
   <div class="relative z-20 px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto grid grid-cols-12 gap-gutter items-center h-full">
     <div class="col-span-12 lg:col-span-6 flex flex-col items-start gap-lg">
       <div class="inline-block px-md py-xs rounded-full glass-plate text-primary font-label-sm border border-primary/20">
@@ -31,24 +15,22 @@
         {{ lang.t('HERO_SUBTITLE') }}
       </p>
       <div class="flex gap-md mt-lg">
-        <div class="magnetic-wrap" #magWrap1 (mousemove)="onMagneticMove($event, magWrap1, magBtn1)" (mouseleave)="onMagneticLeave(magWrap1, magBtn1)">
-          <button #magBtn1 class="bg-gradient-to-r from-primary to-secondary text-on-primary px-xl py-md rounded-lg font-label-md shadow-[0_0_30px_rgba(176,198,255,0.3)] hover:scale-105 transition-transform magnetic-btn">
-            {{ lang.t('GET_STARTED') }}
-          </button>
-        </div>
-        <button class="glass-plate border border-white/15 text-on-surface px-xl py-md rounded-lg font-label-md hover:bg-white/10 transition-all">
+        <button (click)="onConnectClick()" class="bg-gradient-to-r from-primary to-secondary text-on-primary px-xl py-md rounded-lg font-label-md shadow-[0_0_30px_rgba(176,198,255,0.3)] hover:scale-105 transition-transform">
+          {{ lang.t('GET_STARTED') }}
+        </button>
+        <button routerLink="/draft/docs/getting-started" class="glass-plate border border-white/15 text-on-surface px-xl py-md rounded-lg font-label-md hover:bg-white/10 transition-all">
           {{ lang.t('VIEW_DOCS') }}
         </button>
       </div>
     </div>
     <!-- Hero Centerpiece -->
-    <div class="col-span-12 lg:col-span-6 flex justify-center items-center relative" id="crystal-container">
-      <div class="relative w-full max-w-[500px] aspect-square flex items-center justify-center animate-float" #crystal>
+    <div class="col-span-12 lg:col-span-6 flex justify-center items-center relative">
+      <div class="relative w-full max-w-[500px] aspect-square flex items-center justify-center animate-float">
         <!-- Rotating Ring -->
         <div class="absolute w-full h-full rounded-full border border-primary/20 animate-[spin_10s_linear_infinite]"></div>
         <div class="absolute w-[80%] h-[80%] rounded-full border border-secondary/10 animate-[spin_15s_linear_infinite_reverse]"></div>
         <!-- Main Crystal Image -->
-        <img alt="Crystal Core" class="relative z-30 w-[85%] h-[85%] object-contain drop-shadow-[0_0_50px_rgba(176,198,255,0.5)] cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5hUV9D2Or8Nxk_J2CyWsVXxsSDzkexRLEqnGgrfIlScnzZ-oq36_iC72yr-cc-HK4ZyOCzPZhqPxJOpdXwdVmxOTHPQ90XbWXzGG3EIqtLbKeoWoppbgsP51HgpaDnxADHxn6y7VsXT9xIjPvHqd49BYaEv6ci3mP7D_8RA5Vn8pnzCdGGyLi_BCjI5nUEPICAiV_6rFyYUsXzX3V8eFQdPq44myPRhU-02ngmB6gJRzhpzVwFBI1-0i8J-GRwB8tm3BtX063Ky0T"/>
+        <img alt="NEURALIS Holographic Core" class="relative z-30 w-[85%] h-[85%] object-contain drop-shadow-[0_0_50px_rgba(176,198,255,0.5)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5hUV9D2Or8Nxk_J2CyWsVXxsSDzkexRLEqnGgrfIlScnzZ-oq36_iC72yr-cc-HK4ZyOCzPZhqPxJOpdXwdVmxOTHPQ90XbWXzGG3EIqtLbKeoWoppbgsP51HgpaDnxADHxn6y7VsXT9xIjPvHqd49BYaEv6ci3mP7D_8RA5Vn8pnzCdGGyLi_BCjI5nUEPICAiV_6rFyYUsXzX3V8eFQdPq44myPRhU-02ngmB6gJRzhpzVwFBI1-0i8J-GRwB8tm3BtX063Ky0T"/>
         <!-- Decorative Particles -->
         <div class="absolute top-10 left-20 w-1 h-1 bg-primary rounded-full animate-pulse shadow-[0_0_10px_#b0c6ff]"></div>
         <div class="absolute bottom-20 right-10 w-2 h-2 bg-secondary rounded-full animate-pulse shadow-[0_0_10px_#ecb2ff]"></div>
@@ -59,14 +41,14 @@
 </section>
 
 <!-- Features Section -->
-<section class="py-3xl px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto reveal-on-scroll" #revealSection1>
+<section class="py-3xl px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
   <div class="flex flex-col items-center mb-2xl text-center">
     <h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">{{ lang.t('FEAT_TITLE') }}</h2>
     <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
     <!-- Feature 1 -->
-    <div class="glass-plate p-xl rounded-xl group hover:translate-y-[-8px] transition-all duration-500 relative overflow-hidden tilt-card" (mousemove)="onCardTilt($event, card1)" (mouseleave)="onCardTiltLeave(card1)" #card1>
+    <div class="glass-plate p-xl rounded-xl group hover:translate-y-[-8px] transition-all duration-500 relative overflow-hidden" (mousemove)="onMouseMove($event, card1)" #card1>
       <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
       <div class="w-12 h-12 glass-plate rounded-lg flex items-center justify-center mb-lg border-primary/30 text-primary">
         <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">speed</span>
@@ -75,12 +57,12 @@
       <p class="font-body-md text-body-md text-on-surface-variant">
         {{ lang.t('FEAT_1_DESC') }}
       </p>
-      <div class="mt-lg flex items-center gap-sm text-primary font-label-sm">
+      <a routerLink="/draft/platform/performance" class="mt-lg flex items-center gap-sm text-primary font-label-sm hover:underline cursor-pointer select-none">
         {{ lang.t('FEAT_1_LINK') }} <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-      </div>
+      </a>
     </div>
     <!-- Feature 2 -->
-    <div class="glass-plate p-xl rounded-xl group hover:translate-y-[-8px] transition-all duration-500 relative overflow-hidden tilt-card" (mousemove)="onCardTilt($event, card2)" (mouseleave)="onCardTiltLeave(card2)" #card2>
+    <div class="glass-plate p-xl rounded-xl group hover:translate-y-[-8px] transition-all duration-500 relative overflow-hidden" (mousemove)="onMouseMove($event, card2)" #card2>
       <div class="absolute inset-0 bg-gradient-to-br from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
       <div class="w-12 h-12 glass-plate rounded-lg flex items-center justify-center mb-lg border-secondary/30 text-secondary">
         <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">hub</span>
@@ -89,12 +71,12 @@
       <p class="font-body-md text-body-md text-on-surface-variant">
         {{ lang.t('FEAT_2_DESC') }}
       </p>
-      <div class="mt-lg flex items-center gap-sm text-secondary font-label-sm">
+      <a routerLink="/draft/platform/neural-mesh" class="mt-lg flex items-center gap-sm text-secondary font-label-sm hover:underline cursor-pointer select-none">
         {{ lang.t('FEAT_2_LINK') }} <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-      </div>
+      </a>
     </div>
     <!-- Feature 3 -->
-    <div class="glass-plate p-xl rounded-xl group hover:translate-y-[-8px] transition-all duration-500 relative overflow-hidden tilt-card" (mousemove)="onCardTilt($event, card3)" (mouseleave)="onCardTiltLeave(card3)" #card3>
+    <div class="glass-plate p-xl rounded-xl group hover:translate-y-[-8px] transition-all duration-500 relative overflow-hidden" (mousemove)="onMouseMove($event, card3)" #card3>
       <div class="absolute inset-0 bg-gradient-to-br from-tertiary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
       <div class="w-12 h-12 glass-plate rounded-lg flex items-center justify-center mb-lg border-tertiary/30 text-tertiary">
         <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sync_alt</span>
@@ -103,15 +85,15 @@
       <p class="font-body-md text-body-md text-on-surface-variant">
         {{ lang.t('FEAT_3_DESC') }}
       </p>
-      <div class="mt-lg flex items-center gap-sm text-tertiary font-label-sm">
+      <a routerLink="/draft/platform/bio-sync" class="mt-lg flex items-center gap-sm text-tertiary font-label-sm hover:underline cursor-pointer select-none">
         {{ lang.t('FEAT_3_LINK') }} <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-      </div>
+      </a>
     </div>
   </div>
 </section>
 
 <!-- Showcase Section -->
-<section class="py-3xl relative overflow-hidden bg-surface-container-lowest reveal-on-scroll" #revealSection2>
+<section class="py-3xl relative overflow-hidden bg-surface-container-lowest">
   <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
     <div class="grid grid-cols-12 gap-gutter items-center">
       <div class="col-span-12 lg:col-span-5">
@@ -137,7 +119,7 @@
       </div>
       <div class="col-span-12 lg:col-span-7 mt-xl lg:mt-0 relative group">
         <div class="absolute -inset-4 bg-gradient-to-r from-primary/10 to-tertiary/10 blur-3xl opacity-50"></div>
-        <div class="relative glass-plate rounded-2xl overflow-hidden shadow-2xl border-white/5 tilt-card" (mousemove)="onCardTilt($event, showcaseCard)" (mouseleave)="onCardTiltLeave(showcaseCard)" #showcaseCard>
+        <div class="relative glass-plate rounded-2xl overflow-hidden shadow-2xl border-white/5" (mousemove)="onMouseMove($event, showcaseCard)" #showcaseCard>
           <img class="w-full h-auto grayscale-[0.2] group-hover:scale-105 transition-transform duration-700" alt="Control Room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdj0MHVs0rTPy-lM5-BHYY2lqg7SsLWyMiwwWnfp8Oao99MHD1K0c9Ob93rWtXO3pTxck2RjOvMOjfivOzhnSNch7dhZ8qdT0JiKRCrplfsq9tsphcyBB7IE_9Vfp6M8QN05IwWTFh-d2dR2eJaltHdyMk534LA6dNfyzM_HO0Ofa2tPba_85zbdHFS0YiCct_pDNaTnlK5xIRUuCettKksIWvGAvE6QDOUAMZyxbIRZAPguW1gLN9gpTtpAI6W7B5kgDFg1-nOfJr"/>
           <div class="absolute bottom-0 left-0 right-0 p-lg bg-gradient-to-t from-surface-container-lowest to-transparent">
             <div class="flex justify-between items-center">
@@ -155,7 +137,7 @@
 </section>
 
 <!-- Statistics Section -->
-<section class="py-2xl px-margin-mobile md:px-margin-desktop border-y border-white/5 bg-surface-lowest reveal-on-scroll" #revealSection3>
+<section class="py-2xl px-margin-mobile md:px-margin-desktop border-y border-white/5 bg-surface-lowest">
   <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-xl">
     <div class="text-center group">
       <div class="text-[64px] font-bold text-primary font-headline-lg group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(176,198,255,0.4)]">99.9%</div>
@@ -173,13 +155,13 @@
 </section>
 
 <!-- Testimonials Section -->
-<section class="py-3xl overflow-hidden bg-surface-lowest reveal-on-scroll" #revealSection4>
+<section class="py-3xl overflow-hidden bg-surface-lowest">
   <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop mb-xl">
     <h2 class="font-headline-lg text-headline-lg text-on-surface">{{ lang.t('TESTIMONIALS_TITLE') }}</h2>
   </div>
   <div class="flex gap-gutter px-margin-mobile md:px-margin-desktop overflow-x-auto pb-lg no-scrollbar">
     <!-- Testimonial 1 -->
-    <div class="min-w-[400px] glass-plate p-xl rounded-xl relative border-white/10 tilt-card" (mousemove)="onCardTilt($event, test1)" (mouseleave)="onCardTiltLeave(test1)" #test1>
+    <div class="min-w-[400px] glass-plate p-xl rounded-xl relative border-white/10" (mousemove)="onMouseMove($event, test1)" #test1>
       <span class="material-symbols-outlined text-primary mb-md" style="font-size: 32px;">format_quote</span>
       <p class="font-body-md text-body-md text-on-surface mb-xl italic leading-relaxed">
         {{ lang.t('TEST_1_QUOTE') }}
@@ -195,7 +177,7 @@
       </div>
     </div>
     <!-- Testimonial 2 -->
-    <div class="min-w-[400px] glass-plate p-xl rounded-xl relative border-white/10 tilt-card" (mousemove)="onCardTilt($event, test2)" (mouseleave)="onCardTiltLeave(test2)" #test2>
+    <div class="min-w-[400px] glass-plate p-xl rounded-xl relative border-white/10" (mousemove)="onMouseMove($event, test2)" #test2>
       <span class="material-symbols-outlined text-secondary mb-md" style="font-size: 32px;">format_quote</span>
       <p class="font-body-md text-body-md text-on-surface mb-xl italic leading-relaxed">
         {{ lang.t('TEST_2_QUOTE') }}
@@ -211,7 +193,7 @@
       </div>
     </div>
     <!-- Testimonial 3 -->
-    <div class="min-w-[400px] glass-plate p-xl rounded-xl relative border-white/10 tilt-card" (mousemove)="onCardTilt($event, test3)" (mouseleave)="onCardTiltLeave(test3)" #test3>
+    <div class="min-w-[400px] glass-plate p-xl rounded-xl relative border-white/10" (mousemove)="onMouseMove($event, test3)" #test3>
       <span class="material-symbols-outlined text-tertiary mb-md" style="font-size: 32px;">format_quote</span>
       <p class="font-body-md text-body-md text-on-surface mb-xl italic leading-relaxed">
         {{ lang.t('TEST_3_QUOTE') }}
@@ -230,7 +212,7 @@
 </section>
 
 <!-- Final CTA Section -->
-<section class="py-3xl px-margin-mobile md:px-margin-desktop relative overflow-hidden reveal-on-scroll" #revealSection5>
+<section class="py-3xl px-margin-mobile md:px-margin-desktop relative overflow-hidden">
   <div class="max-w-[1440px] mx-auto rounded-3xl overflow-hidden relative min-h-[400px] flex items-center justify-center text-center">
     <!-- Background Image with Overlay -->
     <div class="absolute inset-0 z-0">
@@ -243,11 +225,9 @@
       <p class="font-body-lg text-body-lg text-on-surface-variant">
         {{ lang.t('CTA_DESC') }}
       </p>
-      <div class="magnetic-wrap" #magWrap2 (mousemove)="onMagneticMove($event, magWrap2, magBtn2)" (mouseleave)="onMagneticLeave(magWrap2, magBtn2)">
-        <button #magBtn2 class="mt-lg bg-gradient-to-r from-primary to-secondary text-on-primary px-3xl py-md rounded-lg font-label-md shadow-[0_0_40px_rgba(176,198,255,0.4)] hover:shadow-[0_0_60px_rgba(176,198,255,0.6)] transition-all hover:scale-105 active:scale-95 magnetic-btn">
-          {{ lang.t('CTA_BTN') }}
-        </button>
-      </div>
+      <button (click)="onConnectClick()" class="mt-lg bg-gradient-to-r from-primary to-secondary text-on-primary px-3xl py-md rounded-lg font-label-md shadow-[0_0_40px_rgba(176,198,255,0.4)] hover:shadow-[0_0_60px_rgba(176,198,255,0.6)] transition-all hover:scale-105 active:scale-95">
+        {{ lang.t('CTA_BTN') }}
+      </button>
     </div>
   </div>
 </section>
@@ -264,41 +244,41 @@
     <div class="col-span-6 lg:col-span-2">
       <h4 class="font-label-md text-on-surface mb-lg">PLATFORM</h4>
       <div class="flex flex-col gap-sm">
-        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Features</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Solutions</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Integrations</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Pricing</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md cursor-pointer" routerLink="/draft/platform/performance">Features</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md cursor-pointer" routerLink="/draft/platform/quantum-compute">Solutions</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md cursor-pointer" routerLink="/draft/ecosystem/integrations">Integrations</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md cursor-pointer" routerLink="/draft/ecosystem/tokenomics">Pricing</a>
       </div>
     </div>
     <div class="col-span-6 lg:col-span-2">
       <h4 class="font-label-md text-on-surface mb-lg">RESOURCES</h4>
       <div class="flex flex-col gap-sm">
-        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Documentation</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">API Reference</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Changelog</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Support</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md cursor-pointer" routerLink="/draft/docs/getting-started">Documentation</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md cursor-pointer" routerLink="/draft/docs/api-reference">API Reference</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md cursor-pointer" routerLink="/draft/console">Changelog</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md cursor-pointer" routerLink="/draft/docs/faq">Support</a>
       </div>
     </div>
     <div class="col-span-12 lg:col-span-4 mt-xl lg:mt-0">
       <h4 class="font-label-md text-on-surface mb-lg">{{ lang.t('STAY_UPDATED') }}</h4>
       <div class="flex gap-sm">
-        <input class="bg-white/5 border border-white/10 rounded-lg px-md py-sm flex-grow font-body-md focus:outline-none focus:border-primary transition-colors" [placeholder]="lang.t('EMAIL_PLACEHOLDER')" type="email"/>
-        <button class="bg-white/10 px-lg py-sm rounded-lg hover:bg-white/20 transition-all font-label-md">{{ lang.t('JOIN_BTN') }}</button>
+        <input #emailA class="bg-white/5 border border-white/10 rounded-lg px-md py-sm flex-grow font-body-md focus:outline-none focus:border-primary transition-colors text-xs" [placeholder]="lang.t('EMAIL_PLACEHOLDER')" type="email"/>
+        <button (click)="onSubscribeClick(emailA)" class="bg-white/10 px-lg py-sm rounded-lg hover:bg-white/20 transition-all font-label-md cursor-pointer">{{ lang.t('JOIN_BTN') }}</button>
       </div>
       <div class="flex gap-lg mt-xl">
-        <a class="text-on-surface-variant hover:text-primary transition-all duration-200 hover:translate-x-1" href="#"><span class="material-symbols-outlined">public</span></a>
-        <a class="text-on-surface-variant hover:text-primary transition-all duration-200 hover:translate-x-1" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
-        <a class="text-on-surface-variant hover:text-primary transition-all duration-200 hover:translate-x-1" href="#"><span class="material-symbols-outlined">share</span></a>
+        <a class="text-on-surface-variant hover:text-primary transition-all duration-200 hover:translate-x-1" href="https://github.com" target="_blank"><span class="material-symbols-outlined">public</span></a>
+        <a class="text-on-surface-variant hover:text-primary transition-all duration-200 hover:translate-x-1" href="mailto:info@hejidraft.com"><span class="material-symbols-outlined">alternate_email</span></a>
+        <a class="text-on-surface-variant hover:text-primary transition-all duration-200 hover:translate-x-1" href="https://twitter.com" target="_blank"><span class="material-symbols-outlined">share</span></a>
       </div>
     </div>
   </div>
   <div class="px-margin-mobile md:px-margin-desktop py-lg border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-md max-w-[1440px] mx-auto">
     <div class="font-label-md text-label-md text-tertiary">© 2026 NEURALIS. ALL RIGHTS RESERVED.</div>
     <div class="flex gap-xl">
-      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Privacy</a>
-      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Terms</a>
-      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Twitter</a>
-      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Discord</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md cursor-pointer" routerLink="/draft/legal/privacy">Privacy</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md cursor-pointer" routerLink="/draft/legal/terms">Terms</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="https://twitter.com" target="_blank">Twitter</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="https://discord.com" target="_blank">Discord</a>
     </div>
   </div>
 </footer>

@@ -1,11 +1,13 @@
 import { Component, signal, AfterViewInit, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { LanguageService, LanguageType } from './services/language.service';
+import { LanguageService, LanguageType } from './core/services/language.service';
+import { NavbarComponent } from './shared/components/navbar/navbar';
+import { ConnectModalComponent } from './shared/components/connect-modal/connect-modal';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule, NavbarComponent, ConnectModalComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -13,16 +15,7 @@ export class App implements AfterViewInit {
   public readonly lang = inject(LanguageService);
   protected readonly title = signal('heji');
 
-  isLangDropdownOpen = false;
 
-  toggleLangDropdown() {
-    this.isLangDropdownOpen = !this.isLangDropdownOpen;
-  }
-
-  selectLanguage(l: LanguageType) {
-    this.lang.setLanguage(l);
-    this.isLangDropdownOpen = false;
-  }
 
   ngAfterViewInit() {
     const loader = document.getElementById('global-loader');

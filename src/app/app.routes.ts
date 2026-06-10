@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
-import { LandingAComponent } from './pages/landing-a/landing-a';
-import { LandingBComponent } from './pages/landing-b/landing-b';
-import { SphereShowcaseComponent } from './pages/sphere-showcase/sphere-showcase';
-import { DesignSystemComponent } from './pages/design-system/design-system';
-import { ConsoleComponent } from './pages/console/console';
+import { LandingAComponent } from './features/landing-a/landing-a';
+import { LandingBComponent } from './features/landing-b/landing-b';
+import { SphereShowcaseComponent } from './features/sphere-showcase/sphere-showcase';
+import { DesignSystemComponent } from './features/design-system/design-system';
+import { ConsoleComponent } from './features/console/console';
+import { ContentPageComponent } from './features/content-page/content-page';
+import { DashboardComponent } from './features/dashboard/dashboard';
 
 export const routes: Routes = [
   {
@@ -14,6 +16,8 @@ export const routes: Routes = [
       { path: 'sphere', component: SphereShowcaseComponent },
       { path: 'design-system', component: DesignSystemComponent },
       { path: 'console', component: ConsoleComponent },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: ':category/:page', component: ContentPageComponent },
       { path: '', redirectTo: 'landing-b', pathMatch: 'full' }
     ]
   },

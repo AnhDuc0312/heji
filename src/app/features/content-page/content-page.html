@@ -1,0 +1,440 @@
+<div class="min-h-screen bg-[#070709] text-on-surface pt-[100px] pb-[120px] px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+  
+  <!-- Atmospheric Glow Background -->
+  <div class="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[150px] pointer-events-none -z-10"></div>
+  <div class="absolute bottom-10 right-1/4 w-[500px] h-[500px] rounded-full bg-secondary/5 blur-[120px] pointer-events-none -z-10"></div>
+  
+  <!-- Subtle Grid Overlay -->
+  <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none -z-10"></div>
+
+  <div class="max-w-[1440px] mx-auto grid grid-cols-12 gap-gutter items-start">
+    
+    <!-- Sidebar Index (Columns: 3 on large, full on small) -->
+    <aside class="col-span-12 lg:col-span-3 flex flex-col gap-md glass-plate p-xl rounded-2xl border-white/5 sticky top-[100px]">
+      <div class="flex flex-col">
+        <span class="text-[10px] text-primary uppercase tracking-widest font-bold font-label-sm">{{ lang.t('NAV_EXPLORE_SECTIONS') }}</span>
+        <h3 class="font-headline-sm text-headline-sm font-extrabold text-on-surface mt-xs uppercase tracking-tight">{{ lang.t(getCategoryTitleKey()) }}</h3>
+      </div>
+      <div class="h-[1px] w-full bg-white/10"></div>
+      
+      <nav class="flex flex-col gap-xs">
+        <a *ngFor="let link of sidebarLinks()" 
+           [routerLink]="link.route" 
+           routerLinkActive="bg-white/5 text-primary border-primary/30"
+           [routerLinkActiveOptions]="{exact: true}"
+           class="px-md py-sm rounded-xl text-xs text-on-surface-variant hover:text-on-surface hover:bg-white/5 border border-transparent transition-all flex items-center justify-between group">
+          <span>{{ lang.t(link.labelKey) }}</span>
+          <span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">arrow_forward</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area (Columns: 9 on large, full on small) -->
+    <main class="col-span-12 lg:col-span-9 flex flex-col gap-xl">
+      
+      <!-- Breadcrumbs & Category Title -->
+      <div class="flex flex-col gap-xs">
+        <div class="flex items-center gap-xs text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold font-label-sm select-none">
+          <a routerLink="/draft/landing-b" class="hover:text-primary transition-colors">NEURALIS</a>
+          <span>/</span>
+          <span class="text-primary font-bold">{{ lang.t(getCategoryTitleKey()) }}</span>
+        </div>
+        <h1 class="font-display-md text-headline-lg md:text-display-md text-on-surface font-extrabold tracking-tight mt-xs">
+          {{ lang.t(getTranslationKey('TITLE')) }}
+        </h1>
+        <div class="w-16 h-[2px] bg-gradient-to-r from-primary to-secondary mt-sm"></div>
+      </div>
+
+      <!-- Hero Visual and Text Panel Layout -->
+      <div class="grid grid-cols-12 gap-gutter items-center">
+        
+        <!-- Localized Descriptions (6 cols) -->
+        <div class="col-span-12 md:col-span-7 flex flex-col gap-lg pr-md">
+          <p class="font-body-lg text-body-lg text-on-surface leading-relaxed text-justify">
+            {{ lang.t(getTranslationKey('DESC_P1')) }}
+          </p>
+          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed text-justify">
+            {{ lang.t(getTranslationKey('DESC_P2')) }}
+          </p>
+          
+          <!-- Sliders for Tokenomics Staking Calculator -->
+          <div *ngIf="page() === 'tokenomics'" class="glass-plate p-lg rounded-xl border border-white/5 flex flex-col gap-md mt-sm select-none">
+            <span class="text-[10px] text-primary uppercase tracking-widest font-bold font-label-sm border-b border-white/5 pb-2">Staking Yield Calculator</span>
+            
+            <!-- Slider 1: Amount -->
+            <div class="flex flex-col gap-xs">
+              <div class="flex justify-between text-xs font-label-md">
+                <span class="text-on-surface-variant">Principal Stake</span>
+                <span class="font-bold text-primary">{{ stakeAmount | number:'1.0-0' }} $NEURAL</span>
+              </div>
+              <input type="range" min="1000" max="250000" step="5000" [(ngModel)]="stakeAmount"
+                     class="w-full accent-primary bg-white/5 rounded-lg h-1.5 cursor-pointer"/>
+            </div>
+
+            <!-- Slider 2: Duration -->
+            <div class="flex flex-col gap-xs">
+              <div class="flex justify-between text-xs font-label-md">
+                <span class="text-on-surface-variant">Locking Period</span>
+                <span class="font-bold text-secondary">{{ stakeMonths }} Months</span>
+              </div>
+              <input type="range" min="3" max="36" step="1" [(ngModel)]="stakeMonths"
+                     class="w-full accent-secondary bg-white/5 rounded-lg h-1.5 cursor-pointer"/>
+            </div>
+            <!-- Export Configuration Button -->
+            <button (click)="exportTokenomicsConfig()" 
+                    class="mt-sm bg-white/5 hover:bg-white/10 text-primary border border-primary/20 px-md py-sm rounded-lg font-label-md hover:border-primary/50 transition-all cursor-pointer flex items-center justify-center gap-xs">
+              <span class="material-symbols-outlined text-[14px]">content_copy</span>
+              <span>{{ lang.currentLang() === 'vi' ? 'Xuất Cấu Hình JSON' : (lang.currentLang() === 'ko' ? 'JSON 설정 내보내기' : 'Export JSON Config') }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Animated SVG Graphic Panel (5 cols) -->
+        <div class="col-span-12 md:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-[320px] aspect-square rounded-2xl glass-plate border-white/5 p-xl flex items-center justify-center shadow-2xl overflow-hidden group">
+            
+            <!-- Graphic corner accents -->
+            <div class="absolute top-2 left-2 w-2 h-2 border-t border-l border-primary/40"></div>
+            <div class="absolute top-2 right-2 w-2 h-2 border-t border-r border-primary/40"></div>
+            <div class="absolute bottom-2 left-2 w-2 h-2 border-b border-l border-primary/40"></div>
+            <div class="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-primary/40"></div>
+
+            <!-- SVG Visual switch depending on current page -->
+            <div class="w-full h-full flex items-center justify-center" [ngSwitch]="page()">
+              
+              <!-- Platform / Quantum Compute -->
+              <svg *ngSwitchCase="'quantum-compute'" viewBox="0 0 100 100" class="w-[85%] h-[85%]">
+                <circle cx="50" cy="50" r="40" stroke="rgba(176, 198, 255, 0.15)" stroke-width="1.5" fill="none" stroke-dasharray="4 4" />
+                <circle cx="50" cy="50" r="30" stroke="rgba(0, 219, 233, 0.1)" stroke-width="1" fill="none" />
+                <!-- Orbiting Qubits -->
+                <circle cx="50" cy="50" r="30" stroke="url(#quantumGrad)" stroke-width="2" fill="none" stroke-dasharray="10 80" class="animate-[spin_4s_linear_infinite]" />
+                <circle cx="50" cy="50" r="40" stroke="url(#quantumGrad2)" stroke-width="2" fill="none" stroke-dasharray="15 150" class="animate-[spin_8s_linear_infinite_reverse]" />
+                <!-- Central Matrix -->
+                <g class="text-cyan-400 font-mono text-[6px] text-center" [ngClass]="{'text-green-400': simState() === 'completed'}">
+                  <text x="35" y="47" class="animate-pulse">1011</text>
+                  <text x="35" y="55" class="animate-pulse">0101</text>
+                  <text x="53" y="47" class="animate-pulse">1100</text>
+                  <text x="53" y="55" class="animate-pulse">0011</text>
+                </g>
+                <defs>
+                  <linearGradient id="quantumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#b0c6ff"/><stop offset="100%" stop-color="#00dbe9"/>
+                  </linearGradient>
+                  <linearGradient id="quantumGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ecb2ff"/><stop offset="100%" stop-color="#b0c6ff"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              <!-- Platform / Neural Mesh -->
+              <svg *ngSwitchCase="'neural-mesh'" viewBox="0 0 100 100" class="w-[85%] h-[85%]">
+                <!-- Connected Nodes -->
+                <g stroke="#b0c6ff" stroke-width="1" [attr.stroke]="simState() === 'completed' ? '#4ade80' : '#b0c6ff'" opacity="0.3">
+                  <line x1="20" y1="30" x2="50" y2="20" class="animate-pulse" />
+                  <line x1="20" y1="30" x2="35" y2="60" />
+                  <line x1="50" y1="20" x2="80" y2="35" />
+                  <line x1="80" y1="35" x2="65" y2="70" />
+                  <line x1="35" y1="60" x2="65" y2="70" />
+                  <line x1="50" y1="20" x2="35" y2="60" />
+                  <line x1="50" y1="20" x2="65" y2="70" />
+                </g>
+                <!-- Nodes -->
+                <circle cx="20" cy="30" r="4" fill="#b0c6ff" class="animate-ping" />
+                <circle cx="20" cy="30" r="3" fill="#b0c6ff" />
+                <circle cx="50" cy="20" r="3" fill="#ecb2ff" />
+                <circle cx="80" cy="35" r="3" fill="#00dbe9" />
+                <circle cx="65" cy="70" r="3" fill="#b0c6ff" />
+                <circle cx="35" cy="60" r="3" fill="#ecb2ff" />
+                
+                <!-- Central Synapse Pulse -->
+                <circle cx="50" cy="20" r="8" stroke="#00dbe9" stroke-width="1.5" fill="none" opacity="0.6" class="animate-pulse" />
+              </svg>
+
+              <!-- Platform / Bio-Sync -->
+              <svg *ngSwitchCase="'bio-sync'" viewBox="0 0 100 100" class="w-[85%] h-[85%]">
+                <!-- Brain-wave frequency curve -->
+                <path d="M 10,50 Q 20,20 30,50 T 50,50 T 70,50 T 90,50" 
+                      fill="none" stroke="rgba(176,198,255,0.2)" stroke-width="1.5" />
+                <path d="M 10,50 Q 20,10 30,50 T 50,50 T 70,50 T 90,50" 
+                      fill="none" stroke="url(#bioGrad)" stroke-width="2.5" 
+                      stroke-dasharray="100" stroke-dashoffset="100" 
+                      class="animate-[dash_3s_linear_infinite]" 
+                      [attr.stroke]="simState() === 'completed' ? '#4ade80' : 'url(#bioGrad)'" />
+                <defs>
+                  <linearGradient id="bioGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#b0c6ff" />
+                    <stop offset="50%" stop-color="#00dbe9" />
+                    <stop offset="100%" stop-color="#ecb2ff" />
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              <!-- Platform / Security -->
+              <svg *ngSwitchCase="'security'" viewBox="0 0 100 100" class="w-[85%] h-[85%]">
+                <circle cx="50" cy="50" r="35" stroke="rgba(0, 219, 233, 0.2)" stroke-width="2" fill="none" />
+                <circle cx="50" cy="50" r="35" stroke="#00dbe9" stroke-width="2.5" fill="none" stroke-dasharray="50 150" class="animate-[spin_6s_linear_infinite]" [attr.stroke]="simState() === 'completed' ? '#4ade80' : '#00dbe9'" />
+                <!-- Keyhole Shield -->
+                <path d="M 50,28 L 68,36 L 68,55 C 68,68 50,75 50,75 C 50,75 32,68 32,55 L 32,36 Z" 
+                      fill="rgba(176,198,255,0.1)" stroke="#b0c6ff" stroke-width="2" 
+                      [attr.stroke]="simState() === 'completed' ? '#4ade80' : '#b0c6ff'" />
+                <!-- Center Lock Core -->
+                <circle cx="50" cy="48" r="6" fill="#00dbe9" class="animate-pulse" [attr.fill]="simState() === 'completed' ? '#4ade80' : '#00dbe9'" />
+                <line x1="50" y1="54" x2="50" y2="64" stroke="#00dbe9" stroke-width="3" [attr.stroke]="simState() === 'completed' ? '#4ade80' : '#00dbe9'" />
+              </svg>
+
+              <!-- Ecosystem / Tokenomics Staking Calculator Chart -->
+              <div *ngSwitchCase="'tokenomics'" class="w-full h-full flex flex-col justify-between p-sm relative gap-xs">
+                <span class="text-[9px] text-[#b0c6ff] font-label-sm select-none uppercase tracking-wider font-bold self-start">Yield Growth Curve</span>
+                
+                <!-- SVG Line Chart -->
+                <svg viewBox="0 0 200 80" class="w-full h-[65%] mt-xs">
+                  <!-- Grid reference lines -->
+                  <line x1="10" y1="10" x2="190" y2="10" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/>
+                  <line x1="10" y1="40" x2="190" y2="40" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/>
+                  <line x1="10" y1="70" x2="190" y2="70" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/>
+                  
+                  <!-- Area under curve (translucent gradient) -->
+                  <path [attr.d]="stakingChartAreaD" fill="url(#chartAreaGrad)" opacity="0.15"/>
+                  
+                  <!-- Compound Growth Polyline -->
+                  <polyline [attr.points]="stakingChartPoints" fill="none" stroke="#b0c6ff" stroke-width="2" stroke-linecap="round" class="drop-shadow-[0_0_6px_rgba(176,198,255,0.5)]"/>
+                  
+                  <!-- Endpoint Pulse Dot -->
+                  <circle [attr.cx]="chartEndpointX" [attr.cy]="chartEndpointY" r="3" fill="#00dbe9" class="animate-pulse"/>
+                  
+                  <defs>
+                    <linearGradient id="chartAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#b0c6ff" />
+                      <stop offset="100%" stop-color="#b0c6ff" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                
+                <div class="flex justify-between items-center text-[8px] font-label-sm text-on-surface-variant font-bold border-t border-white/5 pt-1 mt-auto">
+                  <span>Start: {{ stakeAmount | number:'1.0-0' }}</span>
+                  <span class="text-tertiary">APY: {{ apyRate }}%</span>
+                  <span class="text-green-400">Total: {{ stakingTotalPayout | number:'1.0-2' }}</span>
+                </div>
+              </div>
+
+              <!-- Docs / FAQ Accordion placeholder graphic -->
+              <svg *ngSwitchCase="'faq'" viewBox="0 0 100 100" class="w-[85%] h-[85%]">
+                <rect x="20" y="22" width="60" height="12" rx="4" fill="rgba(176,198,255,0.1)" stroke="#b0c6ff" stroke-width="1" />
+                <text x="26" y="30" fill="#b0c6ff" font-size="6" font-family="monospace">?</text>
+                
+                <rect x="20" y="42" width="60" height="28" rx="4" fill="rgba(0,219,233,0.05)" stroke="#00dbe9" stroke-width="1" />
+                <line x1="26" y1="52" x2="74" y2="52" stroke="#00dbe9" stroke-width="1" stroke-dasharray="2 2" />
+                <line x1="26" y1="58" x2="64" y2="58" stroke="#00dbe9" stroke-width="1" stroke-dasharray="2 2" />
+                
+                <circle cx="74" cy="28" r="2" fill="#b0c6ff" />
+                <circle cx="74" cy="48" r="2" fill="#00dbe9" />
+              </svg>
+
+              <!-- Legal / SLA or generic Compliance / Law scale -->
+              <svg *ngSwitchCase="'sla'" viewBox="0 0 100 100" class="w-[85%] h-[85%]">
+                <circle cx="50" cy="50" r="35" stroke="rgba(255,255,255,0.05)" stroke-width="3" fill="none" />
+                <!-- 99.99% dial -->
+                <circle cx="50" cy="50" r="35" stroke="url(#slaGrad)" stroke-width="4.5" fill="none" stroke-dasharray="220" stroke-dashoffset="20" class="transition-all duration-1000" [attr.stroke]="simState() === 'completed' ? '#4ade80' : 'url(#slaGrad)'" />
+                
+                <text x="50" y="48" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold" class="animate-pulse">99.99%</text>
+                <text x="50" y="58" text-anchor="middle" fill="#00dbe9" font-size="6" font-weight="semibold" uppercase class="tracking-widest" [attr.fill]="simState() === 'completed' ? '#4ade80' : '#00dbe9'">GUARANTEE</text>
+                <defs>
+                  <linearGradient id="slaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00dbe9"/><stop offset="100%" stop-color="#b0c6ff"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              <!-- Ecosystem / Interactive Node Map -->
+              <div *ngSwitchCase="'nodes'" class="w-full h-full flex flex-col gap-sm relative">
+                <!-- Instruction overlay -->
+                <span class="absolute top-2 left-2 text-[9px] text-[#00dbe9] font-label-sm select-none uppercase tracking-wider font-bold">Node Mesh Simulator</span>
+                <canvas #nodeCanvas
+                        (click)="onNodeCanvasClick($event)"
+                        class="w-full h-full bg-black/40 rounded-xl border border-white/5 cursor-crosshair">
+                </canvas>
+              </div>
+
+              <!-- Generic / Fallback Animated Core Grid -->
+              <svg *ngSwitchDefault viewBox="0 0 100 100" class="w-[85%] h-[85%]">
+                <polygon points="50,15 80,35 80,68 50,85 20,68 20,35" 
+                         fill="none" stroke="rgba(176,198,255,0.15)" stroke-width="1.5" />
+                <!-- Inner crystal core -->
+                <polygon points="50,30 70,42 70,60 50,70 30,60 30,42" 
+                         fill="rgba(0, 219, 233, 0.05)" stroke="url(#fallbackGrad)" stroke-width="2" 
+                         class="animate-pulse" [attr.stroke]="simState() === 'completed' ? '#4ade80' : 'url(#fallbackGrad)'" />
+                
+                <!-- Orbiting line nodes -->
+                <circle cx="50" cy="50" r="22" stroke="rgba(255,255,255,0.05)" stroke-dasharray="5 15" class="animate-[spin_12s_linear_infinite]" />
+                
+                <defs>
+                  <linearGradient id="fallbackGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#b0c6ff"/><stop offset="100%" stop-color="#ecb2ff"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Educational Network Synopses (Visible only on nodes page) -->
+      <div *ngIf="page() === 'nodes'" class="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-lg">
+        <div class="glass-plate p-xl rounded-xl border-white/5 flex flex-col gap-sm">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[20px]">share</span>
+            <h4 class="font-bold text-sm text-on-surface uppercase tracking-wider">{{ lang.t('NODES_EDU_P2P_TITLE') }}</h4>
+          </div>
+          <p class="text-xs text-on-surface-variant leading-relaxed text-justify">
+            {{ lang.t('NODES_EDU_P2P_DESC') }}
+          </p>
+        </div>
+        <div class="glass-plate p-xl rounded-xl border-white/5 flex flex-col gap-sm">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-secondary text-[20px]">verified_user</span>
+            <h4 class="font-bold text-sm text-on-surface uppercase tracking-wider">{{ lang.t('NODES_EDU_VAL_TITLE') }}</h4>
+          </div>
+          <p class="text-xs text-on-surface-variant leading-relaxed text-justify">
+            {{ lang.t('NODES_EDU_VAL_DESC') }}
+          </p>
+        </div>
+      </div>
+
+      <!-- FAQ Accordion List (Visible ONLY on docs/faq page) -->
+      <div *ngIf="page() === 'faq'" class="flex flex-col gap-md mt-lg">
+        <h3 class="font-headline-sm text-headline-sm font-extrabold text-on-surface uppercase tracking-wider">
+          {{ lang.t('FAQ_SECTION_TITLE') }}
+        </h3>
+        
+        <div class="flex flex-col gap-sm">
+          <div *ngFor="let index of [0,1,2,3,4]" class="glass-plate rounded-xl border-white/5 overflow-hidden transition-all duration-300">
+            <button (click)="toggleFaq(index)" 
+                    class="w-full text-left px-xl py-lg font-bold text-sm text-on-surface hover:text-primary transition-colors flex justify-between items-center focus:outline-none cursor-pointer">
+              <span>{{ lang.t('FAQ_Q_' + index) }}</span>
+              <span class="material-symbols-outlined transition-transform duration-300"
+                    [ngClass]="{'rotate-180 text-primary': faqStates()[index]}">
+                keyboard_arrow_down
+              </span>
+            </button>
+            <div *ngIf="faqStates()[index]" class="px-xl pb-lg pt-xs text-xs text-on-surface-variant leading-relaxed border-t border-white/5 animate-slide-down">
+              {{ lang.t('FAQ_A_' + index) }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics Card Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+        
+        <!-- Metric 1 -->
+        <div class="glass-plate p-xl rounded-xl border-white/5 flex flex-col gap-xs relative overflow-hidden group shadow-md hover:scale-[1.01] transition-transform">
+          <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-primary/5 blur-xl group-hover:bg-primary/10 transition-colors"></div>
+          <span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold font-label-sm">
+            {{ lang.t(getTranslationKey('STAT1_LABEL')) }}
+          </span>
+          <div class="font-display-md text-3xl font-extrabold text-on-surface flex items-baseline gap-xs mt-xs">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+              {{ lang.t(getTranslationKey('STAT1_VAL')) }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Metric 2 -->
+        <div class="glass-plate p-xl rounded-xl border-white/5 flex flex-col gap-xs relative overflow-hidden group shadow-md hover:scale-[1.01] transition-transform">
+          <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-tertiary/5 blur-xl group-hover:bg-tertiary/10 transition-colors"></div>
+          <span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold font-label-sm">
+            {{ lang.t(getTranslationKey('STAT2_LABEL')) }}
+          </span>
+          <div class="font-display-md text-3xl font-extrabold text-on-surface flex items-baseline gap-xs mt-xs">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-tertiary to-primary">
+              {{ lang.t(getTranslationKey('STAT2_VAL')) }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Metric 3 -->
+        <div class="glass-plate p-xl rounded-xl border-white/5 flex flex-col gap-xs relative overflow-hidden group shadow-md hover:scale-[1.01] transition-transform">
+          <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-secondary/5 blur-xl group-hover:bg-secondary/10 transition-colors"></div>
+          <span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold font-label-sm">
+            {{ lang.t(getTranslationKey('STAT3_LABEL')) }}
+          </span>
+          <div class="font-display-md text-3xl font-extrabold text-on-surface flex items-baseline gap-xs mt-xs">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-tertiary">
+              {{ lang.t(getTranslationKey('STAT3_VAL')) }}
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Diagnostic Simulation Terminal -->
+      <section class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-md">
+        <div class="flex justify-between items-center border-b border-white/10 pb-sm">
+          <div class="flex items-center gap-sm">
+            <div class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse" 
+                 [ngClass]="{
+                   'bg-green-400': simState() === 'completed', 
+                   'bg-primary': simState() === 'running',
+                   'bg-yellow-400': simState() === 'idle'
+                 }"></div>
+            <h3 class="font-bold text-sm text-on-surface uppercase tracking-wider">
+              {{ lang.t('SIM_TITLE') }}
+            </h3>
+          </div>
+          
+          <button (click)="runSimulation()" 
+                  [disabled]="simState() === 'running'"
+                  [ngClass]="{
+                    'opacity-50 cursor-not-allowed': simState() === 'running',
+                    'hover:bg-primary/20 hover:border-primary/50 text-primary border-primary/20': simState() !== 'running'
+                  }"
+                  class="border px-md py-sm rounded-lg font-bold text-xs transition-all active:scale-95 flex items-center gap-xs cursor-pointer">
+            <span class="material-symbols-outlined text-[14px]">
+              {{ simState() === 'completed' ? 'replay' : 'play_arrow' }}
+            </span>
+            <span>{{ simState() === 'completed' ? lang.t('SIM_RUN_AGAIN') : lang.t('SIM_RUN') }}</span>
+          </button>
+        </div>
+
+        <!-- CLI Box -->
+        <div class="h-[150px] bg-black/60 border border-white/5 rounded-xl p-md font-mono text-[11px] text-primary overflow-y-auto flex flex-col gap-xs shadow-inner no-scrollbar">
+          <div class="text-on-surface-variant font-bold text-[10px] uppercase border-b border-white/5 pb-2 mb-2 font-label-sm select-none">
+            Neuralis diagnostics terminal v4.0.0
+          </div>
+          
+          <!-- Default Welcome -->
+          <div *ngIf="simLogs().length === 0" class="text-on-surface-variant italic">
+            {{ lang.t('SIM_WELCOME') }}
+          </div>
+
+          <!-- Logs -->
+          <div *ngFor="let log of simLogs()" class="animate-fade-in"
+               [ngClass]="{
+                 'text-green-400 font-bold': log.includes('[SUCCESS]') || log.includes('[SYSTEM]'),
+                 'text-yellow-400': log.includes('[WARNING]'),
+                 'text-cyan-400': log.includes('[INFO]')
+               }">
+            {{ log }}
+          </div>
+
+          <!-- Active blinking cursor -->
+          <div *ngIf="simState() === 'running'" class="flex items-center gap-xs text-primary">
+            <span class="w-1.5 h-3.5 bg-primary animate-pulse"></span>
+            <span class="animate-pulse">Diagnosing and optimizing local matrix link... {{ simProgress() }}%</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Notification Toast -->
+    <div class="fixed bottom-6 right-6 glass-plate px-lg py-sm rounded-xl border-primary/30 text-primary font-label-md flex items-center gap-sm shadow-[0_10px_30px_rgba(0,0,0,0.8)] transition-transform duration-300 z-50"
+         [style.transform]="toastVisible ? 'translateY(0)' : 'translateY(150%)'">
+      <span class="material-symbols-outlined text-[18px]">check_circle</span>
+      {{ toastMessage }}
+    </div>
+
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LanguageService } from '../../services/language.service';
+import { LanguageService } from '../../core/services/language.service';
 
 @Component({
   selector: 'app-design-system',
@@ -13,6 +13,7 @@ export class DesignSystemComponent {
   public readonly lang = inject(LanguageService);
   toastVisible = false;
   toastMessage = '';
+  selectedCodeSnippet = '';
 
   colors = [
     { name: 'background', value: '#131313' },
@@ -60,6 +61,38 @@ export class DesignSystemComponent {
         this.toastVisible = false;
       }, 2500);
     });
+  }
+
+  copyComponentCode(comp: string) {
+    let code = '';
+    switch (comp) {
+      case 'glass':
+        code = '<div class="bg-white/2 border border-white/10 backdrop-blur-xl rounded-xl p-lg shadow-2xl">\n  Glassmorphic Plate\n</div>';
+        break;
+      case 'btn-primary':
+        code = '<button class="bg-gradient-to-r from-primary to-secondary text-on-primary px-lg py-sm rounded-lg font-label-md shadow-[0_0_20px_rgba(176,198,255,0.3)] hover:scale-[1.03] transition-all">\n  Primary Action\n</button>';
+        break;
+      case 'btn-secondary':
+        code = '<button class="glass-plate border border-white/15 text-on-surface px-lg py-sm rounded-lg font-label-md hover:bg-white/10 transition-all">\n  Secondary Action\n</button>';
+        break;
+      case 'badge-ok':
+        code = '<span class="glass-plate px-md py-xs rounded-full text-green-400 font-label-sm border border-green-500/20 flex items-center gap-sm">\n  <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_#4ade80]"></span>\n  SYS_OPERATIONAL\n</span>';
+        break;
+      case 'input-slider':
+        code = '<input type="range" class="w-full accent-primary bg-white/5 rounded-lg h-1.5 cursor-pointer"/>';
+        break;
+    }
+    
+    if (code) {
+      this.selectedCodeSnippet = code;
+      navigator.clipboard.writeText(code).then(() => {
+        this.toastMessage = `Copied component HTML snippet to clipboard!`;
+        this.toastVisible = true;
+        setTimeout(() => {
+          this.toastVisible = false;
+        }, 2500);
+      });
+    }
   }
 
   onCardMove(e: MouseEvent, card: HTMLElement) {

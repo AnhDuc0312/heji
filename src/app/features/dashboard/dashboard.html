@@ -1,0 +1,213 @@
+<div class="relative min-h-screen bg-[#050505] text-[#e5e2e1] pt-32 pb-16 px-margin-mobile md:px-margin-desktop overflow-hidden">
+  
+  <!-- Backing Glow Overlay -->
+  <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/5 blur-[150px] pointer-events-none -z-10"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-secondary/5 blur-[150px] pointer-events-none -z-10"></div>
+
+  <div class="relative z-10 max-w-[1440px] mx-auto flex flex-col gap-lg w-full">
+    
+    <!-- Title Area -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-md border-b border-white/5 pb-lg">
+      <div class="flex flex-col gap-xs">
+        <div class="inline-block px-md py-xs rounded-full glass-plate text-primary font-label-sm border border-primary/20 self-start text-[10px] tracking-widest uppercase">
+          WORKSPACE ACCESS
+        </div>
+        <h1 class="font-display-lg text-headline-lg md:text-display-md tracking-tight font-extrabold text-on-surface mt-xs">
+          {{ lang.t('DASHBOARD_TITLE') }}
+        </h1>
+      </div>
+      
+      <!-- Wallet Info Badge -->
+      <div *ngIf="connect.isConnected()" class="flex items-center gap-sm glass-plate px-lg py-sm rounded-full border-white/10">
+        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_#4ade80]"></span>
+        <span class="font-mono text-xs text-on-surface-variant">ADDR: {{ connect.activeWallet() }}</span>
+      </div>
+    </div>
+
+    <!-- State 1: DISCONNECTED VIEW -->
+    <div *ngIf="!connect.isConnected()" class="flex flex-col items-center justify-center min-h-[400px] text-center max-w-lg mx-auto gap-xl pt-lg">
+      <div class="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary/70 animate-pulse">
+        <span class="material-symbols-outlined text-[40px]">lock_person</span>
+      </div>
+      <div class="flex flex-col gap-md">
+        <h2 class="font-headline-md text-headline-md text-on-surface font-semibold">{{ lang.t('DASHBOARD_LOCKED') }}</h2>
+        <p class="font-body-md text-on-surface-variant leading-relaxed">
+          {{ lang.t('DASHBOARD_LOCKED_DESC') }}
+        </p>
+      </div>
+      <button (click)="triggerConnect()" class="bg-gradient-to-r from-primary to-secondary text-on-primary px-3xl py-md rounded-xl font-label-md shadow-[0_0_30px_rgba(176,198,255,0.4)] hover:shadow-[0_0_50px_rgba(176,198,255,0.6)] hover:scale-[1.03] transition-all cursor-pointer">
+        {{ lang.t('CONNECT_BTN') }}
+      </button>
+    </div>
+
+    <!-- State 2: CONNECTED VIEW -->
+    <div *ngIf="connect.isConnected()" class="grid grid-cols-12 gap-lg mt-md animate-fade-in">
+      
+      <!-- Left: Balance & Stats (8/12 wide) -->
+      <div class="col-span-12 lg:col-span-8 flex flex-col gap-lg">
+        
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+          <!-- Balance & Rewards -->
+          <div class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg relative overflow-hidden group">
+            <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-primary/5 blur-xl"></div>
+            
+            <div class="flex justify-between items-start">
+              <div class="flex flex-col">
+                <span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold font-label-sm">Total Liquid Balance</span>
+                <span class="font-display-md text-3xl font-extrabold text-on-surface mt-xs flex items-baseline gap-xs">
+                  <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-tertiary">
+                    {{ walletBalance() | number:'1.2-2' }}
+                  </span>
+                  <span class="text-xs text-on-surface-variant font-label-md">$NEURAL</span>
+                </span>
+              </div>
+              <span class="material-symbols-outlined text-primary text-[24px]">account_balance_wallet</span>
+            </div>
+
+            <div class="border-t border-white/5 pt-md flex justify-between items-center mt-xs">
+              <div class="flex flex-col">
+                <span class="text-[9px] text-on-surface-variant uppercase tracking-wider font-semibold">Staking Rewards</span>
+                <span class="font-mono text-sm font-bold text-green-400 mt-[2px] flex items-baseline gap-xs">
+                  <span>+{{ claimableRewards() | number:'1.3-3' }}</span>
+                  <span class="text-[10px] text-on-surface-variant font-label-sm">$NEURAL</span>
+                </span>
+              </div>
+              <button (click)="claimRewards()" 
+                      [disabled]="claimableRewards() <= 0"
+                      [ngClass]="{'opacity-50 cursor-not-allowed': claimableRewards() <= 0}"
+                      class="bg-white/10 hover:bg-white/20 text-on-surface border border-white/15 px-lg py-sm rounded-lg font-label-sm transition-all active:scale-95 cursor-pointer">
+                Claim Rewards
+              </button>
+            </div>
+          </div>
+
+          <!-- Staking Statistics -->
+          <div class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg relative overflow-hidden group">
+            <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-secondary/5 blur-xl"></div>
+            
+            <div class="flex justify-between items-start">
+              <div class="flex flex-col">
+                <span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold font-label-sm">Active Staking Balance</span>
+                <span class="font-display-md text-3xl font-extrabold text-on-surface mt-xs flex items-baseline gap-xs">
+                  <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary">
+                    {{ stakedAmount() | number:'1.2-2' }}
+                  </span>
+                  <span class="text-xs text-on-surface-variant font-label-md">$NEURAL</span>
+                </span>
+              </div>
+              <span class="material-symbols-outlined text-secondary text-[24px]">workspace_premium</span>
+            </div>
+
+            <div class="border-t border-white/5 pt-md flex justify-between items-center mt-xs">
+              <div class="flex flex-col">
+                <span class="text-[9px] text-on-surface-variant uppercase tracking-wider font-semibold">Average APR</span>
+                <span class="font-mono text-sm font-bold text-tertiary mt-[2px]">8.57%</span>
+              </div>
+              <a routerLink="/draft/ecosystem/tokenomics" class="text-xs text-secondary hover:underline font-label-sm flex items-center gap-3xs">
+                Stake More <span class="material-symbols-outlined text-[12px]">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Validator Staking Nodes Table -->
+        <div class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-md">
+          <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface border-b border-white/5 pb-sm flex justify-between items-center">
+            <span>Validator Delegations</span>
+            <span class="material-symbols-outlined text-tertiary text-[18px]">dns</span>
+          </h3>
+
+          <div class="overflow-x-auto w-full">
+            <table class="w-full text-left min-w-[500px] border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-white/10 font-label-sm text-on-surface-variant pb-xs">
+                  <th class="py-sm">Validator</th>
+                  <th class="py-sm">Node Uptime</th>
+                  <th class="py-sm">APY Rates</th>
+                  <th class="py-sm">My Staked</th>
+                </tr>
+              </thead>
+              <tbody class="font-body-md">
+                <tr *ngFor="let val of validators()" class="border-b border-white/5 hover:bg-white/2">
+                  <td class="py-md font-bold text-on-surface">{{ val.name }}</td>
+                  <td class="py-md text-green-400 font-mono font-bold">{{ val.uptime }}</td>
+                  <td class="py-md text-tertiary font-bold font-mono">{{ val.apy }}%</td>
+                  <td class="py-md text-on-surface-variant font-mono">{{ val.staked | number:'1.1-1' }} $NEURAL</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Credentials & System Logs (4/12 wide) -->
+      <div class="col-span-12 lg:col-span-4 flex flex-col gap-lg">
+        
+        <!-- Credentials Card -->
+        <div class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-md">
+          <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface border-b border-white/5 pb-sm flex justify-between items-center">
+            <span>Developer Credentials</span>
+            <span class="material-symbols-outlined text-primary text-[18px]">vpn_key</span>
+          </h3>
+          
+          <div class="flex flex-col gap-sm">
+            <span class="text-[9px] text-on-surface-variant uppercase tracking-wider font-bold">Project Secret Key</span>
+            
+            <div class="flex items-center gap-xs bg-black/60 border border-white/10 px-md py-sm rounded-lg w-full relative">
+              <input [type]="showApiKey() ? 'text' : 'password'" 
+                     [value]="apiKey" 
+                     readonly
+                     class="bg-transparent border-none outline-none flex-grow font-mono text-[10px] text-primary select-all focus:ring-0 w-full" />
+              <button (click)="toggleApiKey()" 
+                      class="text-on-surface-variant hover:text-on-surface transition-colors focus:outline-none cursor-pointer">
+                <span class="material-symbols-outlined text-[16px]">{{ showApiKey() ? 'visibility_off' : 'visibility' }}</span>
+              </button>
+            </div>
+            <p class="text-[9px] text-on-surface-variant leading-normal italic">
+              Keep this key confidential. It provides cryptographic access keys to validators sync pipelines.
+            </p>
+          </div>
+        </div>
+
+        <!-- Workspace Activity Logs -->
+        <div class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-md">
+          <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface border-b border-white/5 pb-sm flex justify-between items-center">
+            <span>Activity Logs</span>
+            <span class="material-symbols-outlined text-secondary text-[18px]">list_alt</span>
+          </h3>
+
+          <div class="flex flex-col gap-md text-xs">
+            <div class="flex items-start gap-sm border-l-2 border-primary/30 pl-sm py-[2px]">
+              <div class="flex flex-col flex-grow">
+                <div class="font-bold text-on-surface">Block validation reward claimed</div>
+                <span class="text-[9px] text-on-surface-variant mt-0.5">10:48:32 PM | SIN1 node</span>
+              </div>
+              <span class="font-mono text-green-400 font-bold text-[10px]">+0.04 $NEURAL</span>
+            </div>
+
+            <div class="flex items-start gap-sm border-l-2 border-secondary/30 pl-sm py-[2px]">
+              <div class="flex flex-col flex-grow">
+                <div class="font-bold text-on-surface">Validator node registered</div>
+                <span class="text-[9px] text-on-surface-variant mt-0.5">04:22:15 PM | SIN1 node</span>
+              </div>
+              <span class="font-mono text-on-surface-variant text-[10px]">SUCCESS</span>
+            </div>
+
+            <div class="flex items-start gap-sm border-l-2 border-tertiary/30 pl-sm py-[2px]">
+              <div class="flex flex-col flex-grow">
+                <div class="font-bold text-on-surface">Wallet synced via ConnectModal</div>
+                <span class="text-[9px] text-on-surface-variant mt-0.5">01:15:00 PM | Local matrix</span>
+              </div>
+              <span class="font-mono text-tertiary font-bold text-[10px]">CONNECTED</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
