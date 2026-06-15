@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { LanguageService } from '../../core/services/language.service';
 
 @Component({
   selector: 'app-design-system',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './design-system.html',
   styleUrl: './design-system.scss'
 })
@@ -14,6 +15,13 @@ export class DesignSystemComponent {
   toastVisible = false;
   toastMessage = '';
   selectedCodeSnippet = '';
+
+  // Custom styling playground variables
+  primaryHue = 224;
+  primarySat = 100;
+  primaryLight = 85;
+  glassBlur = 16;
+  glassOpacity = 10;
 
   colors = [
     { name: 'background', value: '#131313' },
@@ -101,5 +109,29 @@ export class DesignSystemComponent {
     const y = e.clientY - rect.top;
     card.style.setProperty('--mouse-x', `${x}px`);
     card.style.setProperty('--mouse-y', `${y}px`);
+  }
+
+  get primaryColorHSL(): string {
+    return `hsl(${this.primaryHue}, ${this.primarySat}%, ${this.primaryLight}%)`;
+  }
+
+  get glassStyle(): string {
+    return `background: rgba(255, 255, 255, ${this.glassOpacity / 100}); backdrop-filter: blur(${this.glassBlur}px); border: 1px solid rgba(255, 255, 255, 0.1);`;
+  }
+
+  get generatedTailwindCode(): string {
+    return `<div class="bg-white/${this.glassOpacity} backdrop-blur-[${this.glassBlur}px] border border-white/10 rounded-xl p-md shadow-2xl">\n` +
+           `  <span style="color: ${this.primaryColorHSL}; font-weight: bold;">Obsidian Custom Plate</span>\n` +
+           `</div>`;
+  }
+
+  copyPlaygroundCode() {
+    navigator.clipboard.writeText(this.generatedTailwindCode).then(() => {
+      this.toastMessage = 'Copied custom playground markup to clipboard!';
+      this.toastVisible = true;
+      setTimeout(() => {
+        this.toastVisible = false;
+      }, 2500);
+    });
   }
 }

@@ -1,0 +1,49 @@
+<div class="base-upload-group" [class.ks-disabled]="disabled">
+  
+  <!-- UPLOAD TRIGGER / DRAG DROP AREA -->
+  <div class="base-upload-dropzone" 
+       [class.ks-dragover]="isDragOver"
+       (click)="triggerFileSelect()"
+       (dragover)="onDragOver($event)"
+       (dragleave)="onDragLeave($event)"
+       (drop)="onDrop($event)">
+    
+    <input type="file" 
+           #fileInput 
+           style="display: none;" 
+           [multiple]="multiple" 
+           [accept]="accept" 
+           [disabled]="disabled"
+           (change)="onFileChange($event)" />
+
+    <span class="material-symbols-outlined base-upload-icon">cloud_upload</span>
+    <span class="base-upload-text">
+      @if (isDragOver) {
+        Drop files here to upload
+      } @else {
+        <strong>Click to upload</strong> or drag and drop files
+      }
+    </span>
+    <span class="base-upload-hint" *ngIf="accept">Accepted formats: {{ accept }}</span>
+
+  </div>
+
+  <!-- UPLOAD QUEUE / LIST -->
+  @if (files.length > 0) {
+    <div class="base-upload-queue">
+      @for (file of files; track file.name; let idx = $index) {
+        <div class="base-upload-item">
+          <span class="material-symbols-outlined base-upload-file-icon">description</span>
+          <div class="base-upload-file-details">
+            <span class="base-upload-file-name">{{ file.name }}</span>
+            <span class="base-upload-file-size">{{ getFileSize(file.size) }}</span>
+          </div>
+          <button class="base-upload-remove-btn" (click)="removeFile(idx, $event)" [disabled]="disabled">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+        </div>
+      }
+    </div>
+  }
+
+</div>

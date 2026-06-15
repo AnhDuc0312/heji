@@ -1,0 +1,67 @@
+.base-radio-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-family: inherit;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &.ks-disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
+.base-radio-circle {
+  width: 18px;
+  height: 18px;
+  background-color: var(--base-input-bg, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--base-input-border, rgba(255, 255, 255, 0.08));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.base-radio-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary-color, #00dbe9);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--primary-color, #00dbe9);
+  animation: dotPopIn 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) forwards;
+}
+
+.base-radio-label {
+  font-size: 13px;
+  color: var(--text-primary, #ffffff);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+// Hover state
+.base-radio-wrapper:hover:not(.ks-disabled) {
+  .base-radio-circle {
+    border-color: var(--primary-color, #00dbe9);
+    background-color: var(--base-button-default-hover, rgba(255, 255, 255, 0.05));
+  }
+}
+
+// Checked state
+.ks-checked {
+  .base-radio-circle {
+    border-color: var(--primary-color, #00dbe9);
+  }
+}
+
+@keyframes dotPopIn {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

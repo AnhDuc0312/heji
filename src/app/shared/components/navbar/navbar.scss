@@ -35,3 +35,24 @@
     transform: translateY(0);
   }
 }
+
+:host-context([data-theme="light"]) {
+  nav {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 4px 30px rgba(15, 23, 42, 0.05) !important;
+  }
+  
+  .lg\:hidden.fixed {
+    background-color: rgba(248, 250, 252, 0.98) !important;
+    border-top-color: rgba(15, 23, 42, 0.08) !important;
+  }
+  
+  // Dropdowns
+  .absolute.top-full, .absolute.top-12 {
+    background-color: rgba(255, 255, 255, 0.98) !important;
+    border-color: rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.1) !important;
+  }
+}
+

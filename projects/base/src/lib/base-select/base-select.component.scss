@@ -1,0 +1,231 @@
+.base-select-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: inherit;
+  position: relative;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.base-select-label {
+  font-size: var(--base-select-label-size, 12px);
+  color: var(--base-select-label-color, #a1a1aa);
+  margin-bottom: 6px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.base-select-box {
+  width: 100%;
+  background-color: var(--base-select-bg, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--base-select-border, rgba(255, 255, 255, 0.08));
+  border-radius: var(--base-select-border-radius, 8px);
+  color: var(--base-select-color, #ffffff);
+  padding: 8px 12px;
+  font-size: 13px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.base-select-selection {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.base-select-placeholder {
+  color: var(--base-select-placeholder-color, rgba(255, 255, 255, 0.25));
+}
+
+.base-select-value {
+  color: var(--base-select-color, #ffffff);
+}
+
+.base-select-arrow {
+  color: var(--base-select-arrow-color, rgba(255, 255, 255, 0.4));
+  font-size: 18px;
+  transition: transform 0.2s ease;
+  margin-left: 8px;
+}
+
+// Chips/tags for multiselect
+.base-select-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.base-select-chip {
+  background-color: rgba(0, 219, 233, 0.1);
+  border: 1px solid rgba(0, 219, 233, 0.2);
+  color: var(--base-select-primary, #00dbe9);
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+.base-select-chip-remove {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .material-symbols-outlined {
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+  }
+}
+
+// Open / Focus state
+.ks-open {
+  .base-select-box {
+    border-color: var(--base-select-focus-border, #00dbe9);
+    box-shadow: 0 0 10px rgba(0, 219, 233, 0.15);
+    background-color: var(--base-button-default-hover, rgba(255, 255, 255, 0.05));
+  }
+  
+  .base-select-arrow {
+    transform: rotate(180deg);
+    color: var(--base-select-focus-border, #00dbe9);
+  }
+}
+
+// Disabled state
+.ks-disabled {
+  .base-select-box {
+    background-color: rgba(255, 255, 255, 0.01);
+    border-color: rgba(255, 255, 255, 0.04);
+    color: var(--text-muted, rgba(255, 255, 255, 0.3));
+    cursor: not-allowed;
+  }
+  .base-select-arrow {
+    color: var(--text-muted, rgba(255, 255, 255, 0.15));
+  }
+}
+
+// Error state
+.ks-has-error {
+  .base-select-box {
+    border-color: #ef4444;
+  }
+}
+
+// Dropdown Panel
+.base-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--base-select-dropdown-bg, #121214);
+  border: 1px solid var(--base-select-border, rgba(255, 255, 255, 0.08));
+  border-radius: 8px;
+  margin-top: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  max-height: 250px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideDown 0.2s ease-out;
+}
+
+.base-select-search {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--base-select-border, rgba(255, 255, 255, 0.05));
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.01);
+
+  .material-symbols-outlined {
+    font-size: 16px;
+    color: var(--base-select-arrow-color, rgba(255, 255, 255, 0.3));
+    margin-right: 8px;
+  }
+
+  .base-select-search-input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--base-select-color, #ffffff);
+    font-size: 12px;
+    width: 100%;
+  }
+}
+
+.base-select-options-list {
+  overflow-y: auto;
+  flex-grow: 1;
+  max-height: 200px;
+}
+
+.base-select-option {
+  padding: 10px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--base-select-option-color, #e4e4e7);
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--base-select-option-hover, rgba(255, 255, 255, 0.03));
+    color: var(--text-primary, #ffffff);
+  }
+
+  &.ks-selected {
+    background-color: var(--primary-hover, rgba(0, 219, 233, 0.04));
+    color: var(--base-select-primary, #00dbe9);
+    font-weight: 500;
+  }
+}
+
+.ks-option-check {
+  font-size: 16px;
+  color: var(--base-select-primary, #00dbe9);
+}
+
+.base-select-no-options {
+  padding: 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 12px;
+}
+
+.base-select-error {
+  color: #ef4444;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,78 @@
+<div class="base-select-group" [class.ks-disabled]="disabled" [class.ks-has-error]="error" [class.ks-open]="isOpen">
+  
+  <!-- LABEL -->
+  @if (label) {
+    <label class="base-select-label">{{ label }}</label>
+  }
+
+  <!-- SELECT BOX -->
+  <div class="base-select-box" (click)="toggleDropdown()">
+    
+    <!-- PLACEHOLDER / VALUE CONTAINER -->
+    <div class="base-select-selection">
+      @if (multiple && getSelectedOptions().length > 0) {
+        <!-- MULTI CHIPS -->
+        <div class="base-select-chips">
+          @for (item of getSelectedOptions(); track item.value) {
+            <span class="base-select-chip" (click)="$event.stopPropagation()">
+              <span>{{ item.label }}</span>
+              <button class="base-select-chip-remove" (click)="removeMultiValue(item.value, $event)">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </span>
+          }
+        </div>
+      } @else if (!multiple && getSelectedLabels()) {
+        <!-- SINGLE SELECTION -->
+        <span class="base-select-value">{{ getSelectedLabels() }}</span>
+      } @else {
+        <!-- PLACEHOLDER -->
+        <span class="base-select-placeholder">{{ placeholder }}</span>
+      }
+    </div>
+
+    <!-- ARROW ICON -->
+    <span class="material-symbols-outlined base-select-arrow">expand_more</span>
+
+  </div>
+
+  <!-- DROPDOWN PANEL -->
+  @if (isOpen) {
+    <div class="base-select-dropdown">
+      
+      <!-- SEARCH INPUT -->
+      @if (showSearch) {
+        <div class="base-select-search" (click)="$event.stopPropagation()">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" 
+                 [(ngModel)]="searchQuery" 
+                 placeholder="Search options..." 
+                 class="base-select-search-input" />
+        </div>
+      }
+
+      <!-- OPTIONS LIST -->
+      <div class="base-select-options-list">
+        @for (opt of getFilteredOptions(); track opt.value) {
+          <div class="base-select-option" 
+               [class.ks-selected]="isSelected(opt)"
+               (click)="selectOption(opt, $event)">
+            <span>{{ opt.label }}</span>
+            @if (isSelected(opt)) {
+              <span class="material-symbols-outlined ks-option-check">check</span>
+            }
+          </div>
+        } @empty {
+          <div class="base-select-no-options">No options found</div>
+        }
+      </div>
+
+    </div>
+  }
+
+  <!-- ERROR / HINT -->
+  @if (error) {
+    <div class="base-select-error">{{ error }}</div>
+  }
+
+</div>

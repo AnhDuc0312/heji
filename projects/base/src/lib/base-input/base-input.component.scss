@@ -1,0 +1,109 @@
+.base-input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: inherit;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.base-input-label {
+  font-size: var(--base-input-label-size, 12px);
+  color: var(--base-input-label-color, #a1a1aa);
+  margin-bottom: 6px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.base-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.base-input-element {
+  width: 100%;
+  background-color: var(--base-input-bg, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--base-input-border, rgba(255, 255, 255, 0.08));
+  border-radius: var(--base-input-border-radius, 8px);
+  color: var(--base-input-color, #ffffff);
+  padding: 10px 14px;
+  font-size: 13px;
+  height: 40px;
+  outline: none;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: var(--base-input-placeholder-color, rgba(255, 255, 255, 0.25));
+  }
+
+  &:focus {
+    border-color: var(--base-input-focus-border, #00dbe9);
+    box-shadow: 0 0 10px rgba(0, 219, 233, 0.15);
+    background-color: var(--base-button-default-hover, rgba(255, 255, 255, 0.05));
+  }
+
+  &:disabled {
+    background-color: rgba(255, 255, 255, 0.01);
+    border-color: rgba(255, 255, 255, 0.04);
+    color: var(--text-muted, rgba(255, 255, 255, 0.3));
+    cursor: not-allowed;
+  }
+
+  &.has-icon-left {
+    padding-left: 38px;
+  }
+
+  &.has-icon-right {
+    padding-right: 38px;
+  }
+}
+
+.ks-input-icon {
+  position: absolute;
+  color: var(--base-input-icon-color, rgba(255, 255, 255, 0.3));
+  font-size: 18px;
+  pointer-events: none;
+  
+  &.icon-left {
+    left: 12px;
+  }
+  
+  &.icon-right {
+    right: 12px;
+  }
+}
+
+.base-input-element:focus ~ .ks-input-icon {
+  color: var(--base-input-focus-border, #00dbe9);
+}
+
+.base-input-error {
+  color: var(--base-input-error-color, #ef4444);
+  font-size: 11px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+.base-input-hint {
+  color: var(--base-input-hint-color, #a1a1aa);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+// Error state styles override
+.ks-has-error {
+  .base-input-element {
+    border-color: var(--base-input-error-color, #ef4444);
+    &:focus {
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.15);
+    }
+  }
+  .ks-input-icon {
+    color: var(--base-input-error-color, #ef4444);
+  }
+}

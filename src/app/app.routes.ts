@@ -6,6 +6,8 @@ import { DesignSystemComponent } from './features/design-system/design-system';
 import { ConsoleComponent } from './features/console/console';
 import { ContentPageComponent } from './features/content-page/content-page';
 import { DashboardComponent } from './features/dashboard/dashboard';
+import { UiKitComponent } from './features/ui-kit/ui-kit';
+import { UiDocsComponent } from './features/ui-docs/ui-docs';
 
 export const routes: Routes = [
   {
@@ -19,6 +21,14 @@ export const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: ':category/:page', component: ContentPageComponent },
       { path: '', redirectTo: 'landing-b', pathMatch: 'full' }
+    ]
+  },
+  {
+    path: 'ui',
+    children: [
+      { path: 'playground', component: UiKitComponent },
+      { path: 'docs', component: UiDocsComponent },
+      { path: '', redirectTo: 'playground', pathMatch: 'full' }
     ]
   },
   { path: '', redirectTo: 'draft/landing-b', pathMatch: 'full' },

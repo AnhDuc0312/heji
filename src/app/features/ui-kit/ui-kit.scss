@@ -1,0 +1,77 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Blueprint Grid Background for the Interactive Sandbox */
+.blueprint-grid {
+  background-color: #030305;
+  background-image: 
+    radial-gradient(rgba(176, 198, 255, 0.15) 1px, transparent 1px),
+    radial-gradient(rgba(176, 198, 255, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px, 10px 10px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* Custom styles for Range Inputs matching Obsidian Flux style */
+input[type="range"].custom-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  height: 6px;
+  border-radius: 9999px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+input[type="range"].custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary-color, #b0c6ff);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--primary-color-glow, rgba(176, 198, 255, 0.5));
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+input[type="range"].custom-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+input[type="range"].custom-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 50%;
+  background: var(--primary-color, #b0c6ff);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--primary-color-glow, rgba(176, 198, 255, 0.5));
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+input[type="range"].custom-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Glow lines */
+.glow-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary-color, #b0c6ff) 50%, transparent);
+  opacity: 0.3;
+}
+
+/* Micro-animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px var(--primary-color-glow, rgba(176, 198, 255, 0.3));
+  }
+  50% {
+    box-shadow: 0 0 25px var(--primary-color-glow, rgba(176, 198, 255, 0.6));
+  }
+}
+
+.pulse-glow-effect {
+  animation: pulse-glow 3s infinite ease-in-out;
+}

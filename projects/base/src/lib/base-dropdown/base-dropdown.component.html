@@ -1,0 +1,16 @@
+<div class="base-dropdown" 
+     (mouseenter)="open()" 
+     (mouseleave)="close()">
+  
+  <div class="base-dropdown-trigger" (click)="toggle()">
+    <ng-content select="[trigger]"></ng-content>
+  </div>
+
+  @if (isOpen) {
+    <div class="base-dropdown-menu-panel placement-{{ placement }}" 
+         (click)="close()">
+      <ng-content select="[menu]"></ng-content>
+    </div>
+  }
+
+</div>

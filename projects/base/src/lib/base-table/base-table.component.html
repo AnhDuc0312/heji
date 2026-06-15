@@ -1,0 +1,343 @@
+<div class="base-table-container">
+
+  <!-- ERROR STATE -->
+  @if (error) {
+    <div class="ks-error-container">
+      @if (errorTemplate) {
+        <ng-container *ngTemplateOutlet="errorTemplate; context: { $implicit: error }"></ng-container>
+      } @else {
+        <span class="material-symbols-outlined">error</span>
+        <div class="ks-error-title">Error Occurred</div>
+        <div class="ks-error-subtitle">{{ error }}</div>
+      }
+    </div>
+  }
+
+  <!-- LOADING STATE (Overlay when data exists, or full block when no data) -->
+  @if (loading && (!data || data.length === 0)) {
+    <div class="ks-loading-container">
+      @if (loadingTemplate) {
+        <ng-container *ngTemplateOutlet="loadingTemplate"></ng-container>
+      } @else {
+        <div class="ks-spinner"></div>
+        <div style="font-size: 12px; color: #a1a1aa;">Loading data...</div>
+      }
+    </div>
+  }
+
+  <!-- NORMAL TABLE RENDER -->
+  @if (!error && !(loading && (!data || data.length === 0))) {
+    <div class="base-table-wrapper">
+      
+      <!-- LOADING OVERLAY FOR EXISTING DATA -->
+      @if (loading && data && data.length > 0) {
+        <div style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center; z-index: 5;">
+          <div class="ks-spinner"></div>
+        </div>
+      }
+
+      <table class="base-table">
+        <thead>
+          <tr>
+            <!-- Expand Indicator Column Header -->
+            @if (expandable) {
+              <th style="width: 50px;"></th>
+            }
+
+            <!-- Selectable Checkbox / Radio Column Header -->
+            @if (selectable) {
+              <th style="width: 50px; text-align: center;">
+                @if (selectionMode === 'multiple') {
+                  <label class="ks-checkbox-wrapper">
+                    <input type="checkbox" 
+                           [checked]="isAllSelected()" 
+                           [indeterminate]="isSomeSelected()" 
+                           (change)="toggleSelectAll($event)" />
+                  </label>
+                }
+              </th>
+            }
+
+            <!-- Data Columns -->
+            @for (col of columns; track col.key; let idx = $index) {
+              @if (col.visible !== false) {
+                <th [style.width]="col.width | widthCss"
+                    [style.min-width]="col.minWidth | widthCss"
+                    [style.left]="getStickyLeftOffset(idx) | widthCss"
+                    [style.right]="getStickyRightOffset(idx) | widthCss"
+                    [class.ks-sticky-left]="col.fixed === 'left'"
+                    [class.ks-sticky-right]="col.fixed === 'right'"
+                    [class.ks-sortable]="col.sortable"
+                    [class.ks-drag-over]="dragOverIndex === idx"
+                    [draggable]="col.draggable !== false"
+                    (dragstart)="onDragStart($event, idx)"
+                    (dragover)="onDragOver($event, idx)"
+                    (dragleave)="onDragLeave()"
+                    (drop)="onDrop($event, idx)"
+                    (click)="onSort(col)">
+                  
+                  <div style="display: flex; align-items: center; justify-content: {{ getJustifyContent(col.align) }};">
+                    <!-- Custom Header Template -->
+                    @if (col.headerTemplate) {
+                      <ng-container *ngTemplateOutlet="col.headerTemplate; context: { $implicit: col }"></ng-container>
+                    } @else {
+                      <span>{{ col.title }}</span>
+                    }
+
+                    <!-- Sorting Arrows -->
+                    @if (col.sortable) {
+                      <div class="ks-sort-container">
+                        <span class="material-symbols-outlined" 
+                              [class.ks-active]="sortKey === col.key && sortDirection === 'asc'">arrow_drop_up</span>
+                        <span class="material-symbols-outlined" 
+                              [class.ks-active]="sortKey === col.key && sortDirection === 'desc'">arrow_drop_down</span>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Resize Handle -->
+                  @if (col.resizable !== false) {
+                    <div class="ks-resize-handle" 
+                         (mousedown)="onResizeStart($event, col, idx)"></div>
+                  }
+                </th>
+              }
+            }
+
+            <!-- Action Column Header -->
+            @if (actions && actions.length > 0) {
+              <th>{{ actionTitle || 'Actions' }}</th>
+            }
+          </tr>
+        </thead>
+        
+        <tbody>
+          <!-- EMPTY STATE -->
+          @if (!loading && (!processedData || processedData.length === 0)) {
+            <tr>
+              <td [attr.colspan]="getTotalColspan()">
+                <div class="ks-empty-container">
+                  @if (emptyTemplate) {
+                    <ng-container *ngTemplateOutlet="emptyTemplate"></ng-container>
+                  } @else {
+                    <span class="material-symbols-outlined" style="color: rgba(255, 255, 255, 0.15)">database</span>
+                    <div class="ks-empty-title">{{ emptyText || 'No Data Available' }}</div>
+                    <div class="ks-empty-subtitle">There are no records matching your criteria.</div>
+                  }
+                </div>
+              </td>
+            </tr>
+          } @else {
+            <!-- DATA ROWS -->
+            @for (row of processedData; track getRowTrackBy(row); let rIdx = $index) {
+              <tr [class.ks-row-selected]="isSelected(row)"
+                  (click)="onRowClick($event, row)"
+                  (dblclick)="onRowDoubleClick($event, row)">
+                
+                <!-- Expand Row Arrow Button -->
+                @if (expandable) {
+                  <td style="text-align: center;">
+                    <button style="background: none; border: none; cursor: pointer; color: #a1a1aa; padding: 4px; display: inline-flex;"
+                            (click)="toggleExpandRow($event, row)">
+                      <span class="material-symbols-outlined" 
+                            style="font-size: 18px; transition: transform 0.2s;"
+                            [style.transform]="isExpanded(row) ? 'rotate(90deg)' : 'rotate(0deg)'">
+                        chevron_right
+                      </span>
+                    </button>
+                  </td>
+                }
+
+                <!-- Selection Checkbox / Radio Column -->
+                @if (selectable) {
+                  <td style="text-align: center;" (click)="$event.stopPropagation()">
+                    <label class="ks-checkbox-wrapper">
+                      @if (selectionMode === 'multiple') {
+                        <input type="checkbox" 
+                               [checked]="isSelected(row)" 
+                               (change)="toggleSelectRow(row)" />
+                      } @else {
+                        <input type="radio" 
+                               name="table-single-select"
+                               [checked]="isSelected(row)" 
+                               (change)="selectSingleRow(row)" />
+                      }
+                    </label>
+                  </td>
+                }
+
+                <!-- Data Cells -->
+                @for (col of columns; track col.key; let cIdx = $index) {
+                  @if (col.visible !== false) {
+                    <td [style.left]="getStickyLeftOffset(cIdx) | widthCss"
+                        [style.right]="getStickyRightOffset(cIdx) | widthCss"
+                        [class.ks-sticky-left]="col.fixed === 'left'"
+                        [class.ks-sticky-right]="col.fixed === 'right'"
+                        [class.ks-align-left]="col.align === 'left'"
+                        [class.ks-align-center]="col.align === 'center'"
+                        [class.ks-align-right]="col.align === 'right'">
+                      
+                      <div [class.ks-cell-ellipsis]="col.ellipsis"
+                           [attr.title]="col.tooltip ? getTooltipText(row, col) : null"
+                           style="display: inline-flex; align-items: center; max-width: 100%;">
+                        
+                        <!-- Cell Custom Template -->
+                        @if (col.cellTemplate) {
+                          <ng-container *ngTemplateOutlet="col.cellTemplate; context: { $implicit: getCellValue(row, col.key), row: row, column: col }"></ng-container>
+                        } @else {
+                          <!-- Default Cell Type Formatter -->
+                          @switch (col.type) {
+                            @case ('number') {
+                              <span>{{ getCellValue(row, col.key) | numberFormatter:col:row }}</span>
+                            }
+                            @case ('date') {
+                              <span>{{ getCellValue(row, col.key) | dateFormatter:col:row }}</span>
+                            }
+                            @case ('currency') {
+                              <span>{{ getCellValue(row, col.key) | currencyFormatter:col:row }}</span>
+                            }
+                            @case ('status') {
+                              <span class="ks-status-badge status-{{ getCellValue(row, col.key) | lowercase }}">
+                                {{ getCellValue(row, col.key) }}
+                              </span>
+                            }
+                            @case ('image') {
+                              <img [src]="getCellValue(row, col.key)" 
+                                   style="max-width: 40px; max-height: 40px; border-radius: 6px; border: 1px solid var(--base-table-border-color);" 
+                                   alt="Cell preview" />
+                            }
+                            @default {
+                              <span>{{ getCellValue(row, col.key) | textFormatter:col:row }}</span>
+                            }
+                          }
+                        }
+
+                        <!-- Copy Button -->
+                        @if (col.copyable) {
+                          <button class="ks-copy-btn" 
+                                  (click)="copyCellText($event, row, col)">
+                            <span class="material-symbols-outlined text-[14px]">content_copy</span>
+                          </button>
+                        }
+                      </div>
+
+                    </td>
+                  }
+                }
+
+                <!-- Row Actions Column -->
+                @if (actions && actions.length > 0) {
+                  <td (click)="$event.stopPropagation()">
+                    @if (actionTemplate) {
+                      <ng-container *ngTemplateOutlet="actionTemplate; context: { $implicit: row, actions: actions }"></ng-container>
+                    } @else {
+                      @for (act of actions; track act.key) {
+                        @if (isActionVisible(act, row)) {
+                          <button class="ks-action-btn ks-action-{{ act.type || 'default' }} {{ act.className || '' }}"
+                                  [disabled]="isActionDisabled(act, row)"
+                                  [attr.title]="act.tooltip || null"
+                                  (click)="onActionTrigger(act, row)">
+                            @if (act.icon) {
+                              <span class="material-symbols-outlined text-[14px]">{{ act.icon }}</span>
+                            }
+                            <span>{{ act.label }}</span>
+                          </button>
+                        }
+                      }
+                    }
+                  </td>
+                }
+
+              </tr>
+
+              <!-- EXPANDABLE DRAWER ROW -->
+              @if (expandable && isExpanded(row)) {
+                <tr class="ks-expanded-row" (click)="$event.stopPropagation()">
+                  <td [attr.colspan]="getTotalColspan()">
+                    <div class="ks-expanded-content">
+                      @if (expandTemplate) {
+                        <ng-container *ngTemplateOutlet="expandTemplate; context: { $implicit: row }"></ng-container>
+                      } @else {
+                        <pre style="margin: 0; font-family: monospace; font-size: 11px; color: #a1a1aa;">{{ row | json }}</pre>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PAGINATION FOOTER -->
+    @if (showPagination) {
+      <div class="base-table-pagination">
+        <div class="ks-pag-info">
+          Showing <strong>{{ getStartRecord() }}-{{ getEndRecord() }}</strong> of <strong>{{ totalRecords }}</strong>
+        </div>
+
+        <div class="ks-pag-controls">
+          <!-- Page Size Dropdown -->
+          @if (pageSizeOptions && pageSizeOptions.length > 0) {
+            <span style="font-size: 11px;">Rows per page:</span>
+            <select class="ks-pag-select" 
+                    [ngModel]="pageSize" 
+                    (ngModelChange)="onPageSizeChange($event)">
+              @for (opt of pageSizeOptions; track opt) {
+                <option [value]="opt">{{ opt }}</option>
+              }
+            </select>
+          }
+
+          <!-- Pagination Buttons -->
+          <button class="ks-pag-btn" [disabled]="pageIndex === 1" (click)="onPageChange(1)">
+            <span class="material-symbols-outlined">first_page</span>
+          </button>
+          <button class="ks-pag-btn" [disabled]="pageIndex === 1" (click)="onPageChange(pageIndex - 1)">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+
+          <!-- Middle Page Buttons -->
+          @for (p of getVisiblePageRange(); track p) {
+            <button class="ks-pag-btn" 
+                    [class.ks-pag-active]="p === pageIndex" 
+                    (click)="onPageChange(p)">
+              {{ p }}
+            </button>
+          }
+
+          <button class="ks-pag-btn" [disabled]="pageIndex >= getTotalPages()" (click)="onPageChange(pageIndex + 1)">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+          <button class="ks-pag-btn" [disabled]="pageIndex >= getTotalPages()" (click)="onPageChange(getTotalPages())">
+            <span class="material-symbols-outlined">last_page</span>
+          </button>
+        </div>
+      </div>
+    }
+  }
+
+</div>
+
+<!-- CONFIRM ACTION DIALOG (MODAL OVERLAY) -->
+@if (showConfirmModal && pendingAction) {
+  <div class="ks-confirm-overlay" (click)="cancelConfirmAction()">
+    <div class="ks-confirm-modal" (click)="$event.stopPropagation()">
+      <div class="ks-confirm-title">
+        {{ getConfirmConfig().title || 'Confirm Action' }}
+      </div>
+      <div class="ks-confirm-desc">
+        {{ getConfirmConfig().message || 'Are you sure you want to proceed with this action?' }}
+      </div>
+      <div class="ks-confirm-actions">
+        <button class="ks-confirm-cancel" (click)="cancelConfirmAction()">
+          {{ getConfirmConfig().cancelText || 'Cancel' }}
+        </button>
+        <button class="ks-confirm-ok" (click)="submitConfirmAction()">
+          {{ getConfirmConfig().okText || 'OK' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

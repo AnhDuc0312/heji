@@ -1,0 +1,41 @@
+<div class="base-input-group" [class.ks-disabled]="disabled" [class.ks-has-error]="error">
+  
+  <!-- LABEL -->
+  @if (label) {
+    <label class="base-input-label">{{ label }}</label>
+  }
+
+  <!-- INPUT CONTAINER -->
+  <div class="base-input-container">
+    
+    <!-- LEFT ICON -->
+    @if (icon && iconPosition === 'left') {
+      <span class="material-symbols-outlined ks-input-icon icon-left">{{ icon }}</span>
+    }
+
+    <input [type]="type"
+           [placeholder]="placeholder"
+           [disabled]="disabled"
+           [value]="value"
+           [class.has-icon-left]="icon && iconPosition === 'left'"
+           [class.has-icon-right]="icon && iconPosition === 'right'"
+           (input)="onInputValueChange($event)"
+           (blur)="onBlur()"
+           class="base-input-element" />
+
+    <!-- RIGHT ICON -->
+    @if (icon && iconPosition === 'right') {
+      <span class="material-symbols-outlined ks-input-icon icon-right">{{ icon }}</span>
+    }
+
+  </div>
+
+  <!-- ERROR MESSAGE -->
+  @if (error) {
+    <div class="base-input-error">{{ error }}</div>
+  } @else if (hint) {
+    <!-- HINT MESSAGE -->
+    <div class="base-input-hint">{{ hint }}</div>
+  }
+
+</div>

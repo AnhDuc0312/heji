@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LanguageService, LanguageType } from '../../../core/services/language.service';
 import { ConnectService } from '../../../core/services/connect.service';
+import { ThemeService } from '../../../core/services/theme.service';
 
 interface SubpageLink {
   labelKey: string;
@@ -24,6 +25,7 @@ interface NavCategory {
 export class NavbarComponent {
   public readonly lang = inject(LanguageService);
   public readonly connect = inject(ConnectService);
+  public readonly themeService = inject(ThemeService);
 
   isMobileMenuOpen = false;
   isLangDropdownOpen = false;
@@ -65,6 +67,8 @@ export class NavbarComponent {
     {
       labelKey: 'NAV_SHOWCASE',
       links: [
+        { labelKey: 'NAV_UI_DOCS', route: '/ui/docs' },
+        { labelKey: 'NAV_UI_KIT', route: '/ui/playground' },
         { labelKey: 'SUB_3D_EXPERIENCE', route: '/draft/showcase/3d-experience' },
         { labelKey: 'SUB_SPHERE', route: '/draft/sphere' },
         { labelKey: 'SUB_DESIGN_SYSTEM', route: '/draft/design-system' },

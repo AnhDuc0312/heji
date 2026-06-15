@@ -40,6 +40,16 @@ export class ConsoleComponent implements AfterViewInit {
   challengeActive = false;
   challengeSuccess = false;
 
+  // Gamification Challenge Variables
+  activeChallenge: 'balancer' | 'codebreaker' | 'miner' | null = null;
+  challengeStartTime = 0;
+  codebreakerTarget = '';
+  codebreakerCipher = '';
+  minerTarget = 'neuralis_block_1042_';
+  leaderboard: Array<{ name: string, challenge: string, time: number, date: string }> = [];
+  justSolved: 'balancer' | 'codebreaker' | 'miner' | null = null;
+  solvedTime = 0;
+
   // Terminal log lines
   terminalLogs: string[] = [];
 
@@ -55,6 +65,7 @@ export class ConsoleComponent implements AfterViewInit {
   constructor() {
     this.selectedNode = this.nodes[0];
     this.initializeLogs();
+    this.loadLeaderboard();
   }
 
   ngAfterViewInit() {
@@ -250,7 +261,61 @@ export class ConsoleComponent implements AfterViewInit {
         break;
 
       case 'challenge':
-        this.runChallengeInit();
+        const sub = parts[1];
+        if (!sub) {
+          this.terminalLogs.push(
+            `=== NEURALIS SECURITY PUZZLES ===\n` +
+            `Available sub-commands:\n` +
+            `  challenge list             - View all puzzle challenges\n` +
+            `  challenge start [id|name]  - Start a puzzle (e.g. challenge start miner)\n` +
+            `  challenge status           - View current active challenge status\n` +
+            `  challenge leaderboard      - View high-score developer list`
+          );
+        } else if (sub === 'list') {
+          this.terminalLogs.push(
+            `=== CHALLENGES LIST ===\n` +
+            `  1. balancer    - System Resource Allocation Slider Puzzle (Easy)\n` +
+            `  2. codebreaker - Decrypt a randomized Base64 cipher (Medium)\n` +
+            `  3. miner       - Find a Proof-of-Work nonce to mine a block (Hard)`
+          );
+        } else if (sub === 'leaderboard') {
+          this.printLeaderboardCLI();
+        } else if (sub === 'status') {
+          if (this.activeChallenge) {
+            const elapsed = Math.round((Date.now() - this.challengeStartTime) / 1000);
+            this.terminalLogs.push(`Active Challenge: ${this.activeChallenge.toUpperCase()} (Elapsed time: ${elapsed}s)`);
+          } else {
+            this.terminalLogs.push('No active challenge. Start one with: "challenge start [name]"');
+          }
+        } else if (sub === 'start') {
+          const targetChallenge = parts[2];
+          if (!targetChallenge) {
+            this.terminalLogs.push('Usage: challenge start [balancer|codebreaker|miner]');
+          } else {
+            this.startChallenge(targetChallenge);
+          }
+        } else {
+          this.terminalLogs.push(`Unknown sub-command: challenge ${sub}`);
+        }
+        break;
+
+      case 'submit':
+        const answer = parts.slice(1).join(' ').trim();
+        this.handleCipherSubmit(answer);
+        break;
+
+      case 'mine':
+        const nonce = parts[1];
+        if (!nonce) {
+          this.terminalLogs.push('Usage: mine [nonce_number] (e.g. "mine 42")');
+        } else {
+          this.handleMining(nonce);
+        }
+        break;
+
+      case 'name':
+        const nameVal = parts.slice(1).join(' ').trim();
+        this.handleNameRegistration(nameVal);
         break;
 
       default:
@@ -343,34 +408,90 @@ export class ConsoleComponent implements AfterViewInit {
     this.terminalLogs = [this.lang.t('CLI_WELCOME')];
   }
 
-  private runRPCSequence(network: string) {
+  private async runRPCSequence(network: string) {
     this.isProcessing = true;
     this.terminalLogs.push(`Querying RPC diagnostics for ${network.toUpperCase()} mainnet...`);
-    
-    let step = 0;
-    const stats = [
-      `[INFO] Handshake verified with node rpc-${network}-1.mainnet.org`,
-      `[INFO] Block height: ${network === 'solana' ? '284,910,233' : (network === 'ethereum' ? '19,842,012' : '4,842,910')}`,
-      `[INFO] Latency: ${Math.floor(Math.random() * 20) + 5}ms`,
-      `[SUCCESS] RPC nodes active. Status: 100% operational.`
-    ];
-    
-    const interval = setInterval(() => {
-      this.terminalLogs.push(stats[step]);
-      this.scrollToBottom();
-      step++;
-      
-      if (step >= stats.length) {
-        clearInterval(interval);
+    this.scrollToBottom();
+
+    if (network === 'neuralis') {
+      setTimeout(() => {
+        this.addLogLine(`[INFO] Handshake verified with rpc-neuralis-1.mainnet.org`);
+        this.addLogLine(`[INFO] Current Epoch Slot: 4,842,910 (Block Height: 9,234,812)`);
+        this.addLogLine(`[SUCCESS] Neuralis Consensus validator pipeline 100% operational.`);
         this.isProcessing = false;
         this.scrollToBottom();
+      }, 800);
+      return;
+    }
+
+    try {
+      const startTime = Date.now();
+      let blockNumber = '';
+      let endpoint = '';
+      let bodyData = {};
+
+      if (network === 'ethereum') {
+        endpoint = 'https://cloudflare-eth.com';
+        bodyData = { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: 1 };
+      } else if (network === 'solana') {
+        endpoint = 'https://api.mainnet-beta.solana.com';
+        bodyData = { jsonrpc: '2.0', id: 1, method: 'getEpochInfo' };
       }
-    }, 350);
+
+      this.addLogLine(`[INFO] Contacting endpoint: ${endpoint}`);
+      this.scrollToBottom();
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP status ${response.status}`);
+      }
+
+      const json = await response.json();
+      const latency = Date.now() - startTime;
+
+      if (network === 'ethereum') {
+        const hex = json.result;
+        const num = parseInt(hex, 16);
+        blockNumber = num.toLocaleString();
+        this.addLogLine(`[INFO] Handshake verified with Ethereum Node.`);
+        this.addLogLine(`[INFO] Latest Block Height: ${blockNumber}`);
+      } else if (network === 'solana') {
+        const slot = json.result.absoluteSlot;
+        const height = json.result.blockHeight || slot;
+        blockNumber = height.toLocaleString();
+        this.addLogLine(`[INFO] Handshake verified with Solana Node.`);
+        this.addLogLine(`[INFO] Current Absolute Slot: ${slot.toLocaleString()} (Height: ${blockNumber})`);
+      }
+
+      this.addLogLine(`[INFO] Connection latency: ${latency}ms`);
+      this.addLogLine(`[SUCCESS] RPC metrics query complete.`);
+
+    } catch (err: any) {
+      this.addLogLine(`[WARNING] Public RPC query failed: ${err.message || err}`);
+      this.addLogLine(`[INFO] Falling back to local cached network telemetry...`);
+      const mockHeight = network === 'ethereum' ? '20,123,892' : '285,102,945';
+      this.addLogLine(`[INFO] Handshake verified with fallback-${network}-rpc.org`);
+      this.addLogLine(`[INFO] Cache Block Height: ${mockHeight} (latency: 45ms)`);
+      this.addLogLine(`[SUCCESS] Backup link established.`);
+    } finally {
+      this.isProcessing = false;
+      this.scrollToBottom();
+    }
+  }
+
+  private addLogLine(line: string) {
+    this.terminalLogs.push(line);
   }
 
   private runChallengeInit() {
     this.challengeActive = true;
     this.challengeSuccess = false;
+    this.justSolved = null;
     
     // Set a corrupted/unoptimized state
     this.cpuAlloc = 15;
@@ -399,7 +520,7 @@ export class ConsoleComponent implements AfterViewInit {
       `  1. Adjust CPU Allocation to 80% or higher.\n` +
       `  2. Adjust Memory Allocation to 70% or higher.\n` +
       `  3. Adjust Network Allocation to 90% or higher.\n` +
-      `  4. Type 'optimize' to perform diagnostic sync.\n` +
+      `  4. Type "optimize" to perform diagnostic sync.\n` +
       `  (Solve this puzzle to obtain the Dev Access Keys!)`
     );
     this.scrollToBottom();
@@ -415,6 +536,9 @@ export class ConsoleComponent implements AfterViewInit {
       if (this.cpuAlloc >= 80 && this.ramAlloc >= 70 && this.netAlloc >= 90) {
         this.challengeSuccess = true;
         this.challengeActive = false;
+        this.activeChallenge = null;
+        this.solvedTime = (Date.now() - this.challengeStartTime) / 1000;
+        this.justSolved = 'balancer';
         
         // Recover nodes
         this.nodes = this.nodes.map(n => ({ ...n, status: 'operational', latency: Math.floor(Math.random() * 8) + 4 }));
@@ -430,10 +554,10 @@ export class ConsoleComponent implements AfterViewInit {
           `*** CONGRATULATIONS: CHALLENGE SOLVED! ***\n` +
           `==========================================\n` +
           `  Sync latency restored to 6ms.\n` +
-          `  Validator status: OPERATIONAL (100% efficiency).\n` +
+          `  Validator status: OPERATIONAL (100% efficiency).\n\n` +
           `  [ACCESS KEY GRANTED]:\n` +
-          `  sk_neural_live_a8f9d0c2e3b1474ea9e9a5c8df59f13\n` +
-          `  (Use this secret key to log into /draft/dashboard!)`
+          `  sk_neural_live_a8f9d0c2e3b1474ea9e9a5c8df59f13\n\n` +
+          `  Type "name [your_name]" to register your score on the leaderboard!`
         );
       } else {
         this.terminalLogs.push(
@@ -442,12 +566,183 @@ export class ConsoleComponent implements AfterViewInit {
           `    - CPU required: >=80% (Current: ${this.cpuAlloc}%)\n` +
           `    - Memory required: >=70% (Current: ${this.ramAlloc}%)\n` +
           `    - Network required: >=90% (Current: ${this.netAlloc}%)\n` +
-          `  Please adjust sliders and try 'optimize' again.`
+          `  Please adjust sliders and try "optimize" again.`
         );
       }
       this.isProcessing = false;
       this.scrollToBottom();
     }, 1200);
+  }
+
+  private loadLeaderboard() {
+    if (typeof window === 'undefined') return;
+    const data = localStorage.getItem('neuralis_leaderboard');
+    if (data) {
+      this.leaderboard = JSON.parse(data);
+    } else {
+      this.leaderboard = [
+        { name: 'QuantumByte', challenge: 'Balancer', time: 14.5, date: '2026-06-08' },
+        { name: 'CyberSamurai', challenge: 'Codebreaker', time: 28.2, date: '2026-06-09' },
+        { name: 'HexMiner', challenge: 'Miner', time: 39.8, date: '2026-06-10' }
+      ];
+      localStorage.setItem('neuralis_leaderboard', JSON.stringify(this.leaderboard));
+    }
+  }
+
+  private saveScore(name: string, challenge: string, timeSeconds: number) {
+    if (typeof window === 'undefined') return;
+    const entry = {
+      name: name || 'Anonymous Dev',
+      challenge: challenge,
+      time: parseFloat(timeSeconds.toFixed(1)),
+      date: new Date().toISOString().split('T')[0]
+    };
+    this.leaderboard.push(entry);
+    this.leaderboard.sort((a, b) => a.time - b.time);
+    localStorage.setItem('neuralis_leaderboard', JSON.stringify(this.leaderboard));
+  }
+
+  private printLeaderboardCLI() {
+    this.loadLeaderboard();
+    this.terminalLogs.push(`=== NEURALIS DEVELOPER LEADERBOARD ===`);
+    this.leaderboard.forEach((entry, idx) => {
+      this.terminalLogs.push(
+        `  ${idx + 1}. ${entry.name.padEnd(12)} | ${entry.challenge.padEnd(12)} | ${entry.time}s | ${entry.date}`
+      );
+    });
+    this.scrollToBottom();
+  }
+
+  private startChallenge(target: string) {
+    this.loadLeaderboard();
+    this.challengeSuccess = false;
+    this.justSolved = null;
+    this.solvedTime = 0;
+
+    if (target === '1' || target === 'balancer') {
+      this.activeChallenge = 'balancer';
+      this.challengeStartTime = Date.now();
+      this.runChallengeInit();
+    } else if (target === '2' || target === 'codebreaker') {
+      this.activeChallenge = 'codebreaker';
+      this.challengeStartTime = Date.now();
+      this.challengeActive = true;
+      this.codebreakerTarget = 'NEURAL_KEY_' + Math.random().toString(16).substring(2, 6).toUpperCase();
+      this.codebreakerCipher = btoa(this.codebreakerTarget);
+
+      this.terminalLogs.push(
+        `=== Cryptographic Codebreaker Challenge Initialized ===\n` +
+        `  Decrypt the following Base64 cipher key:\n` +
+        `  Cipher: ${this.codebreakerCipher}\n\n` +
+        `Instructions:\n` +
+        `  1. Decode this text (Hint: use the "decode [string]" command).\n` +
+        `  2. Submit your decoded string by typing: "submit [answer]" (e.g. submit NEURAL_KEY_ABCD)`
+      );
+    } else if (target === '3' || target === 'miner') {
+      this.activeChallenge = 'miner';
+      this.challengeStartTime = Date.now();
+      this.challengeActive = true;
+      
+      this.terminalLogs.push(
+        `=== Proof-of-Work Block Miner Challenge Initialized ===\n` +
+        `  Find a numeric nonce such that the block hash starts with '0' (difficulty target).\n` +
+        `  Block prefix: ${this.minerTarget}\n\n` +
+        `Instructions:\n` +
+        `  Try different nonces by typing "mine [number]" (e.g. "mine 42", "mine 108"...) until the block hash starts with '0'!`
+      );
+    } else {
+      this.terminalLogs.push(`Error: Challenge "${target}" not found. Type "challenge list" for available options.`);
+    }
+    this.scrollToBottom();
+  }
+
+  private handleCipherSubmit(answer: string) {
+    if (this.activeChallenge !== 'codebreaker') {
+      this.terminalLogs.push("Error: No active codebreaker challenge. Start one with: 'challenge start codebreaker'");
+      this.scrollToBottom();
+      return;
+    }
+
+    if (answer.toUpperCase() === this.codebreakerTarget.toUpperCase()) {
+      this.challengeSuccess = true;
+      this.challengeActive = false;
+      this.activeChallenge = null;
+      this.solvedTime = (Date.now() - this.challengeStartTime) / 1000;
+      this.justSolved = 'codebreaker';
+
+      this.terminalLogs.push(
+        `==========================================\n` +
+        `*** CONGRATULATIONS: DECRYPTION MATCH! ***\n` +
+        `==========================================\n` +
+        `  Decrypted: ${this.codebreakerTarget}\n` +
+        `  Time taken: ${this.solvedTime.toFixed(1)} seconds.\n\n` +
+        `  [ACCESS KEY GRANTED]:\n` +
+        `  sk_neural_live_a8f9d0c2e3b1474ea9e9a5c8df59f13\n\n` +
+        `  Type "name [your_name]" to register your score on the leaderboard!`
+      );
+    } else {
+      this.terminalLogs.push(`[ERROR] Decryption mismatch. Provided: "${answer}". Try again!`);
+    }
+    this.scrollToBottom();
+  }
+
+  private handleMining(nonce: string) {
+    if (this.activeChallenge !== 'miner') {
+      this.terminalLogs.push("Error: No active miner challenge. Start one with: 'challenge start miner'");
+      this.scrollToBottom();
+      return;
+    }
+
+    const test = `${this.minerTarget}${nonce}`;
+    let h = 0;
+    for (let i = 0; i < test.length; i++) {
+      h = (h << 5) - h + test.charCodeAt(i);
+      h |= 0;
+    }
+    const hex = Math.abs(h).toString(16).padStart(8, '0');
+    
+    this.terminalLogs.push(`[MINING] Nonce: ${nonce} | Block Hash: ${hex}`);
+
+    if (hex.startsWith('0')) {
+      this.challengeSuccess = true;
+      this.challengeActive = false;
+      this.activeChallenge = null;
+      this.solvedTime = (Date.now() - this.challengeStartTime) / 1000;
+      this.justSolved = 'miner';
+
+      this.terminalLogs.push(
+        `==========================================\n` +
+        `*** CONGRATULATIONS: BLOCK MINED! ***\n` +
+        `==========================================\n` +
+        `  Winning Hash: ${hex}\n` +
+        `  Nonce: ${nonce}\n` +
+        `  Time taken: ${this.solvedTime.toFixed(1)} seconds.\n\n` +
+        `  [ACCESS KEY GRANTED]:\n` +
+        `  sk_neural_live_a8f9d0c2e3b1474ea9e9a5c8df59f13\n\n` +
+        `  Type "name [your_name]" to register your score on the leaderboard!`
+      );
+    } else {
+      this.terminalLogs.push(`  Hash does not meet target difficulty (must start with '0'). Keep mining!`);
+    }
+    this.scrollToBottom();
+  }
+
+  private handleNameRegistration(nameVal: string) {
+    if (!this.justSolved || this.solvedTime <= 0) {
+      this.terminalLogs.push('Error: No pending challenge solve found to register.');
+      this.scrollToBottom();
+      return;
+    }
+
+    const name = nameVal || 'Anonymous Dev';
+    const challengeName = this.justSolved === 'balancer' ? 'Balancer' : 
+                          this.justSolved === 'codebreaker' ? 'Codebreaker' : 'Miner';
+    
+    this.saveScore(name, challengeName, this.solvedTime);
+    this.terminalLogs.push(`[SUCCESS] Registered ${name} on the leaderboard with time ${this.solvedTime.toFixed(1)}s!`);
+    this.justSolved = null;
+    this.solvedTime = 0;
+    this.printLeaderboardCLI();
   }
 
   private scrollToBottom() {

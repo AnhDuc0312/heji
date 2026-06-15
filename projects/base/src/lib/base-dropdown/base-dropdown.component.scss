@@ -1,0 +1,114 @@
+.base-dropdown {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.base-dropdown-trigger {
+  display: inline-block;
+}
+
+.base-dropdown-menu-panel {
+  position: absolute;
+  background-color: var(--base-select-dropdown-bg, #121214);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  z-index: 500;
+  min-width: 160px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: dropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  // Placement variables
+  &.placement-bottom-left {
+    top: 100%;
+    left: 0;
+    margin-top: 6px;
+  }
+
+  &.placement-bottom-right {
+    top: 100%;
+    right: 0;
+    margin-top: 6px;
+  }
+
+  &.placement-top-left {
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 6px;
+  }
+
+  &.placement-top-right {
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 6px;
+  }
+
+  // Common menu item styles inside dropdown
+  ::ng-deep {
+    .base-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--base-select-option-color, #e4e4e7);
+      background: none;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      outline: none;
+
+      .material-symbols-outlined {
+        font-size: 16px;
+        color: var(--text-secondary, #a1a1aa);
+      }
+
+      &:hover:not(:disabled) {
+        background-color: var(--base-select-option-hover, rgba(255, 255, 255, 0.03));
+        color: var(--text-primary, #ffffff);
+        .material-symbols-outlined {
+          color: var(--text-primary, #ffffff);
+        }
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      
+      &.ks-danger {
+        color: #ef4444;
+        &:hover {
+          background-color: rgba(239, 68, 68, 0.1);
+          color: #ef4444;
+          .material-symbols-outlined {
+            color: #ef4444;
+          }
+        }
+      }
+    }
+    
+    .base-dropdown-divider {
+      height: 1px;
+      background-color: var(--border-color, rgba(255, 255, 255, 0.08));
+      margin: 4px 0;
+    }
+  }
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: scale(0.95) translateY(4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}

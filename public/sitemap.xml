@@ -8,37 +8,37 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/landing-b</loc>
+    <loc>https://hejidraft.com/draft/landing-b</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/landing-a</loc>
+    <loc>https://hejidraft.com/draft/landing-a</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/sphere</loc>
+    <loc>https://hejidraft.com/draft/sphere</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/design-system</loc>
+    <loc>https://hejidraft.com/draft/design-system</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/console</loc>
+    <loc>https://hejidraft.com/draft/console</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/dashboard</loc>
+    <loc>https://hejidraft.com/draft/dashboard</loc>
     <lastmod>2026-06-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -46,37 +46,37 @@
 
   <!-- Platform Routes -->
   <url>
-    <loc>https://hejidraft.com/#/draft/platform/quantum-compute</loc>
+    <loc>https://hejidraft.com/draft/platform/quantum-compute</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/platform/neural-mesh</loc>
+    <loc>https://hejidraft.com/draft/platform/neural-mesh</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/platform/bio-sync</loc>
+    <loc>https://hejidraft.com/draft/platform/bio-sync</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/platform/security</loc>
+    <loc>https://hejidraft.com/draft/platform/security</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/platform/api</loc>
+    <loc>https://hejidraft.com/draft/platform/api</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/platform/performance</loc>
+    <loc>https://hejidraft.com/draft/platform/performance</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -84,31 +84,31 @@
 
   <!-- Ecosystem Routes -->
   <url>
-    <loc>https://hejidraft.com/#/draft/ecosystem/nodes</loc>
+    <loc>https://hejidraft.com/draft/ecosystem/nodes</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/ecosystem/validators</loc>
+    <loc>https://hejidraft.com/draft/ecosystem/validators</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/ecosystem/tokenomics</loc>
+    <loc>https://hejidraft.com/draft/ecosystem/tokenomics</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/ecosystem/governance</loc>
+    <loc>https://hejidraft.com/draft/ecosystem/governance</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/ecosystem/integrations</loc>
+    <loc>https://hejidraft.com/draft/ecosystem/integrations</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -116,7 +116,7 @@
 
   <!-- Showcase Routes -->
   <url>
-    <loc>https://hejidraft.com/#/draft/showcase/3d-experience</loc>
+    <loc>https://hejidraft.com/draft/showcase/3d-experience</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -124,37 +124,37 @@
 
   <!-- Docs Routes -->
   <url>
-    <loc>https://hejidraft.com/#/draft/docs/getting-started</loc>
+    <loc>https://hejidraft.com/draft/docs/getting-started</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/docs/architecture</loc>
+    <loc>https://hejidraft.com/draft/docs/architecture</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/docs/cli-reference</loc>
+    <loc>https://hejidraft.com/draft/docs/cli-reference</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/docs/api-reference</loc>
+    <loc>https://hejidraft.com/draft/docs/api-reference</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/docs/tutorials</loc>
+    <loc>https://hejidraft.com/draft/docs/tutorials</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/docs/faq</loc>
+    <loc>https://hejidraft.com/draft/docs/faq</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -162,31 +162,31 @@
 
   <!-- Legal Routes -->
   <url>
-    <loc>https://hejidraft.com/#/draft/legal/terms</loc>
+    <loc>https://hejidraft.com/draft/legal/terms</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/legal/privacy</loc>
+    <loc>https://hejidraft.com/draft/legal/privacy</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/legal/security-policy</loc>
+    <loc>https://hejidraft.com/draft/legal/security-policy</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/legal/compliance</loc>
+    <loc>https://hejidraft.com/draft/legal/compliance</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://hejidraft.com/#/draft/legal/sla</loc>
+    <loc>https://hejidraft.com/draft/legal/sla</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>

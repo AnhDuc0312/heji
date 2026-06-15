@@ -94,6 +94,204 @@ export class ContentPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  // --- Lattice Cryptography Key Generator ---
+  latticePrivateKey = signal<string>('');
+  latticePublicKey = signal<string>('');
+  latticeGenerating = signal<boolean>(false);
+
+  generateLatticeKeys() {
+    this.latticeGenerating.set(true);
+    this.latticePrivateKey.set('');
+    this.latticePublicKey.set('');
+    setTimeout(() => {
+      const hex = '0123456789abcdef';
+      let priv = 'LATTICE-PRIV-';
+      let pub = 'LATTICE-PUB-';
+      for (let i = 0; i < 40; i++) {
+        priv += hex[Math.floor(Math.random() * 16)];
+        pub += hex[Math.floor(Math.random() * 16)];
+      }
+      this.latticePrivateKey.set(priv);
+      this.latticePublicKey.set(pub);
+      this.latticeGenerating.set(false);
+      this.showToast('Lattice keys generated successfully!');
+    }, 1000);
+  }
+
+  // --- API Sandbox runner ---
+  selectedApiEndpoint = '/v1/status';
+  apiResponse = signal<string>('');
+  apiResponseStatus = signal<number | null>(null);
+  apiExecuting = signal<boolean>(false);
+
+  executeMockApiCall() {
+    this.apiExecuting.set(true);
+    this.apiResponse.set('');
+    this.apiResponseStatus.set(null);
+    setTimeout(() => {
+      this.apiResponseStatus.set(200);
+      let data = {};
+      switch (this.selectedApiEndpoint) {
+        case '/v1/status':
+          data = { status: 'nominal', uptime_seconds: 124590, network_load: '14.2%', version: '4.0.2-patch' };
+          break;
+        case '/v1/nodes':
+          data = {
+            total_active: 1245082,
+            geographic_distribution: { 'us-east': 354020, 'eu-central': 410294, 'ap-northeast': 480768 },
+            consensus_health: '99.98%'
+          };
+          break;
+        case '/v1/metrics':
+          data = {
+            tps: 84092,
+            average_block_time_ms: 1240,
+            gas_price_gwei: 0.045,
+            slashed_validators_24h: 0
+          };
+          break;
+      }
+      this.apiResponse.set(JSON.stringify(data, null, 2));
+      this.apiExecuting.set(false);
+    }, 600);
+  }
+
+  // --- Hardware performance stress tester ---
+  stressActive = signal<boolean>(false);
+  stressCoreTemp = signal<number>(38);
+  stressIops = signal<number>(0);
+  stressProgress = signal<number>(0);
+
+  runStressTest() {
+    if (this.stressActive()) return;
+    this.stressActive.set(true);
+    this.stressCoreTemp.set(38);
+    this.stressIops.set(0);
+    this.stressProgress.set(0);
+
+    const interval = setInterval(() => {
+      const prog = this.stressProgress();
+      if (prog < 100) {
+        this.stressProgress.set(prog + 10);
+        this.stressCoreTemp.set(Math.floor(38 + (prog / 100) * 32 + Math.random() * 4));
+        this.stressIops.set(Math.floor((prog / 100) * 4500000 + Math.random() * 200000));
+      } else {
+        clearInterval(interval);
+        setTimeout(() => {
+          this.stressActive.set(false);
+          this.stressProgress.set(0);
+          this.stressCoreTemp.set(38);
+          this.stressIops.set(0);
+          this.showToast('Hardware stress test completed successfully.');
+        }, 1500);
+      }
+    }, 300);
+  }
+
+  // --- Consensus Validators Staking Delegation ---
+  validatorsList = [
+    { name: 'Apex Validator Node 01', address: '0x992...381a', commission: '2.0%', totalStake: '12,500,000 $NEURAL', delegated: 0 },
+    { name: 'Solstice Mesh Gateway', address: '0xaa1...f98c', commission: '1.5%', totalStake: '9,840,000 $NEURAL', delegated: 0 },
+    { name: 'Lattice Sentinel', address: '0xcd3...675d', commission: '0.5%', totalStake: '15,200,000 $NEURAL', delegated: 0 }
+  ];
+  selectedValidatorIndex = 0;
+  delegationAmount = 1000;
+  isDelegating = signal<boolean>(false);
+
+  delegateToValidator() {
+    this.isDelegating.set(true);
+    setTimeout(() => {
+      this.validatorsList[this.selectedValidatorIndex].delegated += this.delegationAmount;
+      this.isDelegating.set(false);
+      this.showToast(`Successfully delegated ${this.delegationAmount} $NEURAL to validator!`);
+    }, 1200);
+  }
+
+  // --- Governance Proposal Voting ---
+  proposals = [
+    { id: 'NIP-042', title: 'Enable Lattice cryptography keys globally', votesFor: 1254020, votesAgainst: 320490, voted: false },
+    { id: 'NIP-043', title: 'Reduce standard staking lockup from 14 days to 7 days', votesFor: 840900, votesAgainst: 890450, voted: false },
+    { id: 'NIP-044', title: 'Increase developer API sandbox rate limit by 200%', votesFor: 2540910, votesAgainst: 12040, voted: false }
+  ];
+
+  voteForProposal(index: number, choice: 'for' | 'against') {
+    const prop = this.proposals[index];
+    if (prop.voted) {
+      this.showToast('You have already voted on this proposal!');
+      return;
+    }
+    if (choice === 'for') {
+      prop.votesFor += 50000;
+    } else {
+      prop.votesAgainst += 50000;
+    }
+    prop.voted = true;
+    this.showToast(`Your vote of 50,000 $NEURAL has been registered!`);
+  }
+
+  getProposalPercentage(prop: any, choice: 'for' | 'against'): string {
+    const total = prop.votesFor + prop.votesAgainst;
+    if (total === 0) return '50%';
+    const val = choice === 'for' ? prop.votesFor : prop.votesAgainst;
+    return `${Math.round((val / total) * 100)}%`;
+  }
+
+  // --- Integration tabs & codes ---
+  integrationTab = 'evm';
+  integrationSnippet = {
+    evm: `import { ethers } from "ethers";\n\n// Connect to Neuralis EVM Gateway Socket\nconst provider = new ethers.providers.JsonRpcProvider("https://cloudflare-eth.com");\nconst wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);\n\nconsole.log("Validator connected:", wallet.address);`,
+    solana: `const { Connection, PublicKey } = require("@solana/web3.js");\n\n// Establish Solana Validator pipeline\nconst connection = new Connection("https://api.mainnet-beta.solana.com", "confirmed");\nconst key = new PublicKey("71C...92A");\n\nconsole.log("Solana slot:", await connection.getSlot());`,
+    cosmos: `import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";\n\n// Connect to Cosmos Tendermint core\nconst client = await CosmWasmClient.connect("https://rpc.cosmos.network");\nconst chainId = await client.getChainId();\n\nconsole.log("Cosmos core chain ID:", chainId);`
+  };
+
+  copyIntegrationSnippet() {
+    const text = this.integrationSnippet[this.integrationTab as 'evm' | 'solana' | 'cosmos'];
+    navigator.clipboard.writeText(text).then(() => {
+      this.showToast('Integration snippet copied to clipboard!');
+    });
+  }
+
+  // --- Tutorials progress trackers ---
+  tutorialsList = [
+    { title: 'CLI Node Setup', difficulty: 'Beginner', duration: '5 mins', completed: true },
+    { title: 'Deploying Custom Agents', difficulty: 'Intermediate', duration: '15 mins', completed: false },
+    { title: 'Byzantine Fault Tolerance Staking', difficulty: 'Advanced', duration: '25 mins', completed: false }
+  ];
+
+  toggleTutorialCompleted(index: number) {
+    this.tutorialsList[index].completed = !this.tutorialsList[index].completed;
+  }
+
+  get tutorialsProgressPercent(): number {
+    const comp = this.tutorialsList.filter(t => t.completed).length;
+    return Math.round((comp / this.tutorialsList.length) * 100);
+  }
+
+  // --- Compliance Check List ---
+  complianceItems = [
+    { text: 'Verify smart contracts under audited parameters', done: true },
+    { text: 'Run multi-region fallback redundancy simulation', done: false },
+    { text: 'Set up key-rotations for validator nodes', done: false },
+    { text: 'Comply with GDPR privacy constraints on local cache storage', done: true }
+  ];
+
+  toggleComplianceItem(index: number) {
+    this.complianceItems[index].done = !this.complianceItems[index].done;
+  }
+
+  // --- Helper to display notification toasts ---
+  showToast(msg: string) {
+    this.toastMessage = msg;
+    this.toastVisible = true;
+    setTimeout(() => {
+      this.toastVisible = false;
+    }, 2500);
+  }
+
+  // --- Legal Helpers ---
+  selectedBountySev = 'Low Severity';
+  termsAccepted = false;
+
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
       const cat = params['category'] || '';

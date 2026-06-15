@@ -1,0 +1,551 @@
+.base-table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: var(--base-table-font-family, inherit);
+  background-color: var(--base-table-bg, #121214);
+  color: var(--base-table-color, #ffffff);
+  border: 1px solid var(--base-table-border-color, rgba(255, 255, 255, 0.08));
+  border-radius: var(--base-table-border-radius, 12px);
+  overflow: hidden;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+// Table Wrapper for Scroll
+.base-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  position: relative;
+}
+
+.base-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: var(--base-table-font-size, 13px);
+
+  // Table Headers
+  thead {
+    background-color: var(--base-table-header-bg, rgba(255, 255, 255, 0.03));
+    border-bottom: 1px solid var(--base-table-border-color, rgba(255, 255, 255, 0.08));
+  }
+
+  th {
+    padding: var(--base-table-padding-y, 14px) var(--base-table-padding-x, 16px);
+    color: var(--base-table-header-color, #a1a1aa);
+    font-weight: 600;
+    font-size: var(--base-table-header-font-size, 12px);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    user-select: none;
+    position: relative;
+    white-space: nowrap;
+
+    &.ks-sortable {
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.02);
+      }
+    }
+  }
+
+  // Table Rows
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--base-table-border-color, rgba(255, 255, 255, 0.05));
+      background-color: transparent;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: var(--base-table-row-hover-bg, rgba(255, 255, 255, 0.02));
+      }
+
+      &.ks-row-selected {
+        background-color: var(--base-table-selected-row-bg, rgba(0, 219, 233, 0.06));
+      }
+
+      &.ks-row-clickable {
+        cursor: pointer;
+      }
+    }
+  }
+
+  td {
+    padding: var(--base-table-padding-y, 12px) var(--base-table-padding-x, 16px);
+    vertical-align: middle;
+    color: var(--base-table-color, #e4e4e7);
+  }
+
+  // Alignment classes
+  .ks-align-left { text-align: left; }
+  .ks-align-center { text-align: center; }
+  .ks-align-right { text-align: right; }
+
+  // Sticky columns support
+  .ks-sticky-left, .ks-sticky-right {
+    position: sticky;
+    z-index: 2;
+    background-color: inherit;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  th.ks-sticky-left, th.ks-sticky-right {
+    z-index: 3;
+    background-color: var(--base-table-header-bg, rgba(255, 255, 255, 0.03));
+  }
+
+  // Custom cell styles
+  .ks-cell-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  // Copy icon
+  .ks-copy-btn {
+    opacity: 0;
+    margin-left: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--base-table-primary, #00dbe9);
+    padding: 0;
+    vertical-align: middle;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  td:hover .ks-copy-btn {
+    opacity: 0.8;
+  }
+
+  // Status Indicator
+  .ks-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+
+    &.status-success {
+      background-color: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+    }
+    &.status-danger {
+      background-color: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+    &.status-warning {
+      background-color: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+    &.status-default {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #a1a1aa;
+    }
+  }
+
+  // Action column button
+  .ks-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.ks-action-primary {
+      background-color: var(--base-table-primary, #00dbe9);
+      color: #000;
+      &:hover:not(:disabled) {
+        opacity: 0.9;
+        box-shadow: 0 0 10px rgba(0, 219, 233, 0.3);
+      }
+    }
+
+    &.ks-action-danger {
+      background-color: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      &:hover:not(:disabled) {
+        background-color: #ef4444;
+        color: #fff;
+      }
+    }
+
+    &.ks-action-default {
+      background-color: var(--base-button-default-bg, rgba(255, 255, 255, 0.05));
+      border: 1px solid var(--base-button-border, rgba(255, 255, 255, 0.08));
+      color: var(--base-button-default-text, #e4e4e7);
+      &:hover:not(:disabled) {
+        background-color: var(--base-button-default-hover, rgba(255, 255, 255, 0.1));
+      }
+    }
+
+    &.ks-action-link {
+      background: none;
+      color: var(--base-table-primary, #00dbe9);
+      text-decoration: underline;
+      padding: 0;
+      &:hover:not(:disabled) {
+        opacity: 0.8;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  // Column Resizing Handles
+  .ks-resize-handle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    cursor: col-resize;
+    z-index: 10;
+    background-color: transparent;
+    transition: background-color 0.2s;
+
+    &:hover, &.ks-resizing {
+      background-color: var(--base-table-primary, #00dbe9);
+    }
+  }
+
+  // Sorting Indicators
+  .ks-sort-container {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    margin-left: 6px;
+    font-size: 10px;
+    line-height: 0.8;
+
+    .material-symbols-outlined {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.25);
+      transition: color 0.2s;
+
+      &.ks-active {
+        color: var(--base-table-primary, #00dbe9);
+      }
+    }
+  }
+
+  // Draggable columns indicator
+  th[draggable="true"] {
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  .ks-drag-over {
+    border-left: 2px dashed var(--base-table-primary, #00dbe9);
+  }
+}
+
+// Expanded details
+.ks-expanded-row {
+  background-color: rgba(255, 255, 255, 0.01) !important;
+  border-bottom: 1px solid var(--base-table-border-color, rgba(255, 255, 255, 0.08));
+  
+  .ks-expanded-content {
+    padding: 16px 24px;
+    animation: slideDown 0.3s ease-out;
+  }
+}
+
+// Loading, empty, and error overlays
+.ks-loading-container, .ks-empty-container, .ks-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  text-align: center;
+  width: 100%;
+  min-height: 180px;
+
+  .ks-spinner {
+    width: 28px;
+    height: 28px;
+    border: 2px solid rgba(0, 219, 233, 0.1);
+    border-top: 2px solid var(--base-table-primary, #00dbe9);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 12px;
+  }
+
+  .material-symbols-outlined {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .ks-empty-title, .ks-error-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .ks-empty-subtitle, .ks-error-subtitle {
+    color: #a1a1aa;
+    font-size: 12px;
+  }
+}
+
+.ks-error-container {
+  color: #ef4444;
+  .material-symbols-outlined {
+    color: #ef4444;
+  }
+}
+
+// Checkbox styling
+.ks-checkbox-wrapper {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    appearance: none;
+    background-color: transparent;
+    margin: 0;
+    font: inherit;
+    color: var(--base-table-primary, #00dbe9);
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+      box-shadow: inset 1em 1em var(--base-table-primary, #00dbe9);
+      border-radius: 2px;
+    }
+
+    &:checked {
+      border-color: var(--base-table-primary, #00dbe9);
+      box-shadow: 0 0 8px rgba(0, 219, 233, 0.25);
+      &::before {
+        transform: scale(1);
+      }
+    }
+
+    &:indeterminate {
+      border-color: var(--base-table-primary, #00dbe9);
+      &::before {
+        content: "";
+        width: 8px;
+        height: 2px;
+        transform: scale(1);
+        box-shadow: inset 1em 1em var(--base-table-primary, #00dbe9);
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+// Pagination styles
+.base-table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: justify;
+  padding: 12px 16px;
+  border-top: 1px solid var(--base-table-border-color, rgba(255, 255, 255, 0.08));
+  font-size: 12px;
+  color: #a1a1aa;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  .ks-pag-info {
+    flex-grow: 1;
+  }
+
+  .ks-pag-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ks-pag-select {
+    background-color: var(--base-button-default-bg, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--base-button-border, rgba(255, 255, 255, 0.08));
+    color: var(--text-primary, #fff);
+    padding: 4px 8px;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+    font-size: 11px;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: var(--base-table-primary, #00dbe9);
+    }
+
+    option {
+      background-color: var(--bg-tertiary, #121214);
+      color: var(--text-primary, #fff);
+    }
+  }
+
+  .ks-pag-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: 1px solid var(--base-button-border, rgba(255, 255, 255, 0.08));
+    background-color: var(--base-button-default-bg, rgba(255, 255, 255, 0.03));
+    color: var(--base-button-default-text, #e4e4e7);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    .material-symbols-outlined {
+      font-size: 16px;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: var(--base-button-default-hover, rgba(255, 255, 255, 0.08));
+      color: var(--text-primary, #fff);
+      border-color: var(--base-table-primary, #00dbe9);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    &.ks-pag-active {
+      background-color: var(--base-table-primary, #00dbe9);
+      color: #000;
+      border-color: var(--base-table-primary, #00dbe9);
+      font-weight: 600;
+    }
+  }
+}
+
+// Confirmation popover/modal layout
+.ks-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ks-confirm-modal {
+  background-color: var(--base-modal-bg, #121214);
+  border: 1px solid var(--base-modal-border, rgba(255, 255, 255, 0.1));
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  animation: scaleUp 0.2s ease-out;
+
+  .ks-confirm-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-primary, #fff);
+  }
+
+  .ks-confirm-desc {
+    font-size: 12px;
+    color: var(--text-secondary, #a1a1aa);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .ks-confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+
+    button {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .ks-confirm-cancel {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e4e4e7;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    .ks-confirm-ok {
+      background-color: #ef4444;
+      color: #fff;
+      &:hover {
+        opacity: 0.9;
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}

@@ -1,0 +1,40 @@
+<div class="base-progress-container" [class.ks-circle-mode]="type === 'circle'">
+  
+  @if (type === 'line') {
+    <!-- LINE MODE -->
+    <div class="base-progress-line-outer">
+      <div class="base-progress-line-inner" [style.height.px]="strokeWidth">
+        <div class="base-progress-line-bg progress-{{ status }}" 
+             [style.width.%]="value"></div>
+      </div>
+    </div>
+    
+    @if (showInfo) {
+      <span class="base-progress-info">{{ value }}%</span>
+    }
+  } @else {
+    <!-- CIRCLE MODE -->
+    <div class="base-progress-circle-outer" [style.width.px]="100" [style.height.px]="100">
+      <svg class="base-progress-circle-svg" viewBox="0 0 100 100">
+        <!-- Trail Circle -->
+        <circle class="base-progress-circle-trail" 
+                cx="50" cy="50" 
+                [attr.r]="radius" 
+                [attr.stroke-width]="strokeWidth" />
+        
+        <!-- Path Circle -->
+        <circle class="base-progress-circle-path progress-{{ status }}" 
+                cx="50" cy="50" 
+                [attr.r]="radius" 
+                [attr.stroke-width]="strokeWidth"
+                [attr.stroke-dasharray]="circumference"
+                [attr.stroke-dashoffset]="strokeDashoffset"
+                stroke-linecap="round" />
+      </svg>
+      @if (showInfo) {
+        <span class="base-progress-circle-info">{{ value }}%</span>
+      }
+    </div>
+  }
+
+</div>

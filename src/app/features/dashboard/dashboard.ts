@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   claimableRewards = signal<number>(158.425);
   apiKey = 'sk_neural_live_a8f9d0c2e3b1474ea9e9a5c8df59f13';
   showApiKey = signal<boolean>(false);
+  leaderboard = signal<any[]>([]);
 
   private rewardTimer: any;
 
@@ -38,7 +39,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     { name: 'Validator Delta (SIN1)', uptime: '100.00%', apy: 8.0, staked: 1500 }
   ]);
 
+  loadLeaderboard() {
+    if (typeof window === 'undefined') return;
+    const data = localStorage.getItem('neuralis_leaderboard');
+    if (data) {
+      this.leaderboard.set(JSON.parse(data));
+    } else {
+      const defaults = [
+        { name: 'QuantumByte', challenge: 'Balancer', time: 14.5, date: '2026-06-08' },
+        { name: 'CyberSamurai', challenge: 'Codebreaker', time: 28.2, date: '2026-06-09' },
+        { name: 'HexMiner', challenge: 'Miner', time: 39.8, date: '2026-06-10' }
+      ];
+      localStorage.setItem('neuralis_leaderboard', JSON.stringify(defaults));
+      this.leaderboard.set(defaults);
+    }
+  }
+
   ngOnInit() {
+    this.loadLeaderboard();
+    
     // Simulate slow real-time staking interest increments (ticking up)
     this.rewardTimer = setInterval(() => {
       if (this.connect.isConnected()) {

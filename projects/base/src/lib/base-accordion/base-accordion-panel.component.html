@@ -1,0 +1,16 @@
+<div class="base-accordion-panel" [class.ks-active]="active" [class.ks-disabled]="disabled">
+  
+  <!-- PANEL HEADER -->
+  <div class="base-accordion-header" (click)="toggle()">
+    <span class="base-accordion-title">{{ title }}</span>
+    <span class="material-symbols-outlined base-accordion-arrow">expand_more</span>
+  </div>
+
+  <!-- PANEL BODY -->
+  <div class="base-accordion-body-wrapper">
+    <div class="base-accordion-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+
+</div>

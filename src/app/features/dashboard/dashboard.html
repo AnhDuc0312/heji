@@ -171,6 +171,31 @@
           </div>
         </div>
 
+        <!-- Security Leaderboard -->
+        <div class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-md animate-fade-in">
+          <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface border-b border-white/5 pb-sm flex justify-between items-center">
+            <span>Terminal Leaderboard</span>
+            <span class="material-symbols-outlined text-tertiary text-[18px]">emoji_events</span>
+          </h3>
+
+          <div class="flex flex-col gap-sm">
+            <div *ngFor="let entry of leaderboard() | slice:0:5; let idx = index" 
+                 class="flex justify-between items-center py-xs border-b border-white/5 last:border-0 text-xs">
+              <div class="flex items-center gap-xs">
+                <span class="font-bold text-primary w-4">{{ idx + 1 }}</span>
+                <div class="flex flex-col">
+                  <span class="font-bold text-on-surface">{{ entry.name }}</span>
+                  <span class="text-[9px] text-on-surface-variant font-label-sm uppercase">{{ entry.challenge }}</span>
+                </div>
+              </div>
+              <div class="flex flex-col items-end">
+                <span class="font-mono font-bold text-green-400">{{ entry.time }}s</span>
+                <span class="text-[8px] text-on-surface-variant">{{ entry.date }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Workspace Activity Logs -->
         <div class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-md">
           <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface border-b border-white/5 pb-sm flex justify-between items-center">

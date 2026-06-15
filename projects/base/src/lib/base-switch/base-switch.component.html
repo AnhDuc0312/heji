@@ -1,0 +1,16 @@
+<div class="base-switch-wrapper" 
+     [class.ks-checked]="checked" 
+     [class.ks-disabled]="disabled"
+     (click)="toggle()">
+  
+  <!-- SWITCH BUTTON TRACK -->
+  <div class="base-switch-track">
+    <div class="base-switch-handle"></div>
+  </div>
+
+  <!-- LABEL TEXT -->
+  @if (label) {
+    <span class="base-switch-label">{{ label }}</span>
+  }
+
+</div>

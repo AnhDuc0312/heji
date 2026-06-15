@@ -58,6 +58,10 @@ export class App implements AfterViewInit {
       const parts = cleanUrl.split('/');
       const page = parts[parts.length - 1];
       titleKey = `TITLE_ECOSYSTEM_${page.toUpperCase().replace(/-/g, '_')}`;
+    } else if (cleanUrl.includes('/showcase/')) {
+      const parts = cleanUrl.split('/');
+      const page = parts[parts.length - 1];
+      titleKey = `TITLE_SHOWCASE_${page.toUpperCase().replace(/-/g, '_')}`;
     } else if (cleanUrl.includes('/docs/')) {
       const parts = cleanUrl.split('/');
       const page = parts[parts.length - 1];

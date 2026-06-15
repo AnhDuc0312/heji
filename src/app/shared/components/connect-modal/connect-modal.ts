@@ -26,8 +26,16 @@ export class ConnectModalComponent {
     { name: 'Phantom', icon: 'insights', color: 'from-[#ab9ff2] to-[#7f6ff0]' }
   ];
 
-  selectWallet(walletName: string) {
-    this.connect.connectWallet(walletName);
+  selectWallet(walletName: string, simulate: boolean = false) {
+    const isInstalled = walletName === 'MetaMask' ? this.connect.isMetaMaskAvailable() : 
+                        walletName === 'Phantom' ? this.connect.isPhantomAvailable() : false;
+    
+    if (!simulate && !isInstalled) {
+      // Auto-fallback to simulation if the extension is not present in the user's browser
+      this.connect.connectWallet(walletName, true);
+    } else {
+      this.connect.connectWallet(walletName, simulate);
+    }
   }
 
   close() {

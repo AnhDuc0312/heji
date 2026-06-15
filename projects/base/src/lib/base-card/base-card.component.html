@@ -1,0 +1,34 @@
+<div class="base-card" 
+     [class.ks-hoverable]="hoverable" 
+     [class.ks-bordered]="bordered"
+     [class.ks-glow-cyan]="glowColor === 'cyan'"
+     [class.ks-glow-purple]="glowColor === 'purple'">
+  
+  <!-- CARD HEADER -->
+  @if (title || subtitle) {
+    <div class="base-card-header">
+      <div class="base-card-titles">
+        @if (title) {
+          <h3 class="base-card-title">{{ title }}</h3>
+        }
+        @if (subtitle) {
+          <span class="base-card-subtitle">{{ subtitle }}</span>
+        }
+      </div>
+      <div class="base-card-header-actions">
+        <ng-content select="[header-actions]"></ng-content>
+      </div>
+    </div>
+  }
+
+  <!-- CARD BODY -->
+  <div class="base-card-body">
+    <ng-content></ng-content>
+  </div>
+
+  <!-- CARD FOOTER -->
+  <div class="base-card-footer">
+    <ng-content select="[footer]"></ng-content>
+  </div>
+
+</div>

@@ -1,0 +1,83 @@
+.base-accordion-panel {
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  background-color: var(--base-card-bg, rgba(255, 255, 255, 0.02));
+  border-radius: var(--base-accordion-border-radius, 8px);
+  overflow: hidden;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &.ks-active {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: var(--border-hover, rgba(255, 255, 255, 0.15));
+    
+    .base-accordion-arrow {
+      transform: rotate(180deg);
+      color: var(--primary-color, #00dbe9);
+    }
+  }
+
+  &.ks-disabled {
+    opacity: 0.4;
+    .base-accordion-header {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.base-accordion-header {
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  gap: 12px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--base-button-default-hover, rgba(255, 255, 255, 0.03));
+  }
+}
+
+.base-accordion-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+}
+
+.base-accordion-arrow {
+  font-size: 18px;
+  color: var(--text-secondary, #a1a1aa);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s;
+}
+
+// Collapsible Grid Animation layout
+.base-accordion-body-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.ks-active .base-accordion-body-wrapper {
+  grid-template-rows: 1fr;
+}
+
+.base-accordion-body {
+  min-height: 0; // critical to make grid child collapse
+  padding: 0 20px;
+  
+  // Apply padding only when expanded to avoid layout flashes
+  .ks-active & {
+    padding-bottom: 20px;
+  }
+  
+  font-size: 13px;
+  color: var(--text-secondary, #a1a1aa);
+  line-height: 1.5;
+}

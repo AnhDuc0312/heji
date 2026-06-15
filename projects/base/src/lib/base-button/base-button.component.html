@@ -1,0 +1,27 @@
+<button [type]="nativeType"
+        [disabled]="disabled || loading"
+        [class]="'base-btn btn-' + type + ' btn-' + size"
+        [class.btn-loading]="loading"
+        (click)="onClick($event)">
+
+  <!-- LOADING SPINNER -->
+  @if (loading) {
+    <span class="btn-spinner"></span>
+  }
+
+  <!-- LEFT ICON -->
+  @if (icon && iconPosition === 'left' && !loading) {
+    <span class="material-symbols-outlined btn-icon btn-icon-left">{{ icon }}</span>
+  }
+
+  <!-- BUTTON CONTENT -->
+  <span class="btn-content">
+    <ng-content></ng-content>
+  </span>
+
+  <!-- RIGHT ICON -->
+  @if (icon && iconPosition === 'right' && !loading) {
+    <span class="material-symbols-outlined btn-icon btn-icon-right">{{ icon }}</span>
+  }
+
+</button>

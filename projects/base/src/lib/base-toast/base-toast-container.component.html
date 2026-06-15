@@ -1,0 +1,27 @@
+<div class="base-toast-container">
+  
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="base-toast-item toast-{{ toast.type }}" (click)="toastService.remove(toast.id)">
+      
+      <!-- ICON -->
+      <span class="material-symbols-outlined base-toast-icon">
+        @switch (toast.type) {
+          @case ('success') { check_circle }
+          @case ('danger') { cancel }
+          @case ('warning') { warning }
+          @default { info }
+        }
+      </span>
+
+      <!-- MESSAGE -->
+      <span class="base-toast-message">{{ toast.message }}</span>
+
+      <!-- CLOSE BUTTON -->
+      <button class="base-toast-close" (click)="toastService.remove(toast.id); $event.stopPropagation()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+    </div>
+  }
+
+</div>

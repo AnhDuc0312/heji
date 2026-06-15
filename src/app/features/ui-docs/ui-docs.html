@@ -1,0 +1,1247 @@
+<div class="ui-docs-layout">
+  
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="ui-docs-sidebar">
+    <div class="sidebar-brand">
+      <span class="material-symbols-outlined text-[20px] text-primary animate-pulse">architecture</span>
+      <span>Base UI Library</span>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Getting Started</div>
+      <button class="nav-link" [class.ks-active]="activeSection() === 'introduction'" (click)="activeSection.set('introduction')">
+        <span class="material-symbols-outlined">menu_book</span>
+        <span>Introduction</span>
+      </button>
+
+      <div class="nav-section-title">Components</div>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'button'" (click)="activeSection.set('button')">
+        <span class="material-symbols-outlined">smart_button</span>
+        <span>Button</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'input'" (click)="activeSection.set('input')">
+        <span class="material-symbols-outlined">edit_note</span>
+        <span>Input</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'select'" (click)="activeSection.set('select')">
+        <span class="material-symbols-outlined">list_alt</span>
+        <span>Select</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'switch'" (click)="activeSection.set('switch')">
+        <span class="material-symbols-outlined">toggle_on</span>
+        <span>Switch</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'modal'" (click)="activeSection.set('modal')">
+        <span class="material-symbols-outlined">picture_in_picture</span>
+        <span>Modal</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'tooltip'" (click)="activeSection.set('tooltip')">
+        <span class="material-symbols-outlined">help_center</span>
+        <span>Tooltip</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'toast'" (click)="activeSection.set('toast')">
+        <span class="material-symbols-outlined">chat_bubble</span>
+        <span>Toast</span>
+      </button>
+
+      <button class="nav-link" [class.ks-active]="activeSection() === 'table'" (click)="activeSection.set('table')">
+        <span class="material-symbols-outlined">grid_on</span>
+        <span>Table</span>
+      </button>
+
+      <button class="nav-link" [class.ks-active]="activeSection() === 'card'" (click)="activeSection.set('card')">
+        <span class="material-symbols-outlined">style</span>
+        <span>Card</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'tag'" (click)="activeSection.set('tag')">
+        <span class="material-symbols-outlined">label</span>
+        <span>Tag</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'checkbox'" (click)="activeSection.set('checkbox')">
+        <span class="material-symbols-outlined">check_box</span>
+        <span>Checkbox</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'radio'" (click)="activeSection.set('radio')">
+        <span class="material-symbols-outlined">radio_button_checked</span>
+        <span>Radio</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'tabs'" (click)="activeSection.set('tabs')">
+        <span class="material-symbols-outlined">tab</span>
+        <span>Tabs</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'accordion'" (click)="activeSection.set('accordion')">
+        <span class="material-symbols-outlined">expand</span>
+        <span>Accordion</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'progress'" (click)="activeSection.set('progress')">
+        <span class="material-symbols-outlined">pending</span>
+        <span>Progress</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'dropdown'" (click)="activeSection.set('dropdown')">
+        <span class="material-symbols-outlined">arrow_drop_down_circle</span>
+        <span>Dropdown</span>
+      </button>
+      
+      <button class="nav-link" [class.ks-active]="activeSection() === 'upload'" (click)="activeSection.set('upload')">
+        <span class="material-symbols-outlined">upload_file</span>
+        <span>Upload</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="ui-docs-content">
+    
+    <!-- ==========================================
+         1. INTRODUCTION SECTION
+         ========================================== -->
+    @if (activeSection() === 'introduction') {
+      <section class="docs-section">
+        <h1 class="docs-title">Introduction</h1>
+        <p class="docs-subtitle">
+          Welcome to the <strong>Base UI Library</strong>. A modular, highly-performant, standalone UI library designed matching our dark futuristic cyber design system.
+        </p>
+
+        <div class="glass-plate p-xl rounded-2xl border-white/10 flex flex-col gap-lg mt-md">
+          <h3 class="font-bold text-primary flex items-center gap-xs">
+            <span class="material-symbols-outlined">integration_instructions</span>
+            <span>Quick Start Guidelines</span>
+          </h3>
+          <p class="text-xs text-on-surface-variant leading-relaxed">
+            All elements in this package are built as standalone Angular components, eliminating the need to declare complex modules. Simply import the desired component and start coding!
+          </p>
+
+          <pre class="bg-black/60 border border-white/5 rounded-xl p-md font-mono text-[11px] text-primary overflow-x-auto whitespace-pre select-all shadow-inner">// Import into any standalone component:
+import &#123; BaseTableComponent, BaseButtonComponent &#125; from '@base/ui';</pre>
+        </div>
+      </section>
+    }
+
+    <!-- ==========================================
+         2. BUTTON SECTION
+         ========================================== -->
+    @if (activeSection() === 'button') {
+      <section class="docs-section">
+        <h1 class="docs-title">Button Component</h1>
+        <p class="docs-subtitle">
+          Trigger actions with customizable sizes, button styles, custom icons, and loading animations.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <base-button [type]="btnType" 
+                         [size]="btnSize" 
+                         [disabled]="btnDisabled" 
+                         [loading]="btnLoading" 
+                         [icon]="btnIcon ? btnIcon : undefined" 
+                         [iconPosition]="btnIconPosition"
+                         (btnClick)="toastService.info('Button Clicked!')">
+              Trigger Core
+            </base-button>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Button Type:</label>
+              <base-select [options]="btnTypeOptions" [(ngModel)]="btnType" [showSearch]="false"></base-select>
+            </div>
+            <div class="control-row">
+              <label>Size:</label>
+              <base-select [options]="btnSizeOptions" [(ngModel)]="btnSize" [showSearch]="false"></base-select>
+            </div>
+            <div class="control-row">
+              <label>Material Icon:</label>
+              <input type="text" [(ngModel)]="btnIcon" class="docs-control-input" placeholder="e.g. restart_alt" />
+            </div>
+            <div class="control-row">
+              <label>Icon Position:</label>
+              <base-select [options]="iconPositionOptions" [(ngModel)]="btnIconPosition" [showSearch]="false"></base-select>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="btnDisabled" />
+                <span>Disabled state</span>
+              </label>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="btnLoading" />
+                <span>Loading spinner</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-btn-code')">Copy</button>
+        </div>
+        <pre id="snippet-btn-code" class="docs-code-snippet">
+&lt;base-button type="&#123;&#123;btnType&#125;&#125;" size="&#123;&#123;btnSize&#125;&#125;" [disabled]="&#123;&#123;btnDisabled&#125;&#125;" [loading]="&#123;&#123;btnLoading&#125;&#125;" icon="&#123;&#123;btnIcon&#125;&#125;" iconPosition="&#123;&#123;btnIconPosition&#125;&#125;"&gt;
+  Trigger Core
+&lt;/base-button&gt;</pre>
+
+        <!-- API TABLE -->
+        <h3 class="section-heading mt-lg">API Reference</h3>
+        <table class="docs-api-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>type</code></td>
+              <td><code>'default' | 'primary' | 'danger' | 'ghost' | 'text' | 'link'</code></td>
+              <td><code>'default'</code></td>
+              <td>Visual type button styling.</td>
+            </tr>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'sm' | 'md' | 'lg'</code></td>
+              <td><code>'md'</code></td>
+              <td>Button sizing options.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Disables interaction.</td>
+            </tr>
+            <tr>
+              <td><code>loading</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Displays a spinner and disables button clicks.</td>
+            </tr>
+            <tr>
+              <td><code>icon</code></td>
+              <td><code>string</code></td>
+              <td><code>undefined</code></td>
+              <td>Material icon identifier string.</td>
+            </tr>
+            <tr>
+              <td><code>btnClick</code></td>
+              <td><code>EventEmitter&lt;MouseEvent&gt;</code></td>
+              <td>-</td>
+              <td>Emitted when the button is clicked.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    }
+
+    <!-- ==========================================
+         3. INPUT SECTION
+         ========================================== -->
+    @if (activeSection() === 'input') {
+      <section class="docs-section">
+        <h1 class="docs-title">Input Component</h1>
+        <p class="docs-subtitle">
+          Standard user text fields supporting Reactive and Template-driven forms, custom icons, labels, hints, and error alerts.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <div style="width: 100%; max-width: 300px;">
+              <base-input [label]="inputLabel"
+                          [placeholder]="inputPlaceholder"
+                          [type]="inputType"
+                          [disabled]="inputDisabled"
+                          [error]="inputError"
+                          [hint]="inputHint"
+                          [icon]="inputIcon"
+                          [iconPosition]="inputIconPosition"
+                          [(ngModel)]="inputTextModel">
+              </base-input>
+              <div style="margin-top: 12px; font-size: 11px; color: #a1a1aa;">
+                Bound Value (NgModel): <strong class="text-primary">{{ inputTextModel || 'Empty' }}</strong>
+              </div>
+            </div>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Label:</label>
+              <input type="text" [(ngModel)]="inputLabel" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label>Placeholder:</label>
+              <input type="text" [(ngModel)]="inputPlaceholder" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label>Input Type:</label>
+              <base-select [options]="inputTypeOptions" [(ngModel)]="inputType" [showSearch]="false"></base-select>
+            </div>
+            <div class="control-row">
+              <label>Material Icon:</label>
+              <input type="text" [(ngModel)]="inputIcon" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label>Icon Position:</label>
+              <base-select [options]="iconPositionOptions" [(ngModel)]="inputIconPosition" [showSearch]="false"></base-select>
+            </div>
+            <div class="control-row">
+              <label>Error Message:</label>
+              <input type="text" [(ngModel)]="inputError" class="docs-control-input" placeholder="Type error to activate..." />
+            </div>
+            <div class="control-row">
+              <label>Hint Message:</label>
+              <input type="text" [(ngModel)]="inputHint" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="inputDisabled" />
+                <span>Disabled state</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-input-code')">Copy</button>
+        </div>
+        <pre id="snippet-input-code" class="docs-code-snippet">
+&lt;base-input label="&#123;&#123;inputLabel&#125;&#125;" placeholder="&#123;&#123;inputPlaceholder&#125;&#125;" type="&#123;&#123;inputType&#125;&#125;" [disabled]="&#123;&#123;inputDisabled&#125;&#125;" [error]="inputError" hint="&#123;&#123;inputHint&#125;&#125;" icon="&#123;&#123;inputIcon&#125;&#125;" iconPosition="&#123;&#123;inputIconPosition&#125;&#125;" [(ngModel)]="inputText"&gt;
+&lt;/base-input&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         4. SELECT SECTION
+         ========================================== -->
+    @if (activeSection() === 'select') {
+      <section class="docs-section">
+        <h1 class="docs-title">Select Component</h1>
+        <p class="docs-subtitle">
+          Highly custom options picker offering search queries, multiple option chips, and clean document boundary click closing.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid" style="overflow: visible;">
+          <!-- Live Preview -->
+          <div class="playground-preview" style="overflow: visible;">
+            <div style="width: 100%; max-width: 300px; min-height: 200px;">
+              <base-select [label]="selectLabel"
+                           [placeholder]="selectPlaceholder"
+                           [options]="selectOptions"
+                           [multiple]="selectMultiple"
+                           [disabled]="selectDisabled"
+                           [error]="selectError"
+                           [showSearch]="selectShowSearch"
+                           [(ngModel)]="selectModel">
+              </base-select>
+              <div style="margin-top: 12px; font-size: 11px; color: #a1a1aa;">
+                Bound Value (NgModel): <strong class="text-primary">{{ selectModel | json }}</strong>
+              </div>
+            </div>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Label:</label>
+              <input type="text" [(ngModel)]="selectLabel" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label>Placeholder:</label>
+              <input type="text" [(ngModel)]="selectPlaceholder" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label>Error Message:</label>
+              <input type="text" [(ngModel)]="selectError" class="docs-control-input" placeholder="Type error to activate..." />
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="selectMultiple" (change)="selectModel = selectMultiple ? [] : null" />
+                <span>Multiple select mode</span>
+              </label>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="selectShowSearch" />
+                <span>Show search query bar</span>
+              </label>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="selectDisabled" />
+                <span>Disabled state</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-select-code')">Copy</button>
+        </div>
+        <pre id="snippet-select-code" class="docs-code-snippet">
+&lt;base-select label="&#123;&#123;selectLabel&#125;&#125;" placeholder="&#123;&#123;selectPlaceholder&#125;&#125;" [options]="selectOptions" [multiple]="&#123;&#123;selectMultiple&#125;&#125;" [disabled]="&#123;&#123;selectDisabled&#125;&#125;" [error]="selectError" [showSearch]="&#123;&#123;selectShowSearch&#125;&#125;" [(ngModel)]="selectValue"&gt;
+&lt;/base-select&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         5. SWITCH SECTION
+         ========================================== -->
+    @if (activeSection() === 'switch') {
+      <section class="docs-section">
+        <h1 class="docs-title">Switch Component</h1>
+        <p class="docs-subtitle">
+          A toggling switch controller designed for fast preferences and toggling boolean models.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <div>
+              <base-switch [label]="switchLabel"
+                           [disabled]="switchDisabled"
+                           [(ngModel)]="switchModel">
+              </base-switch>
+              <div style="margin-top: 16px; font-size: 11px; color: #a1a1aa;">
+                Bound Value: <strong class="text-primary">{{ switchModel }}</strong>
+              </div>
+            </div>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Switch Label:</label>
+              <input type="text" [(ngModel)]="switchLabel" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="switchDisabled" />
+                <span>Disabled state</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-switch-code')">Copy</button>
+        </div>
+        <pre id="snippet-switch-code" class="docs-code-snippet">
+&lt;base-switch label="&#123;&#123;switchLabel&#125;&#125;" [disabled]="&#123;&#123;switchDisabled&#125;&#125;" [(ngModel)]="switchChecked"&gt;
+&lt;/base-switch&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         6. MODAL SECTION
+         ========================================== -->
+    @if (activeSection() === 'modal') {
+      <section class="docs-section">
+        <h1 class="docs-title">Modal Component</h1>
+        <p class="docs-subtitle">
+          Centered modal dialog dialog boxes featuring a dark blur glass overlay and responsive layouts.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <base-button type="primary" (btnClick)="openModalPlayground()">Open Dialog Modal</base-button>
+
+            <!-- Rendered Modal -->
+            <base-modal [(visible)]="modalVisible"
+                        [title]="modalTitle"
+                        [width]="modalWidth"
+                        [closable]="modalClosable"
+                        [maskClosable]="modalMaskClosable"
+                        [loading]="modalLoading"
+                        [okText]="modalOkText"
+                        [cancelText]="modalCancelText"
+                        (ok)="onModalOkSubmit()">
+              <div style="font-size: 13px; color: #e4e4e7;">
+                <p style="margin-top: 0;">Do you want to deploy this neural node into the test network?</p>
+                <div class="glass-plate p-md rounded-lg border-white/5 bg-white/2 mt-sm" style="font-family: monospace; font-size: 11px;">
+                  Node ID: val-pos-024<br/>
+                  Location: SG-Region<br/>
+                  Status: DEPLOYING...
+                </div>
+              </div>
+            </base-modal>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Modal Title:</label>
+              <input type="text" [(ngModel)]="modalTitle" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label>Width (px or %):</label>
+              <input type="text" [(ngModel)]="modalWidth" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label>OK Button Text:</label>
+              <input type="text" [(ngModel)]="modalOkText" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label>Cancel Button Text:</label>
+              <input type="text" [(ngModel)]="modalCancelText" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="modalClosable" />
+                <span>Show Close cross</span>
+              </label>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="modalMaskClosable" />
+                <span>Allow Mask Close clicks</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-modal-code')">Copy</button>
+        </div>
+        <pre id="snippet-modal-code" class="docs-code-snippet">
+&lt;base-modal [(visible)]="modalVisible" title="&#123;&#123;modalTitle&#125;&#125;" [width]="&#123;&#123;modalWidth&#125;&#125;" [closable]="&#123;&#123;modalClosable&#125;&#125;" [maskClosable]="&#123;&#123;modalMaskClosable&#125;&#125;" [loading]="modalLoading" okText="&#123;&#123;modalOkText&#125;&#125;" cancelText="&#123;&#123;modalCancelText&#125;&#125;" (ok)="deployNode()"&gt;
+  &lt;p&gt;Your custom modal content here.&lt;/p&gt;
+&lt;/base-modal&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         7. TOOLTIP SECTION
+         ========================================== -->
+    @if (activeSection() === 'tooltip') {
+      <section class="docs-section">
+        <h1 class="docs-title">Tooltip Directive</h1>
+        <p class="docs-subtitle">
+          Append helper tooltip descriptions hovering on any host element without styling leakage.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <span class="material-symbols-outlined text-primary text-[32px] cursor-help"
+                  [baseTooltip]="tooltipText"
+                  [tooltipPlacement]="tooltipPlacement">
+              help
+            </span>
+            <div style="font-size: 11px; color: #a1a1aa; margin-top: 10px;">
+              Hover over the icon to see tooltip!
+            </div>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Tooltip Content:</label>
+              <textarea [(ngModel)]="tooltipText" class="docs-control-input" rows="2"></textarea>
+            </div>
+            <div class="control-row">
+              <label>Placement:</label>
+              <base-select [options]="tooltipPlacementOptions" [(ngModel)]="tooltipPlacement" [showSearch]="false"></base-select>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-tooltip-code')">Copy</button>
+        </div>
+        <pre id="snippet-tooltip-code" class="docs-code-snippet">
+&lt;span class="material-symbols-outlined" baseTooltip="&#123;&#123;tooltipText&#125;&#125;" tooltipPlacement="&#123;&#123;tooltipPlacement&#125;&#125;"&gt;
+  help
+&lt;/span&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         8. TOAST SECTION
+         ========================================== -->
+    @if (activeSection() === 'toast') {
+      <section class="docs-section">
+        <h1 class="docs-title">Toast Service</h1>
+        <p class="docs-subtitle">
+          Display fast, non-blocking toast overlay notifications anywhere on the screen using a clean service provider.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview flex flex-col gap-sm">
+            <div class="flex flex-wrap gap-xs">
+              <base-button type="primary" (btnClick)="triggerQuickToast('success')">Success Toast</base-button>
+              <base-button type="default" (btnClick)="triggerQuickToast('info')">Info Toast</base-button>
+              <base-button type="default" (btnClick)="triggerQuickToast('warning')">Warning Toast</base-button>
+              <base-button type="danger" (btnClick)="triggerQuickToast('danger')">Danger Toast</base-button>
+            </div>
+
+            <hr class="border-white/5 my-xs" style="width: 100%;" />
+
+            <!-- Custom builder -->
+            <div class="flex flex-col gap-xs" style="width: 100%; max-width: 300px;">
+              <span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Custom Notification Builder:</span>
+              <input type="text" [(ngModel)]="toastMessageText" class="docs-control-input mb-xs" placeholder="Message content..." />
+              <div class="mb-xs" style="width: 100%;">
+                <base-select [options]="toastTypeOptions" [(ngModel)]="toastTypeSelection" [showSearch]="false"></base-select>
+              </div>
+              <base-button type="primary" (btnClick)="triggerToastNotification()">Trigger Notification</base-button>
+            </div>
+          </div>
+          
+          <!-- Customizer Description -->
+          <div class="playground-controls justify-center" style="display: flex; flex-direction: column;">
+            <p class="text-xs text-on-surface-variant leading-relaxed">
+              Inject the service <code>BaseToastService</code> in your component and call its reactive display methods.
+              To render toasts, add <code>&lt;base-toast-container&gt;&lt;/base-toast-container&gt;</code> inside the root page component (e.g. <code>app.html</code>).
+            </p>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>Component Injection Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-toast-code')">Copy</button>
+        </div>
+        <pre id="snippet-toast-code" class="docs-code-snippet">
+// 1. In your component TypeScript code:
+import &#123; BaseToastService &#125; from '@base/ui';
+// ...
+constructor(private toast: BaseToastService) &#123;&#125;
+
+triggerNotification() &#123;
+  this.toast.success('Validation block synced successfully.');
+&#125;
+
+// 2. In your main root template app.html:
+&lt;base-toast-container&gt;&lt;/base-toast-container&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         10. CARD SECTION
+         ========================================== -->
+    @if (activeSection() === 'card') {
+      <section class="docs-section">
+        <h1 class="docs-title">Card Component</h1>
+        <p class="docs-subtitle">
+          Content wrapper featuring glassmorphism, responsive hover scales, and neon glowing borders.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <base-card [title]="cardTitle" 
+                       [subtitle]="cardSubtitle" 
+                       [hoverable]="cardHoverable" 
+                       [bordered]="cardBordered"
+                       [glowColor]="cardGlow"
+                       style="width: 100%; max-width: 300px;">
+              <p style="font-size: 13px; margin: 0; line-height: 1.5;">
+                This validator node is actively staking 32,000 ETH. Running decentralized consensus algorithms in SG-Region.
+              </p>
+              <div footer class="flex gap-xs">
+                <base-button type="primary" size="sm" (btnClick)="toastService.success('Node restarted!')">Reboot</base-button>
+                <base-button type="default" size="sm">Details</base-button>
+              </div>
+            </base-card>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Title:</label>
+              <input type="text" [(ngModel)]="cardTitle" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label>Subtitle:</label>
+              <input type="text" [(ngModel)]="cardSubtitle" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label>Glow Color:</label>
+              <base-select [options]="cardGlowOptions" [(ngModel)]="cardGlow" [showSearch]="false"></base-select>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="cardHoverable" />
+                <span>Hoverable animation</span>
+              </label>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="cardBordered" />
+                <span>Show border line</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-card-code')">Copy</button>
+        </div>
+        <pre id="snippet-card-code" class="docs-code-snippet">
+&lt;base-card title="&#123;&#123;cardTitle&#125;&#125;" subtitle="&#123;&#123;cardSubtitle&#125;&#125;" [hoverable]="&#123;&#123;cardHoverable&#125;&#125;" [bordered]="&#123;&#123;cardBordered&#125;&#125;" glowColor="&#123;&#123;cardGlow&#125;&#125;"&gt;
+  &lt;p&gt;Card Content Goes Here&lt;/p&gt;
+  &lt;div footer&gt;
+    &lt;base-button type="primary" size="sm"&gt;Reboot&lt;/base-button&gt;
+  &lt;/div&gt;
+&lt;/base-card&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         11. TAG SECTION
+         ========================================== -->
+    @if (activeSection() === 'tag') {
+      <section class="docs-section">
+        <h1 class="docs-title">Tag Component</h1>
+        <p class="docs-subtitle">
+          Small labels indicating categorizations, roles, or badge statuses with neon glows and optional closures.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            @if (tagVisible) {
+              <base-tag [color]="tagColor" 
+                        [glow]="tagGlow" 
+                        [closable]="tagClosable"
+                        (close)="tagVisible = false; toastService.info('Tag closed!')">
+                Consensus Role
+              </base-tag>
+            } @else {
+              <base-button type="default" size="sm" (btnClick)="tagVisible = true">Reset Tag</base-button>
+            }
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Tag Color:</label>
+              <base-select [options]="tagColorOptions" [(ngModel)]="tagColor" [showSearch]="false"></base-select>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="tagGlow" />
+                <span>Glow effect</span>
+              </label>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="tagClosable" />
+                <span>Closable tag</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-tag-code')">Copy</button>
+        </div>
+        <pre id="snippet-tag-code" class="docs-code-snippet">
+&lt;base-tag color="&#123;&#123;tagColor&#125;&#125;" [glow]="&#123;&#123;tagGlow&#125;&#125;" [closable]="&#123;&#123;tagClosable&#125;&#125;" (close)="onClose()"&gt;
+  Consensus Role
+&lt;/base-tag&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         12. CHECKBOX SECTION
+         ========================================== -->
+    @if (activeSection() === 'checkbox') {
+      <section class="docs-section">
+        <h1 class="docs-title">Checkbox Component</h1>
+        <p class="docs-subtitle">
+          Styled checkbox fields supporting standard Angular Forms data-binding.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <div class="flex flex-col gap-sm">
+              <base-checkbox [label]="checkboxLabel" 
+                             [disabled]="checkboxDisabled"
+                             [(ngModel)]="checkboxModel">
+              </base-checkbox>
+              <div style="font-size: 11px; color: #a1a1aa; margin-top: 8px;">
+                NgModel Value: <strong class="text-primary">{{ checkboxModel }}</strong>
+              </div>
+            </div>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Checkbox Label:</label>
+              <input type="text" [(ngModel)]="checkboxLabel" class="docs-control-input" />
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="checkboxDisabled" />
+                <span>Disabled state</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-checkbox-code')">Copy</button>
+        </div>
+        <pre id="snippet-checkbox-code" class="docs-code-snippet">
+&lt;base-checkbox label="&#123;&#123;checkboxLabel&#125;&#125;" [disabled]="&#123;&#123;checkboxDisabled&#125;&#125;" [(ngModel)]="checkboxChecked"&gt;
+&lt;/base-checkbox&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         13. RADIO SECTION
+         ========================================== -->
+    @if (activeSection() === 'radio') {
+      <section class="docs-section">
+        <h1 class="docs-title">Radio Group Component</h1>
+        <p class="docs-subtitle">
+          Radio selector components supporting standard Angular Forms binding.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <div class="flex flex-col gap-sm">
+              <base-radio-group name="priority" [disabled]="radioDisabled" [(ngModel)]="radioGroupModel">
+                <base-radio value="low" label="Low Priority"></base-radio>
+                <base-radio value="medium" label="Medium Priority"></base-radio>
+                <base-radio value="high" label="High Priority (Immediate)"></base-radio>
+              </base-radio-group>
+              <div style="font-size: 11px; color: #a1a1aa; margin-top: 12px;">
+                NgModel Value: <strong class="text-primary">{{ radioGroupModel }}</strong>
+              </div>
+            </div>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="radioDisabled" />
+                <span>Disabled state</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-radio-code')">Copy</button>
+        </div>
+        <pre id="snippet-radio-code" class="docs-code-snippet">
+&lt;base-radio-group name="priority" [disabled]="&#123;&#123;radioDisabled&#125;&#125;" [(ngModel)]="selectedPriority"&gt;
+  &lt;base-radio value="low" label="Low Priority"&gt;&lt;/base-radio&gt;
+  &lt;base-radio value="medium" label="Medium Priority"&gt;&lt;/base-radio&gt;
+  &lt;base-radio value="high" label="High Priority (Immediate)"&gt;&lt;/base-radio&gt;
+&lt;/base-radio-group&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         14. TABS SECTION
+         ========================================== -->
+    @if (activeSection() === 'tabs') {
+      <section class="docs-section">
+        <h1 class="docs-title">Tabs Component</h1>
+        <p class="docs-subtitle">
+          Tab switcher panel with sliding underlines.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <div style="width: 100%; max-width: 320px;">
+              <base-tabs [(selectedIndex)]="tabsSelectedIndex">
+                <base-tab title="Overview" icon="visibility">
+                  <p class="text-xs text-on-surface-variant leading-relaxed">This is the general dashboard overview for validator network computing.</p>
+                </base-tab>
+                <base-tab title="Configuration" icon="settings">
+                  <p class="text-xs text-on-surface-variant leading-relaxed">Configure parameters like node port, memory limits, and staking channels.</p>
+                </base-tab>
+                <base-tab title="Security" icon="shield" [disabled]="true">
+                  <p class="text-xs text-on-surface-variant leading-relaxed">Adjust private encryption key parameters.</p>
+                </base-tab>
+              </base-tabs>
+              <div style="font-size: 11px; color: #a1a1aa; margin-top: 12px;">
+                Selected Index: <strong class="text-primary">{{ tabsSelectedIndex }}</strong>
+              </div>
+            </div>
+          </div>
+          <!-- Customizer Description -->
+          <div class="playground-controls justify-center">
+            <p class="text-xs text-on-surface-variant leading-relaxed">
+              Define multiple <code>&lt;base-tab&gt;</code> components inside a single <code>&lt;base-tabs&gt;</code> parent. Supports custom material icons and disabled flags.
+            </p>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-tabs-code')">Copy</button>
+        </div>
+        <pre id="snippet-tabs-code" class="docs-code-snippet">
+&lt;base-tabs [(selectedIndex)]="activeTabIdx"&gt;
+  &lt;base-tab title="Overview" icon="visibility"&gt;
+    &lt;p&gt;Overview content&lt;/p&gt;
+  &lt;/base-tab&gt;
+  &lt;base-tab title="Configuration" icon="settings"&gt;
+    &lt;p&gt;Settings content&lt;/p&gt;
+  &lt;/base-tab&gt;
+  &lt;base-tab title="Security" icon="shield" [disabled]="true"&gt;
+    &lt;p&gt;Disabled content&lt;/p&gt;
+  &lt;/base-tab&gt;
+&lt;/base-tabs&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         15. ACCORDION SECTION
+         ========================================== -->
+    @if (activeSection() === 'accordion') {
+      <section class="docs-section">
+        <h1 class="docs-title">Accordion Component</h1>
+        <p class="docs-subtitle">
+          Collapsible header panels with smooth css-grid animations.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <div style="width: 100%; max-width: 320px;">
+              <base-accordion [multiple]="accordionMultiple">
+                <base-accordion-panel title="Validator Requirements" [active]="true">
+                  Staking requires at least 32 native tokens. Node hardware requires 8-core CPU, 16GB RAM, and ssd drive.
+                </base-accordion-panel>
+                <base-accordion-panel title="Slashing Protocols">
+                  Offline nodes lose 0.5% rewards daily. Malicious validator double-signings trigger instant slash of stake.
+                </base-accordion-panel>
+                <base-accordion-panel title="Withdrawal Schedules" [disabled]="true">
+                  Staked reward claims process instantly. Main deposits require 7-day unlock period.
+                </base-accordion-panel>
+              </base-accordion>
+            </div>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="accordionMultiple" />
+                <span>Allow multiple panels open</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-accordion-code')">Copy</button>
+        </div>
+        <pre id="snippet-accordion-code" class="docs-code-snippet">
+&lt;base-accordion [multiple]="&#123;&#123;accordionMultiple&#125;&#125;"&gt;
+  &lt;base-accordion-panel title="Validator Requirements" [active]="true"&gt;
+    &lt;p&gt;Details text...&lt;/p&gt;
+  &lt;/base-accordion-panel&gt;
+  &lt;base-accordion-panel title="Slashing Protocols"&gt;
+    &lt;p&gt;Details text...&lt;/p&gt;
+  &lt;/base-accordion-panel&gt;
+&lt;/base-accordion&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         16. PROGRESS SECTION
+         ========================================== -->
+    @if (activeSection() === 'progress') {
+      <section class="docs-section">
+        <h1 class="docs-title">Progress Component</h1>
+        <p class="docs-subtitle">
+          Dynamic progress tracking indicators in linear (bar) or circular (ring) styles.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <div style="width: 100%; max-width: 280px; display: flex; align-items: center; justify-content: center;">
+              <base-progress [value]="progressValue"
+                             [type]="progressType"
+                             [status]="progressStatus"
+                             [strokeWidth]="progressStrokeWidth">
+              </base-progress>
+            </div>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Progress Value ({{ progressValue }}%):</label>
+              <input type="range" min="0" max="100" [(ngModel)]="progressValue" class="w-full cursor-pointer" />
+            </div>
+            <div class="control-row">
+              <label>Progress Type:</label>
+              <base-select [options]="progressTypeOptions" [(ngModel)]="progressType" [showSearch]="false"></base-select>
+            </div>
+            <div class="control-row">
+              <label>Status Color:</label>
+              <base-select [options]="progressStatusOptions" [(ngModel)]="progressStatus" [showSearch]="false"></base-select>
+            </div>
+            <div class="control-row">
+              <label>Stroke Width ({{ progressStrokeWidth }}px):</label>
+              <input type="number" min="2" max="16" [(ngModel)]="progressStrokeWidth" class="docs-control-input" />
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-progress-code')">Copy</button>
+        </div>
+        <pre id="snippet-progress-code" class="docs-code-snippet">
+&lt;base-progress [value]="&#123;&#123;progressValue&#125;&#125;" type="&#123;&#123;progressType&#125;&#125;" status="&#123;&#123;progressStatus&#125;&#125;" [strokeWidth]="&#123;&#123;progressStrokeWidth&#125;&#125;"&gt;
+&lt;/base-progress&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         17. DROPDOWN SECTION
+         ========================================== -->
+    @if (activeSection() === 'dropdown') {
+      <section class="docs-section">
+        <h1 class="docs-title">Dropdown Component</h1>
+        <p class="docs-subtitle">
+          Overlays and context menus bound to trigger buttons.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid" style="overflow: visible;">
+          <!-- Live Preview -->
+          <div class="playground-preview" style="overflow: visible;">
+            <div style="min-height: 150px; display: flex; align-items: flex-start; justify-content: center;">
+              <base-dropdown [trigger]="dropdownTrigger" [placement]="dropdownPlacement">
+                <base-button trigger type="primary" size="md">
+                  <span>Trigger Options</span>
+                  <span class="material-symbols-outlined text-[16px]">expand_more</span>
+                </base-button>
+                <div menu>
+                  <button class="base-dropdown-item" (click)="toastService.info('Action: View Node')">
+                    <span class="material-symbols-outlined">visibility</span>
+                    <span>View Node Details</span>
+                  </button>
+                  <button class="base-dropdown-item" (click)="toastService.info('Action: Reboot')">
+                    <span class="material-symbols-outlined">restart_alt</span>
+                    <span>Reboot Node</span>
+                  </button>
+                  <div class="base-dropdown-divider"></div>
+                  <button class="base-dropdown-item ks-danger" (click)="toastService.error('Action: Disconnect')">
+                    <span class="material-symbols-outlined">power_off</span>
+                    <span>Disconnect Node</span>
+                  </button>
+                </div>
+              </base-dropdown>
+            </div>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Trigger Event:</label>
+              <base-select [options]="dropdownTriggerOptions" [(ngModel)]="dropdownTrigger" [showSearch]="false"></base-select>
+            </div>
+            <div class="control-row">
+              <label>Placement:</label>
+              <base-select [options]="dropdownPlacementOptions" [(ngModel)]="dropdownPlacement" [showSearch]="false"></base-select>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-dropdown-code')">Copy</button>
+        </div>
+        <pre id="snippet-dropdown-code" class="docs-code-snippet">
+&lt;base-dropdown trigger="&#123;&#123;dropdownTrigger&#125;&#125;" placement="&#123;&#123;dropdownPlacement&#125;&#125;"&gt;
+  &lt;base-button trigger type="primary"&gt;Trigger Options&lt;/base-button&gt;
+  &lt;div menu&gt;
+    &lt;button class="base-dropdown-item"&gt;Action 1&lt;/button&gt;
+    &lt;div class="base-dropdown-divider"&gt;&lt;/div&gt;
+    &lt;button class="base-dropdown-item ks-danger"&gt;Danger Action&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/base-dropdown&gt;</pre>
+      </section>
+    }
+
+    <!-- ==========================================
+         18. UPLOAD SECTION
+         ========================================== -->
+    @if (activeSection() === 'upload') {
+      <section class="docs-section">
+        <h1 class="docs-title">Upload Component</h1>
+        <p class="docs-subtitle">
+          Drag and drop file upload areas with queues.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Playground</h3>
+        <div class="playground-grid">
+          <!-- Live Preview -->
+          <div class="playground-preview">
+            <div style="width: 100%; max-width: 320px;">
+              <base-upload [multiple]="uploadMultiple"
+                           [accept]="uploadAccept"
+                           [disabled]="uploadDisabled"
+                           [dragdrop]="uploadDragDrop"
+                           (fileSelect)="toastService.info($event.length + ' file(s) selected!')">
+              </base-upload>
+            </div>
+          </div>
+          <!-- Customizer controls -->
+          <div class="playground-controls">
+            <div class="control-row">
+              <label>Accepted File Formats:</label>
+              <input type="text" [(ngModel)]="uploadAccept" class="docs-control-input" placeholder="e.g. .json, .txt" />
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="uploadMultiple" />
+                <span>Allow multiple files</span>
+              </label>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="uploadDragDrop" />
+                <span>Allow Drag & Drop</span>
+              </label>
+            </div>
+            <div class="control-row">
+              <label class="flex items-center gap-xs cursor-pointer">
+                <input type="checkbox" [(ngModel)]="uploadDisabled" />
+                <span>Disabled state</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-upload-code')">Copy</button>
+        </div>
+        <pre id="snippet-upload-code" class="docs-code-snippet">
+&lt;base-upload [multiple]="&#123;&#123;uploadMultiple&#125;&#125;" accept="&#123;&#123;uploadAccept&#125;&#125;" [disabled]="&#123;&#123;uploadDisabled&#125;&#125;" [dragdrop]="&#123;&#123;uploadDragDrop&#125;&#125;"&gt;
+&lt;/base-upload&gt;</pre>
+      </section>
+    }
+
+
+    <!-- ==========================================
+         9. TABLE SECTION
+         ========================================== -->
+    @if (activeSection() === 'table') {
+      <section class="docs-section">
+        <h1 class="docs-title">Table Component</h1>
+        <p class="docs-subtitle">
+          Highly comprehensive standalone data table featuring drag & drop sorting, resizing, select-all checkboxes, client sorting, and server mode signals.
+        </p>
+
+        <!-- PLAYGROUND -->
+        <h3 class="section-heading">Interactive Preview</h3>
+        <div class="glass-plate p-md rounded-2xl border-white/10 flex flex-col gap-md">
+          <base-table
+            [data]="tableDataList"
+            [columns]="tableColumnsList"
+            [actions]="tableActionsList"
+            [selectable]="true"
+            [showPagination]="true"
+            [pageSize]="5"
+            [pageSizeOptions]="[5, 10]"
+            [expandable]="true"
+            (actionClick)="onTableActionClick($event)">
+          </base-table>
+        </div>
+
+        <!-- SNIPPET -->
+        <div class="snippet-header mt-lg">
+          <span>HTML Markup Snippet</span>
+          <button class="snippet-copy-btn" (click)="copySnippet('snippet-table-code')">Copy</button>
+        </div>
+        <pre id="snippet-table-code" class="docs-code-snippet">
+&lt;base-table
+  [data]="tableData"
+  [columns]="tableColumns"
+  [actions]="tableActions"
+  [selectable]="true"
+  [showPagination]="true"
+  [pageSize]="5"
+  [expandable]="true"
+  (actionClick)="onTableAction($event)"&gt;
+&lt;/base-table&gt;</pre>
+      </section>
+    }
+
+  </main>
+
+</div>
+
+<!-- Global Toast container component for document sandbox notifications -->
+<base-toast-container></base-toast-container>

@@ -1,0 +1,25 @@
+<div class="base-tabs-container">
+  
+  <!-- TABS NAV HEADERS -->
+  <div class="base-tabs-nav">
+    <div class="base-tabs-nav-list">
+      @for (tab of tabs; track tab.title; let idx = $index) {
+        <button class="base-tabs-nav-item"
+                [class.ks-active]="idx === selectedIndex"
+                [class.ks-disabled]="tab.disabled"
+                (click)="!tab.disabled && selectTab(idx)">
+          @if (tab.icon) {
+            <span class="material-symbols-outlined base-tabs-nav-icon">{{ tab.icon }}</span>
+          }
+          <span>{{ tab.title }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- TABS PANELS CONTENT -->
+  <div class="base-tabs-content-holder">
+    <ng-content></ng-content>
+  </div>
+
+</div>

@@ -36,6 +36,15 @@
 
     <!-- Right Side Actions -->
     <div class="hidden lg:flex items-center gap-md">
+      <!-- Theme Switcher Toggle -->
+      <button (click)="themeService.toggleTheme()" 
+              class="p-sm rounded-full text-on-surface-variant hover:text-on-surface hover:bg-white/5 border border-white/10 transition-all flex items-center justify-center cursor-pointer focus:outline-none"
+              [title]="themeService.isDark() ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+        <span class="material-symbols-outlined text-[18px]">
+          {{ themeService.theme() === 'dark' ? 'light_mode' : 'dark_mode' }}
+        </span>
+      </button>
+
       <!-- Language Dropdown -->
       <div class="relative flex items-center">
         <button (click)="toggleLangDropdown()" 
@@ -140,6 +149,16 @@
           한국어
         </button>
       </div>
+    </div>
+
+    <!-- Mobile Theme Switcher -->
+    <div class="flex flex-col gap-sm border-b border-white/5 pb-sm">
+      <span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold font-label-sm">Theme</span>
+      <button (click)="themeService.toggleTheme()" 
+              class="w-full py-sm rounded-lg border bg-white/5 border-white/5 text-xs font-bold transition-all focus:outline-none cursor-pointer flex items-center justify-center gap-xs text-on-surface">
+        <span class="material-symbols-outlined text-[16px]">{{ themeService.theme() === 'dark' ? 'light_mode' : 'dark_mode' }}</span>
+        <span>{{ themeService.theme() === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
+      </button>
     </div>
 
     <!-- Mobile Wallet Connect Button -->

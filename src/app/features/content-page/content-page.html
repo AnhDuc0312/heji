@@ -280,6 +280,612 @@
 
       </div>
 
+      <!-- Interactive Dynamic Custom Subpage Widgets -->
+      <div [ngSwitch]="page()" class="w-full animate-fade-in mt-md">
+
+        <!-- platform / security: Lattice Cryptography Generator -->
+        <div *ngSwitchCase="'security'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">key</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_LATTICE_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_LATTICE_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+          
+          <div class="flex flex-col gap-md">
+            <button (click)="generateLatticeKeys()" 
+                    [disabled]="latticeGenerating()"
+                    class="bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-xs py-sm px-lg rounded-xl hover:scale-[1.02] transition-transform duration-200 cursor-pointer flex items-center justify-center gap-sm max-w-xs self-start">
+              <span class="material-symbols-outlined text-[16px] animate-spin" *ngIf="latticeGenerating()">refresh</span>
+              <span>{{ latticeGenerating() ? lang.t('WIDGET_LATTICE_BTN_RUNNING') : lang.t('WIDGET_LATTICE_BTN') }}</span>
+            </button>
+
+            <!-- Key display -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-md mt-sm" *ngIf="latticePublicKey() || latticeGenerating()">
+              <!-- Public Key -->
+              <div class="flex flex-col gap-xs">
+                <span class="font-label-sm text-[10px] text-primary font-bold uppercase tracking-wider">{{ lang.t('WIDGET_LATTICE_PUB') }}</span>
+                <div class="bg-black/55 border border-white/5 rounded-xl p-md font-mono text-[11px] text-on-surface break-all min-h-[60px] relative">
+                  <span *ngIf="latticeGenerating()" class="text-on-surface-variant italic animate-pulse">{{ lang.t('WIDGET_LATTICE_COMPUTING') }}</span>
+                  <span *ngIf="!latticeGenerating()">{{ latticePublicKey() }}</span>
+                </div>
+              </div>
+              <!-- Private Key -->
+              <div class="flex flex-col gap-xs">
+                <span class="font-label-sm text-[10px] text-secondary font-bold uppercase tracking-wider">{{ lang.t('WIDGET_LATTICE_PRIV') }}</span>
+                <div class="bg-black/55 border border-white/5 rounded-xl p-md font-mono text-[11px] text-on-surface break-all min-h-[60px] relative">
+                  <span *ngIf="latticeGenerating()" class="text-on-surface-variant italic animate-pulse">{{ lang.t('WIDGET_LATTICE_EXTRACTING') }}</span>
+                  <span *ngIf="!latticeGenerating()">{{ latticePrivateKey() }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- platform / api or docs / api-reference: API Sandbox Runner -->
+        <div *ngSwitchCase="page() === 'api' || page() === 'api-reference' ? page() : ''" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">terminal</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_API_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_API_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+            <div class="lg:col-span-5 flex flex-col gap-md">
+              <span class="font-label-sm text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('WIDGET_API_SELECT') }}</span>
+              <div class="flex flex-col gap-xs">
+                <label *ngFor="let path of ['/v1/status', '/v1/nodes', '/v1/metrics']" 
+                       class="glass-plate px-md py-sm rounded-xl border-white/5 flex items-center gap-sm cursor-pointer hover:bg-white/5 hover:border-primary/20 transition-all">
+                  <input type="radio" name="apiEndpoint" [value]="path" [(ngModel)]="selectedApiEndpoint" class="accent-primary" />
+                  <span class="font-mono text-xs text-on-surface">{{ path }}</span>
+                </label>
+              </div>
+              <button (click)="executeMockApiCall()" 
+                      [disabled]="apiExecuting()"
+                      class="bg-white/5 border border-primary/20 text-primary py-sm px-lg rounded-xl hover:bg-white/10 hover:border-primary/50 transition-all font-bold text-xs cursor-pointer flex items-center justify-center gap-xs">
+                <span class="material-symbols-outlined text-[16px]" [ngClass]="{'animate-spin': apiExecuting()}">
+                  {{ apiExecuting() ? 'refresh' : 'send' }}
+                </span>
+                <span>{{ lang.t('WIDGET_API_BTN') }}</span>
+              </button>
+            </div>
+
+            <!-- API Output -->
+            <div class="lg:col-span-7 flex flex-col gap-xs h-full">
+              <div class="flex justify-between items-center text-[10px] font-label-sm font-bold uppercase tracking-wider">
+                <span class="text-on-surface-variant">{{ lang.t('WIDGET_API_PAYLOAD') }}</span>
+                <span class="text-green-400" *ngIf="apiResponseStatus()">{{ lang.t('WIDGET_API_STATUS') }}: {{ apiResponseStatus() }} OK</span>
+              </div>
+              <div class="bg-black/60 border border-white/5 rounded-xl p-md font-mono text-[11px] text-primary min-h-[140px] flex flex-col justify-start">
+                <span *ngIf="!apiExecuting() && !apiResponse()" class="text-on-surface-variant italic">{{ lang.t('WIDGET_API_EMPTY') }}</span>
+                <span *ngIf="apiExecuting()" class="text-on-surface-variant italic animate-pulse">{{ lang.t('WIDGET_API_RUNNING') }}</span>
+                <pre class="w-full h-full overflow-x-auto whitespace-pre select-all" *ngIf="!apiExecuting() && apiResponse()">{{ apiResponse() }}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- platform / performance: Workload stress tester -->
+        <div *ngSwitchCase="'performance'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-secondary text-[24px]">thermostat</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_STRESS_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_STRESS_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-center">
+            <!-- Controls (5 cols) -->
+            <div class="md:col-span-5 flex flex-col gap-md">
+              <button (click)="runStressTest()" 
+                      [disabled]="stressActive()"
+                      class="bg-gradient-to-r from-secondary to-tertiary text-on-primary font-bold text-xs py-sm px-lg rounded-xl hover:scale-[1.02] transition-transform duration-200 cursor-pointer flex items-center justify-center gap-sm self-start">
+                <span class="material-symbols-outlined text-[16px] animate-pulse" *ngIf="stressActive()">bolt</span>
+                <span>{{ stressActive() ? lang.t('WIDGET_STRESS_BTN_RUNNING') : lang.t('WIDGET_STRESS_BTN') }}</span>
+              </button>
+              <div class="w-full bg-white/5 rounded-full h-2 overflow-hidden border border-white/5" *ngIf="stressActive()">
+                <div class="bg-gradient-to-r from-secondary to-tertiary h-full transition-all duration-300" [style.width.%]="stressProgress()"></div>
+              </div>
+            </div>
+
+            <!-- Stats display (7 cols) -->
+            <div class="md:col-span-7 grid grid-cols-2 gap-md">
+              <div class="glass-plate p-md rounded-xl border-white/5 flex flex-col">
+                <span class="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('WIDGET_STRESS_TEMP') }}</span>
+                <span class="text-2xl font-bold font-display-md text-on-surface transition-all" [ngClass]="{'text-red-400': stressCoreTemp() > 60}">
+                  {{ stressCoreTemp() }}°C
+                </span>
+              </div>
+              <div class="glass-plate p-md rounded-xl border-white/5 flex flex-col">
+                <span class="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('WIDGET_STRESS_IOPS') }}</span>
+                <span class="text-2xl font-bold font-display-md text-on-surface">
+                  {{ stressIops() | number:'1.0-0' }} IOPS
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ecosystem / validators: Active Validator Delegation -->
+        <div *ngSwitchCase="'validators'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">account_balance</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_VAL_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_VAL_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+            <!-- Selector & Slider (5 cols) -->
+            <div class="lg:col-span-5 flex flex-col gap-md">
+              <div class="flex flex-col gap-xs">
+                <span class="font-label-sm text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('WIDGET_VAL_SELECT') }}</span>
+                <select [(ngModel)]="selectedValidatorIndex" class="bg-black/60 border border-white/10 text-on-surface px-md py-sm rounded-xl font-label-md text-xs w-full focus:outline-none focus:border-primary/50 cursor-pointer">
+                  <option *ngFor="let val of validatorsList; let idx = index" [value]="idx">{{ val.name }}</option>
+                </select>
+              </div>
+
+              <!-- Delegation Amount Slider -->
+              <div class="flex flex-col gap-xs">
+                <div class="flex justify-between text-xs font-label-md">
+                  <span class="text-on-surface-variant">{{ lang.t('WIDGET_VAL_AMOUNT') }}</span>
+                  <span class="font-bold text-primary">{{ delegationAmount | number:'1.0-0' }} $NEURAL</span>
+                </div>
+                <input type="range" min="100" max="25000" step="100" [(ngModel)]="delegationAmount"
+                       class="w-full accent-primary bg-white/5 rounded-lg h-1.5 cursor-pointer"/>
+              </div>
+
+              <button (click)="delegateToValidator()" 
+                      [disabled]="isDelegating()"
+                      class="bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-xs py-sm px-lg rounded-xl hover:scale-[1.02] transition-transform duration-200 cursor-pointer flex items-center justify-center gap-sm">
+                <span class="material-symbols-outlined text-[16px] animate-spin" *ngIf="isDelegating()">refresh</span>
+                <span>{{ isDelegating() ? lang.t('WIDGET_VAL_BTN_RUNNING') : lang.t('WIDGET_VAL_BTN') }}</span>
+              </button>
+            </div>
+
+            <!-- List display (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col gap-xs">
+              <span class="font-label-sm text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('WIDGET_VAL_ROSTER') }}</span>
+              <div class="flex flex-col gap-sm">
+                <div *ngFor="let val of validatorsList; let idx = index" 
+                     [ngClass]="{'border-primary/30 bg-white/5': selectedValidatorIndex === idx, 'border-white/5': selectedValidatorIndex !== idx}"
+                     class="glass-plate p-md rounded-xl border flex flex-col gap-xs hover:border-primary/20 transition-all">
+                  <div class="flex justify-between items-center">
+                    <span class="font-bold text-xs text-on-surface">{{ val.name }}</span>
+                    <span class="font-mono text-[10px] text-on-surface-variant">{{ val.address }}</span>
+                  </div>
+                  <div class="flex justify-between text-[11px] text-on-surface-variant">
+                    <span>{{ lang.t('WIDGET_VAL_COMMISSION') }}: <strong class="text-on-surface">{{ val.commission }}</strong></span>
+                    <span>{{ lang.t('WIDGET_VAL_TOTAL_STAKE') }}: <strong class="text-on-surface">{{ val.totalStake }}</strong></span>
+                    <span class="text-green-400" *ngIf="val.delegated > 0">{{ lang.t('WIDGET_VAL_DELEGATED') }}: <strong>{{ val.delegated | number:'1.0-0' }} $NEURAL</strong></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ecosystem / governance: Proposal voting -->
+        <div *ngSwitchCase="'governance'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">how_to_vote</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_GOV_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_GOV_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="flex flex-col gap-md">
+            <div *ngFor="let prop of proposals; let idx = index" class="glass-plate p-lg rounded-xl border border-white/5 flex flex-col gap-md hover:border-primary/10 transition-all">
+              <div class="flex justify-between items-start gap-md">
+                <div class="flex flex-col gap-3xs">
+                  <span class="text-[9px] text-primary font-bold uppercase tracking-wider font-label-sm">{{ prop.id }}</span>
+                  <h4 class="font-bold text-sm text-on-surface leading-tight">{{ prop.title }}</h4>
+                </div>
+                <!-- Status tag -->
+                <span class="glass-plate px-sm py-xs rounded text-[9px] text-yellow-400 font-label-sm border border-yellow-500/20">ACTIVE_VOTE</span>
+              </div>
+
+              <!-- Voting percentage bars -->
+              <div class="flex flex-col gap-xs mt-xs">
+                <div class="flex justify-between text-[10px] text-on-surface-variant font-bold font-label-sm">
+                  <span class="text-primary">FOR: {{ getProposalPercentage(prop, 'for') }} ({{ prop.votesFor | number:'1.0-0' }} $NEURAL)</span>
+                  <span class="text-secondary">AGAINST: {{ getProposalPercentage(prop, 'against') }} ({{ prop.votesAgainst | number:'1.0-0' }} $NEURAL)</span>
+                </div>
+                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden border border-white/5 flex">
+                  <div class="bg-primary h-full transition-all duration-300" [style.width]="getProposalPercentage(prop, 'for')"></div>
+                  <div class="bg-secondary h-full transition-all duration-300" [style.width]="getProposalPercentage(prop, 'against')"></div>
+                </div>
+              </div>
+
+              <!-- Vote Buttons -->
+              <div class="flex gap-md mt-xs">
+                <button (click)="voteForProposal(idx, 'for')" 
+                        [disabled]="prop.voted"
+                        [ngClass]="{'opacity-50 cursor-not-allowed': prop.voted}"
+                        class="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 px-md py-xs rounded-lg font-bold text-xs cursor-pointer transition-all active:scale-95">
+                  {{ lang.t('WIDGET_GOV_VOTE_FOR') }}
+                </button>
+                <button (click)="voteForProposal(idx, 'against')" 
+                        [disabled]="prop.voted"
+                        [ngClass]="{'opacity-50 cursor-not-allowed': prop.voted}"
+                        class="bg-secondary/10 hover:bg-secondary/20 text-secondary border border-secondary/20 px-md py-xs rounded-lg font-bold text-xs cursor-pointer transition-all active:scale-95">
+                  {{ lang.t('WIDGET_GOV_VOTE_AGAINST') }}
+                </button>
+                <span class="text-[10px] text-green-400 font-bold font-label-sm flex items-center gap-xs" *ngIf="prop.voted">
+                  <span class="material-symbols-outlined text-[12px]">check</span> {{ lang.t('WIDGET_GOV_VOTED') }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ecosystem / integrations: Web3 SDK snippets tabs -->
+        <div *ngSwitchCase="'integrations'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">integration_instructions</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_INT_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_INT_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="flex flex-col gap-md">
+            <!-- Tabs -->
+            <div class="flex gap-xs border-b border-white/10 pb-2 flex-wrap">
+              <button *ngFor="let tab of ['evm', 'solana', 'cosmos']" 
+                      (click)="integrationTab = tab"
+                      [ngClass]="{'border-primary text-primary bg-white/5': integrationTab === tab, 'border-transparent text-on-surface-variant': integrationTab !== tab}"
+                      class="px-md py-sm border-b-2 font-bold text-xs cursor-pointer hover:text-on-surface transition-all uppercase tracking-wider">
+                {{ tab === 'evm' ? 'EVM / Ethereum' : (tab === 'solana' ? 'Solana Core' : 'Cosmos SDK') }}
+              </button>
+            </div>
+
+            <!-- Snippet Code Viewer -->
+            <div class="flex flex-col gap-xs mt-xs">
+              <div class="flex justify-between items-center">
+                <span class="text-[9px] text-primary font-bold uppercase tracking-wider font-label-sm">{{ lang.t('WIDGET_INT_CODE') }}</span>
+                <button (click)="copyIntegrationSnippet()"
+                        class="bg-white/5 hover:bg-white/10 text-primary border border-primary/20 px-md py-sm rounded-lg font-label-md hover:border-primary/50 transition-all cursor-pointer flex items-center gap-xs">
+                  <span class="material-symbols-outlined text-[14px]">content_copy</span>
+                  <span>{{ lang.t('WIDGET_INT_COPY') }}</span>
+                </button>
+              </div>
+              <pre class="bg-black/60 border border-white/5 rounded-xl p-md font-mono text-[11px] text-primary overflow-x-auto whitespace-pre select-all shadow-inner select-all">{{ integrationSnippet[integrationTab === 'evm' ? 'evm' : (integrationTab === 'solana' ? 'solana' : 'cosmos')] }}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- docs / getting-started: copyable CLI command quickstart -->
+        <div *ngSwitchCase="'getting-started'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">rocket_launch</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_GETTING_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_GETTING_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+            <!-- Steps list (5 cols) -->
+            <div class="lg:col-span-5 flex flex-col gap-sm">
+              <span class="font-label-sm text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('WIDGET_GETTING_CHECKLIST') }}</span>
+              <div class="flex flex-col gap-xs">
+                <div *ngFor="let step of ['Install Global CLI package', 'Configure local credentials wallet', 'Run node --start validator test']" 
+                     class="flex items-center gap-sm glass-plate p-sm rounded-xl border-white/5 text-xs text-on-surface font-label-md">
+                  <span class="material-symbols-outlined text-[16px] text-green-400">check_circle</span>
+                  <span>{{ step }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Command Copy (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col gap-md">
+              <span class="font-label-sm text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('WIDGET_GETTING_STANDARD') }}</span>
+              
+              <div class="flex flex-col gap-sm">
+                <!-- Code Box 1 -->
+                <div class="flex flex-col gap-xs">
+                  <div class="flex justify-between items-center text-[9px] font-label-sm text-primary font-bold uppercase tracking-wider">
+                    <span>1. Install Package</span>
+                  </div>
+                  <div class="bg-black/60 border border-white/5 rounded-xl p-md font-mono text-[11px] text-primary flex justify-between items-center">
+                    <span>npm install -g @neuralis/cli</span>
+                    <span class="material-symbols-outlined text-[14px] cursor-pointer opacity-60 hover:opacity-100 hover:text-primary transition-all" (click)="showToast('NPM command copied!')">content_copy</span>
+                  </div>
+                </div>
+
+                <!-- Code Box 2 -->
+                <div class="flex flex-col gap-xs">
+                  <div class="flex justify-between items-center text-[9px] font-label-sm text-primary font-bold uppercase tracking-wider">
+                    <span>2. Connect and Startup</span>
+                  </div>
+                  <div class="bg-black/60 border border-white/5 rounded-xl p-md font-mono text-[11px] text-primary flex justify-between items-center">
+                    <span>neuralis login && neuralis node --start</span>
+                    <span class="material-symbols-outlined text-[14px] cursor-pointer opacity-60 hover:opacity-100 hover:text-primary transition-all" (click)="showToast('Startup command copied!')">content_copy</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- docs / architecture: Interactive SVG Layout Map -->
+        <div *ngSwitchCase="'architecture'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">hub</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_ARCH_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_ARCH_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-center">
+            <!-- Interactive Visual Flow (7 cols) -->
+            <div class="md:col-span-7 flex justify-center">
+              <svg viewBox="0 0 200 120" class="w-full max-w-[400px] h-auto font-mono text-[6px]">
+                <defs>
+                  <linearGradient id="layerGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#b0c6ff" stop-opacity="0.1" />
+                    <stop offset="100%" stop-color="#00dbe9" stop-opacity="0.1" />
+                  </linearGradient>
+                </defs>
+                
+                <!-- Layer 1 -->
+                <g class="group/l1 cursor-help">
+                  <rect x="10" y="10" width="180" height="20" rx="4" fill="url(#layerGrad)" stroke="#b0c6ff" stroke-width="1" class="hover:stroke-[#00dbe9] hover:fill-white/5 transition-all" />
+                  <text x="100" y="22" fill="#fff" text-anchor="middle" font-weight="bold">LAYER 4: Cognitive Interface (Web3 UI Kit)</text>
+                </g>
+                <path d="M100,30 L100,40" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2 2" />
+
+                <!-- Layer 2 -->
+                <g class="group/l2 cursor-help">
+                  <rect x="10" y="40" width="180" height="20" rx="4" fill="url(#layerGrad)" stroke="#00dbe9" stroke-width="1" class="hover:stroke-secondary hover:fill-white/5 transition-all" />
+                  <text x="100" y="52" fill="#fff" text-anchor="middle" font-weight="bold">LAYER 3: API Gateway & gRPC Sockets</text>
+                </g>
+                <path d="M100,60 L100,70" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2 2" />
+
+                <!-- Layer 3 -->
+                <g class="group/l3 cursor-help">
+                  <rect x="10" y="70" width="180" height="20" rx="4" fill="url(#layerGrad)" stroke="#ecb2ff" stroke-width="1" class="hover:stroke-[#b0c6ff] hover:fill-white/5 transition-all" />
+                  <text x="100" y="82" fill="#fff" text-anchor="middle" font-weight="bold">LAYER 2: Byzantine Consensus Staking</text>
+                </g>
+                <path d="M100,90 L100,100" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2 2" />
+
+                <!-- Layer 4 -->
+                <g class="group/l4 cursor-help">
+                  <rect x="10" y="100" width="180" height="20" rx="4" fill="url(#layerGrad)" stroke="#4ade80" stroke-width="1" class="hover:stroke-[#00dbe9] hover:fill-white/5 transition-all" />
+                  <text x="100" y="112" fill="#fff" text-anchor="middle" font-weight="bold">LAYER 1: Quantum ASIC Compute Core</text>
+                </g>
+              </svg>
+            </div>
+
+            <!-- Explainer text box (5 cols) -->
+            <div class="md:col-span-5 glass-plate p-md rounded-xl border-white/5 text-[11px] leading-relaxed text-on-surface-variant flex flex-col gap-xs">
+              <span class="text-[9px] text-[#00dbe9] font-bold uppercase tracking-wider font-label-sm">{{ lang.t('WIDGET_ARCH_SPECS') }}</span>
+              <p>
+                Our 4-layer stack provides dynamic network routing from high-performance bare metal hardware up to Web3-connected browser pages.
+              </p>
+              <p>
+                Select or hover over layers on the chart to read diagnostic metrics.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- docs / cli-reference: glossary list copy codes -->
+        <div *ngSwitchCase="'cli-reference'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">terminal</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_CLI_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_CLI_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="flex flex-col gap-sm">
+            <div *ngFor="let cmd of [
+              { code: 'neuralis init', desc: 'Initialize local workspace configurations and profiles.' },
+              { code: 'neuralis node --start', desc: 'Start a consensus validation node on the active client.' },
+              { code: 'neuralis optimize', desc: 'Clear channel noise and optimize websocket throughput.' },
+              { code: 'neuralis balance --query', desc: 'Query $NEURAL staking yields and wallet balances.' }
+            ]" class="glass-plate p-md rounded-xl border border-white/5 flex justify-between items-center hover:border-primary/20 transition-all">
+              <div class="flex flex-col gap-3xs">
+                <span class="font-mono text-xs text-primary font-bold">{{ cmd.code }}</span>
+                <span class="text-xs text-on-surface-variant leading-relaxed">{{ cmd.desc }}</span>
+              </div>
+              <button (click)="showToast('Copied: ' + cmd.code)" 
+                      class="bg-white/5 hover:bg-white/10 text-on-surface border border-white/10 px-md py-xs rounded-lg font-bold text-xs cursor-pointer transition-all flex items-center gap-xs">
+                <span class="material-symbols-outlined text-[12px]">content_copy</span>
+                <span>{{ lang.t('WIDGET_CLI_COPY') }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- docs / tutorials: list of tutorials with trackers -->
+        <div *ngSwitchCase="'tutorials'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">school</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_TUT_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_TUT_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+            <!-- List (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col gap-sm">
+              <div *ngFor="let tut of tutorialsList; let idx = index" 
+                   (click)="toggleTutorialCompleted(idx)"
+                   class="glass-plate p-md rounded-xl border border-white/5 flex justify-between items-center hover:border-primary/20 transition-all cursor-pointer">
+                <div class="flex flex-col gap-3xs">
+                  <h4 class="font-bold text-xs text-on-surface" [ngClass]="{'line-through text-on-surface-variant': tut.completed}">{{ tut.title }}</h4>
+                  <div class="flex gap-md text-[10px] text-on-surface-variant">
+                    <span>Difficulty: <strong class="text-on-surface">{{ tut.difficulty }}</strong></span>
+                    <span>Duration: <strong class="text-on-surface">{{ tut.duration }}</strong></span>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-[20px]" 
+                      [ngClass]="{'text-green-400': tut.completed, 'text-on-surface-variant opacity-40': !tut.completed}">
+                  {{ tut.completed ? 'check_box' : 'check_box_outline_blank' }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Progress Card (5 cols) -->
+            <div class="lg:col-span-5 glass-plate p-xl rounded-2xl border-white/10 flex flex-col gap-md items-center">
+              <span class="font-label-sm text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('WIDGET_TUT_CREDENTIALS') }}</span>
+              <!-- Circle Progress Visual -->
+              <div class="relative w-24 h-24 flex items-center justify-center">
+                <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
+                  <path class="text-white/5" stroke="currentColor" stroke-width="2" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path class="text-primary transition-all duration-500" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"
+                        [attr.stroke-dasharray]="tutorialsProgressPercent + ', 100'" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <span class="absolute font-display-md text-base font-extrabold text-on-surface">{{ tutorialsProgressPercent }}%</span>
+              </div>
+              <p class="text-[10px] text-center text-on-surface-variant leading-relaxed">
+                {{ lang.t('WIDGET_TUT_UNLOCKED') }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- legal / compliance: Interactive Checklist -->
+        <div *ngSwitchCase="'compliance'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">gavel</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_COMPLIANCE_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_COMPLIANCE_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="flex flex-col gap-sm">
+            <div *ngFor="let item of complianceItems; let idx = index" 
+                 (click)="toggleComplianceItem(idx)"
+                 class="glass-plate p-md rounded-xl border border-white/5 flex items-center justify-between hover:border-primary/20 transition-all cursor-pointer">
+              <span class="text-xs text-on-surface leading-relaxed" [ngClass]="{'line-through text-on-surface-variant': item.done}">{{ item.text }}</span>
+              <span class="material-symbols-outlined text-[20px]" 
+                    [ngClass]="{'text-green-400': item.done, 'text-on-surface-variant opacity-40': !item.done}">
+                {{ item.done ? 'check_box' : 'check_box_outline_blank' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- legal / privacy: Detailed privacy details with browser config cache manager -->
+        <div *ngSwitchCase="'privacy'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">verified_user</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_PRIVACY_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_PRIVACY_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="flex flex-col gap-md">
+            <div class="bg-black/55 border border-white/5 rounded-xl p-md font-mono text-[11px] text-on-surface-variant flex flex-col gap-xs">
+              <div>// {{ lang.t('WIDGET_PRIVACY_CACHE') }}</div>
+              <div>LOCAL_LANG: "{{ lang.currentLang() }}"</div>
+              <div>LOCAL_THEME: "Obsidian Dark"</div>
+              <div>CONNECTED_WALLET: "{{ connect.activeWallet() || 'none' }}"</div>
+            </div>
+
+            <button (click)="showToast('Configuration cache cleared! Resetting language...'); lang.currentLang.set('en')" 
+                    class="bg-white/5 border border-red-500/20 text-red-400 py-sm px-lg rounded-xl hover:bg-white/10 hover:border-red-500/50 transition-all font-bold text-xs cursor-pointer flex items-center justify-center gap-xs max-w-xs self-start">
+              <span class="material-symbols-outlined text-[16px]">delete</span>
+              <span>{{ lang.t('WIDGET_PRIVACY_CLEAR') }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- legal / security-policy: vulnerability disclosure reporting form with reward calculator -->
+        <div *ngSwitchCase="'security-policy'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">security</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_SEC_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_SEC_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-center">
+            <!-- Bug severity (5 cols) -->
+            <div class="md:col-span-5 flex flex-col gap-md">
+              <span class="font-label-sm text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('WIDGET_SEC_SEVERITY') }}</span>
+              <div class="flex flex-col gap-xs">
+                <button *ngFor="let sev of ['Low Severity', 'Medium Severity', 'High / Zero-Day Critical']" 
+                        [ngClass]="{
+                          'bg-primary/20 border-primary text-primary': selectedBountySev === sev,
+                          'bg-white/5 border-white/10 text-on-surface-variant': selectedBountySev !== sev
+                        }"
+                        (click)="selectedBountySev = sev"
+                        class="px-md py-sm rounded-xl border font-bold text-xs cursor-pointer text-left transition-all">
+                  {{ sev }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Bounty outcome (7 cols) -->
+            <div class="md:col-span-7 glass-plate p-xl rounded-2xl border-white/10 flex flex-col gap-md items-center">
+              <span class="font-label-sm text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('WIDGET_SEC_BOUNTY') }}</span>
+              <div class="font-display-md text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary animate-pulse">
+                {{ selectedBountySev === 'Low Severity' ? '5,000 $NEURAL' : (selectedBountySev === 'Medium Severity' ? '25,000 $NEURAL' : '250,000 $NEURAL') }}
+              </div>
+              <p class="text-[10px] text-center text-on-surface-variant leading-relaxed">
+                {{ lang.t('WIDGET_SEC_SUBMIT') }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- legal / terms: Terms of Service scroll acceptance -->
+        <div *ngSwitchCase="'terms'" class="glass-plate p-xl rounded-2xl border-white/5 flex flex-col gap-lg select-none">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">verified</span>
+            <div>
+              <h3 class="font-bold text-base text-on-surface uppercase tracking-wider">{{ lang.t('WIDGET_TERMS_TITLE') }}</h3>
+              <p class="text-xs text-on-surface-variant">{{ lang.t('WIDGET_TERMS_DESC') }}</p>
+            </div>
+          </div>
+          <div class="h-[1px] bg-white/10 w-full"></div>
+
+          <div class="flex flex-col gap-md">
+            <div class="h-[100px] bg-black/60 border border-white/5 rounded-xl p-md font-mono text-[10px] text-on-surface-variant overflow-y-auto leading-relaxed">
+              1. BINDING EFFECT. By connecting your EVM/Solana browser wallet extensions, you explicitly acknowledge registration as a non-voting block verification peer.
+              2. GAS FEES. Decentralized node optimizations incur minimal GAS fees paid in native token allocations.
+              3. NO LIABILITY. Validator software is provided "AS IS" with zero warranty or operational guarantees.
+            </div>
+            
+            <label class="flex items-center gap-sm cursor-pointer text-xs text-on-surface-variant font-label-md">
+              <input type="checkbox" [(ngModel)]="termsAccepted" class="accent-primary" />
+              <span>{{ lang.t('WIDGET_TERMS_CHECK') }}</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
       <!-- Educational Network Synopses (Visible only on nodes page) -->
       <div *ngIf="page() === 'nodes'" class="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-lg">
         <div class="glass-plate p-xl rounded-xl border-white/5 flex flex-col gap-sm">

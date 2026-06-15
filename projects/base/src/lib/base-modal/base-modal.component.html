@@ -1,0 +1,45 @@
+@if (visible) {
+  <div class="base-modal-mask" (click)="onMaskClick()">
+    
+    <div class="base-modal-container">
+      
+      <!-- MODAL CARD -->
+      <div class="base-modal-card" 
+           [style.width]="getWidth()"
+           (click)="$event.stopPropagation()">
+        
+        <!-- HEADER -->
+        <div class="base-modal-header">
+          <h4 class="base-modal-title">{{ title }}</h4>
+          @if (closable) {
+            <button class="base-modal-close-btn" [disabled]="loading" (click)="close()">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          }
+        </div>
+
+        <!-- BODY -->
+        <div class="base-modal-body">
+          <ng-content></ng-content>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="base-modal-footer">
+          <button class="base-modal-btn btn-cancel" [disabled]="loading" (click)="close()">
+            {{ cancelText }}
+          </button>
+          <button class="base-modal-btn btn-ok" [disabled]="loading" (click)="onOk()">
+            @if (loading) {
+              <span class="btn-spinner"></span>
+            } @else {
+              {{ okText }}
+            }
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+}

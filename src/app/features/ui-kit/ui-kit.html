@@ -1,0 +1,441 @@
+<div class="min-h-screen w-full bg-[#050505] text-[#e5e2e1] pt-24 pb-16 px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto flex flex-col gap-xl" [style]="dynamicVars">
+  
+  <!-- Header / Narrative -->
+  <div class="flex flex-col gap-md">
+    <div class="inline-block px-md py-xs rounded-full glass-plate text-primary font-label-sm border border-primary/20 max-w-fit">
+      INTERACTIVE DESIGN SYSTEM
+    </div>
+    <h1 class="font-display-lg text-[32px] leading-[1.1] md:text-[48px] lg:text-display-lg text-on-surface tracking-tight">{{ lang.t('UI_KIT_TITLE') }}</h1>
+    <p class="font-body-lg text-on-surface-variant max-w-3xl leading-relaxed">
+      {{ lang.t('UI_KIT_SUBTITLE') }}
+    </p>
+  </div>
+
+  <hr class="border-white/10" />
+
+  <!-- Core Component Workspace Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-xl items-start">
+    
+    <!-- Left Section: Components List (5 Cols) -->
+    <div class="lg:col-span-5 flex flex-col gap-lg">
+      
+      <!-- Category Filter -->
+      <div class="flex flex-col gap-sm">
+        <span class="font-label-sm text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{{ lang.t('UI_KIT_CATEGORIES') }}</span>
+        <div class="flex flex-wrap gap-xs">
+          <button (click)="setCategory('all')" 
+                  [ngClass]="{'bg-primary/20 border-primary text-primary': selectedCategory === 'all', 'bg-white/5 border-white/5 text-on-surface-variant': selectedCategory !== 'all'}"
+                  class="px-md py-sm rounded-lg border text-xs font-bold transition-all cursor-pointer">
+            {{ lang.t('UI_KIT_CAT_ALL') }}
+          </button>
+          <button (click)="setCategory('buttons')" 
+                  [ngClass]="{'bg-primary/20 border-primary text-primary': selectedCategory === 'buttons', 'bg-white/5 border-white/5 text-on-surface-variant': selectedCategory !== 'buttons'}"
+                  class="px-md py-sm rounded-lg border text-xs font-bold transition-all cursor-pointer">
+            {{ lang.t('UI_KIT_CAT_BUTTONS') }}
+          </button>
+          <button (click)="setCategory('cards')" 
+                  [ngClass]="{'bg-primary/20 border-primary text-primary': selectedCategory === 'cards', 'bg-white/5 border-white/5 text-on-surface-variant': selectedCategory !== 'cards'}"
+                  class="px-md py-sm rounded-lg border text-xs font-bold transition-all cursor-pointer">
+            {{ lang.t('UI_KIT_CAT_CARDS') }}
+          </button>
+          <button (click)="setCategory('inputs')" 
+                  [ngClass]="{'bg-primary/20 border-primary text-primary': selectedCategory === 'inputs', 'bg-white/5 border-white/5 text-on-surface-variant': selectedCategory !== 'inputs'}"
+                  class="px-md py-sm rounded-lg border text-xs font-bold transition-all cursor-pointer">
+            {{ lang.t('UI_KIT_CAT_INPUTS') }}
+          </button>
+          <button (click)="setCategory('indicators')" 
+                  [ngClass]="{'bg-primary/20 border-primary text-primary': selectedCategory === 'indicators', 'bg-white/5 border-white/5 text-on-surface-variant': selectedCategory !== 'indicators'}"
+                  class="px-md py-sm rounded-lg border text-xs font-bold transition-all cursor-pointer">
+            {{ lang.t('UI_KIT_CAT_INDICATORS') }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Search Box -->
+      <div class="relative w-full flex items-center bg-white/5 border border-white/10 rounded-xl px-md py-sm">
+        <span class="material-symbols-outlined text-[18px] text-on-surface-variant mr-xs">search</span>
+        <input type="text" [(ngModel)]="searchQuery" placeholder="Search components..." class="bg-transparent border-none outline-none flex-grow text-xs text-on-surface placeholder-on-surface-variant/40 focus:ring-0" />
+      </div>
+
+      <!-- Components Grid List -->
+      <div class="flex flex-col gap-sm">
+        <div *ngFor="let comp of filteredComponents()" 
+             (click)="selectComponent(comp)"
+             [ngClass]="{'border-[--primary-val] bg-white/5': selectedComponentId === comp.id, 'border-white/5': selectedComponentId !== comp.id}"
+             class="glass-plate p-md rounded-xl border flex items-center justify-between hover:border-[--primary-val]/50 transition-all cursor-pointer group">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-transform">
+              {{ comp.category === 'buttons' ? 'smart_button' : comp.category === 'cards' ? 'layers' : comp.category === 'inputs' ? 'edit_note' : 'radar' }}
+            </span>
+            <div class="flex flex-col">
+              <span class="font-bold text-xs text-on-surface">{{ lang.t(comp.nameKey) }}</span>
+              <span class="text-[10px] text-on-surface-variant uppercase tracking-wider">{{ comp.category }}</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Section: Customizer Toolbar & Interactive Preview (7 Cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-lg">
+      
+      <!-- Theme Customizer Panel -->
+      <div class="glass-plate p-xl rounded-2xl border-white/10 flex flex-col gap-lg">
+        <h2 class="font-headline-sm text-headline-sm font-semibold tracking-wide text-on-surface flex items-center gap-xs">
+          <span class="material-symbols-outlined text-primary text-[20px]">palette</span>
+          <span>{{ lang.t('UI_KIT_THEME_TITLE') }}</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+          <!-- Column 1: Color Attributes -->
+          <div class="flex flex-col gap-md">
+            <!-- Hue Slider -->
+            <div class="flex flex-col gap-xs">
+              <div class="flex justify-between text-xs font-label-md">
+                <span class="text-on-surface-variant">{{ lang.t('UI_KIT_PRIMARY_HUE') }}</span>
+                <span class="font-bold text-primary">{{ primaryHue }}°</span>
+              </div>
+              <input type="range" min="0" max="360" step="1" [(ngModel)]="primaryHue" class="custom-slider"/>
+            </div>
+
+            <!-- Saturation Slider -->
+            <div class="flex flex-col gap-xs">
+              <div class="flex justify-between text-xs font-label-md">
+                <span class="text-on-surface-variant">{{ lang.t('UI_KIT_PRIMARY_SAT') }}</span>
+                <span class="font-bold text-primary">{{ primarySat }}%</span>
+              </div>
+              <input type="range" min="0" max="100" step="1" [(ngModel)]="primarySat" class="custom-slider"/>
+            </div>
+
+            <!-- Lightness Slider -->
+            <div class="flex flex-col gap-xs">
+              <div class="flex justify-between text-xs font-label-md">
+                <span class="text-on-surface-variant">{{ lang.t('UI_KIT_PRIMARY_LIGHT') }}</span>
+                <span class="font-bold text-primary">{{ primaryLight }}%</span>
+              </div>
+              <input type="range" min="10" max="90" step="1" [(ngModel)]="primaryLight" class="custom-slider"/>
+            </div>
+          </div>
+
+          <!-- Column 2: Glass Effects -->
+          <div class="flex flex-col gap-md">
+            <!-- Glass Opacity -->
+            <div class="flex flex-col gap-xs">
+              <div class="flex justify-between text-xs font-label-md">
+                <span class="text-on-surface-variant">{{ lang.t('UI_KIT_GLASS_OPACITY') }}</span>
+                <span class="font-bold text-secondary">{{ glassOpacity }}%</span>
+              </div>
+              <input type="range" min="0" max="40" step="1" [(ngModel)]="glassOpacity" class="custom-slider" style="--primary-color: var(--secondary-val); --primary-color-glow: rgba(var(--secondary-rgb), 0.5);"/>
+            </div>
+
+            <!-- Glass Blur -->
+            <div class="flex flex-col gap-xs">
+              <div class="flex justify-between text-xs font-label-md">
+                <span class="text-on-surface-variant">{{ lang.t('UI_KIT_GLASS_BLUR') }}</span>
+                <span class="font-bold text-secondary">{{ glassBlur }}px</span>
+              </div>
+              <input type="range" min="0" max="32" step="1" [(ngModel)]="glassBlur" class="custom-slider" style="--primary-color: var(--secondary-val); --primary-color-glow: rgba(var(--secondary-rgb), 0.5);"/>
+            </div>
+
+            <!-- Border Style -->
+            <div class="flex flex-col gap-xs">
+              <span class="text-xs font-label-md text-on-surface-variant mb-1">{{ lang.t('UI_KIT_BORDER_STYLE') }}</span>
+              <div class="flex gap-xs">
+                <button *ngFor="let w of ['none', 'thin', 'thick']" 
+                        (click)="borderWeight = w"
+                        [ngClass]="{'bg-secondary/20 border-secondary text-on-surface': borderWeight === w, 'bg-white/5 border-white/5 text-on-surface-variant': borderWeight !== w}"
+                        class="flex-1 py-sm rounded-lg border text-xs font-bold transition-all cursor-pointer">
+                  {{ lang.t('UI_KIT_BORDER_' + w.toUpperCase()) }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selected Component Interactive Playground Card -->
+      <div class="glass-plate p-xl rounded-2xl border-white/10 flex flex-col gap-lg">
+        <div class="flex justify-between items-start">
+          <div>
+            <span class="text-[10px] text-primary font-bold uppercase tracking-wider font-label-sm">Active Component Preview</span>
+            <h3 class="font-headline-md text-headline-sm text-on-surface mt-xs">{{ lang.t(activeComponent.nameKey) }}</h3>
+          </div>
+          <!-- Add to Workbench Button -->
+          <button (click)="addToWorkbench(activeComponent, selectedVariantId)"
+                  class="bg-white/5 hover:bg-white/10 text-primary border border-primary/20 px-md py-sm rounded-lg font-label-md hover:border-primary/50 transition-all cursor-pointer flex items-center gap-xs">
+            <span class="material-symbols-outlined text-[16px]">add_circle</span>
+            <span>Add to Sandbox</span>
+          </button>
+        </div>
+
+        <!-- Variant Selector -->
+        <div class="flex flex-col gap-sm">
+          <span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider font-label-sm">{{ lang.t('UI_KIT_VARIANT') }}</span>
+          <div class="flex flex-wrap gap-xs">
+            <button *ngFor="let varObj of activeComponent.variants"
+                    (click)="selectedVariantId = varObj.id"
+                    [ngClass]="{'bg-primary/20 border-primary text-primary': selectedVariantId === varObj.id, 'bg-white/5 border-white/5 text-on-surface-variant': selectedVariantId !== varObj.id}"
+                    class="px-md py-xs rounded-lg border text-xs font-bold transition-all cursor-pointer">
+              {{ varObj.name }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Preview Area -->
+        <div class="w-full min-h-[160px] rounded-xl flex items-center justify-center p-xl relative overflow-hidden bg-cover bg-center border border-white/5"
+             style="background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(135deg, #09090b 0%, #030304 100%); background-size: 20px 20px, 100% 100%;">
+          
+          <!-- Background decoration -->
+          <div class="absolute top-1/4 left-1/3 w-24 h-24 rounded-full bg-gradient-to-tr from-primary/10 to-secondary/10 blur-xl"></div>
+
+          <!-- Compiled Component Host -->
+          <div class="relative z-10" [style]="dynamicVars">
+            <!-- Buttons -->
+            <button *ngIf="activeComponent.id === 'btn-action' && selectedVariantId === 'filled'"
+                    class="bg-gradient-to-r from-[--primary-val] to-[--secondary-val] text-black px-xl py-md rounded-lg font-bold shadow-[0_0_20px_rgba(var(--primary-rgb),0.4)] hover:scale-[1.03] transition-all duration-300">
+              Primary Action
+            </button>
+            <button *ngIf="activeComponent.id === 'btn-action' && selectedVariantId === 'outlined'"
+                    class="bg-white/5 border border-[--primary-val] text-[--primary-val] px-xl py-md rounded-lg font-bold hover:bg-[--primary-val]/10 hover:shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)] transition-all duration-300">
+              Secondary Action
+            </button>
+            <button *ngIf="activeComponent.id === 'btn-action' && selectedVariantId === 'cyber-glow'"
+                    class="bg-[#050505] border-2 border-[--primary-val] text-on-surface px-xl py-md rounded-lg font-mono font-bold tracking-widest hover:shadow-[0_0_25px_rgba(var(--primary-rgb),0.7)] animate-pulse transition-all duration-300">
+              > INITIALIZE_
+            </button>
+
+            <!-- Cards -->
+            <div *ngIf="activeComponent.id === 'frosted-plate' && selectedVariantId === 'glass-standard'"
+                 class="bg-white/[--glass-op] border-[--border-px] border-white/10 backdrop-blur-[--glass-blur] rounded-2xl p-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] max-w-sm">
+              <h4 class="font-bold text-on-surface mb-sm">Standard Obsidian</h4>
+              <p class="text-xs text-on-surface-variant leading-relaxed">A pristine translucent container suitable for all dashboard widgets.</p>
+            </div>
+            <div *ngIf="activeComponent.id === 'frosted-plate' && selectedVariantId === 'glass-glow'"
+                 class="bg-[#0c0c0e]/90 border-[--border-px] border-[--primary-val]/30 backdrop-blur-[--glass-blur] rounded-2xl p-xl shadow-[0_0_30px_rgba(var(--primary-rgb),0.15)] hover:border-[--primary-val]/80 transition-all duration-300 max-w-sm">
+              <h4 class="font-bold text-[--primary-val] mb-sm">Glowing Edge</h4>
+              <p class="text-xs text-on-surface-variant leading-relaxed">Emphasizes active network components with custom glow borders.</p>
+            </div>
+            <div *ngIf="activeComponent.id === 'frosted-plate' && selectedVariantId === 'glass-hologram'"
+                 class="bg-gradient-to-br from-white/[--glass-op] to-[--primary-val]/5 border-[--border-px] border-white/10 backdrop-blur-[--glass-blur] rounded-2xl p-xl shadow-2xl relative overflow-hidden max-w-sm">
+              <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[--primary-val]/10 to-[--secondary-val]/10 blur-xl pointer-events-none"></div>
+              <h4 class="font-bold text-on-surface mb-sm">Holographic Plate</h4>
+              <p class="text-xs text-on-surface-variant leading-relaxed">Infused with a subtle multi-colored backing gradient layer.</p>
+            </div>
+
+            <!-- Inputs -->
+            <div *ngIf="activeComponent.id === 'console-input' && selectedVariantId === 'prompt'"
+                 class="flex items-center gap-sm bg-black/60 border border-white/10 rounded-lg px-md py-sm min-w-[280px]">
+              <span class="font-mono text-[--primary-val] font-bold">&gt;</span>
+              <input type="text" placeholder="Enter instruction..." class="bg-transparent border-none outline-none flex-grow font-mono text-xs text-[--primary-val] placeholder-[--primary-val]/30 focus:ring-0" />
+            </div>
+            <div *ngIf="activeComponent.id === 'console-input' && selectedVariantId === 'glowing-field'"
+                 class="relative min-w-[280px]">
+              <input type="text" placeholder="Enter configuration..." class="w-full bg-white/5 border-b border-white/10 focus:border-[--primary-val] px-md py-sm rounded-t-lg outline-none text-xs text-on-surface transition-all duration-300" />
+              <div class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[--primary-val] to-[--secondary-val]"></div>
+            </div>
+
+            <!-- Indicators -->
+            <span *ngIf="activeComponent.id === 'system-indicator' && selectedVariantId === 'pulse-dot'"
+                  class="bg-white/5 border border-green-500/20 px-md py-xs rounded-full text-green-400 font-mono text-[10px] flex items-center gap-sm max-w-fit">
+              <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_#4ade80]"></span>
+              NETWORK_ACTIVE
+            </span>
+            <div *ngIf="activeComponent.id === 'system-indicator' && selectedVariantId === 'radial-sync'"
+                 class="relative w-16 h-16 flex items-center justify-center">
+              <div class="absolute w-full h-full rounded-full border border-dashed border-[--primary-val]/30 animate-[spin_8s_linear_infinite]"></div>
+              <div class="absolute w-[80%] h-[80%] rounded-full border border-[--secondary-val]/20 animate-[spin_12s_linear_infinite_reverse]"></div>
+              <span class="material-symbols-outlined text-[18px] text-[--primary-val] animate-pulse">sync</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Generated Snippet -->
+        <div class="flex flex-col gap-xs pt-sm">
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-[9px] text-primary font-bold uppercase tracking-wider font-label-sm">Tailwind CSS / HTML Markup:</span>
+            <button (click)="copyCode(activeVariant.htmlTemplate)"
+                    class="bg-white/5 hover:bg-white/10 text-primary border border-primary/20 px-md py-xs rounded-lg font-label-sm hover:border-primary/50 transition-all cursor-pointer flex items-center gap-xs">
+              <span class="material-symbols-outlined text-[12px]">content_copy</span>
+              <span>Copy Code</span>
+            </button>
+          </div>
+          <pre class="bg-black/60 border border-white/10 rounded-xl p-md font-mono text-[10px] text-primary overflow-x-auto whitespace-pre select-all shadow-inner">{{ getCompiledCode(activeVariant.htmlTemplate) }}</pre>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <hr class="border-white/10" />
+
+  <!-- Sandbox Workbench Title -->
+  <div class="flex flex-col gap-xs">
+    <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">{{ lang.t('UI_KIT_WORKBENCH_TITLE') }}</h2>
+    <p class="font-body-md text-on-surface-variant">
+      {{ lang.t('WIDGET_UI_KIT_DESC') }}
+    </p>
+  </div>
+
+  <!-- Interactive Sandbox Area (Draggable Board) -->
+  <div class="w-full h-[500px] rounded-3xl border border-white/10 relative overflow-hidden blueprint-grid cursor-default select-none"
+       #sandboxContainer
+       (mousemove)="onMouseMoveSandbox($event, sandboxContainer)"
+       (mouseup)="onMouseUpSandbox()"
+       (mouseleave)="onMouseUpSandbox()">
+
+    <!-- Empty State Helper -->
+    <div *ngIf="workbenchItems().length === 0" class="absolute inset-0 flex flex-col items-center justify-center text-center gap-md p-md pointer-events-none">
+      <span class="material-symbols-outlined text-white/20 text-[48px]">grid_view</span>
+      <p class="text-xs text-on-surface-variant max-w-xs leading-relaxed">
+        Your sandbox is currently empty. Click "Add to Sandbox" on any component card above to place interactive items here!
+      </p>
+    </div>
+
+    <!-- Draggable Sandbox Elements -->
+    <div *ngFor="let item of workbenchItems()"
+         class="absolute cursor-move select-none p-2 rounded-xl transition-shadow shadow-lg hover:shadow-primary/10 border border-transparent hover:border-white/10"
+         [style.left.%]="item.x"
+         [style.top.%]="item.y"
+         (mousedown)="onDragStart($event, item.id)">
+      
+      <!-- Delete Button overlay on hover -->
+      <button (click)="removeFromWorkbench(item.id); $event.stopPropagation();"
+              class="absolute -top-2 -right-2 w-5 h-5 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110 border border-white/10 cursor-pointer">
+        <span class="material-symbols-outlined text-[10px] font-bold">close</span>
+      </button>
+
+      <!-- Active Component Rendering in Sandbox -->
+      <div [style]="dynamicVars" class="pointer-events-auto">
+        <!-- Buttons -->
+        <button *ngIf="item.componentId === 'btn-action' && item.variantId === 'filled'"
+                (click)="triggerItemAction(item); $event.stopPropagation();"
+                class="bg-gradient-to-r from-[--primary-val] to-[--secondary-val] text-black px-lg py-sm rounded-lg font-bold shadow-[0_0_20px_rgba(var(--primary-rgb),0.4)] hover:scale-[1.03] transition-all duration-300 whitespace-nowrap">
+          Click Me ({{ item.stateData?.clicks || 0 }})
+        </button>
+        <button *ngIf="item.componentId === 'btn-action' && item.variantId === 'outlined'"
+                (click)="triggerItemAction(item); $event.stopPropagation();"
+                class="bg-white/5 border border-[--primary-val] text-[--primary-val] px-lg py-sm rounded-lg font-bold hover:bg-[--primary-val]/10 hover:shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)] transition-all duration-300 whitespace-nowrap">
+          Launch Node ({{ item.stateData?.clicks || 0 }})
+        </button>
+        <button *ngIf="item.componentId === 'btn-action' && item.variantId === 'cyber-glow'"
+                (click)="triggerItemAction(item); $event.stopPropagation();"
+                class="bg-[#050505] border-2 border-[--primary-val] text-on-surface px-lg py-sm rounded-lg font-mono font-bold tracking-widest hover:shadow-[0_0_25px_rgba(var(--primary-rgb),0.7)] animate-pulse transition-all duration-300 whitespace-nowrap">
+          &gt; ACTIVATE ({{ item.stateData?.clicks || 0 }})
+        </button>
+
+        <!-- Cards -->
+        <div *ngIf="item.componentId === 'frosted-plate' && item.variantId === 'glass-standard'"
+             class="bg-white/[--glass-op] border-[--border-px] border-white/10 backdrop-blur-[--glass-blur] rounded-2xl p-md shadow-lg max-w-[220px]">
+          <h4 class="font-bold text-on-surface text-[12px] mb-xs">Sandbox Plate</h4>
+          <p class="text-[10px] text-on-surface-variant leading-relaxed">Draggable glass container in the workspace.</p>
+        </div>
+        <div *ngIf="item.componentId === 'frosted-plate' && item.variantId === 'glass-glow'"
+             class="bg-[#0c0c0e]/90 border-[--border-px] border-[--primary-val]/30 backdrop-blur-[--glass-blur] rounded-2xl p-md shadow-lg max-w-[220px]">
+          <h4 class="font-bold text-[--primary-val] text-[12px] mb-xs">Glow Plate</h4>
+          <p class="text-[10px] text-on-surface-variant leading-relaxed">Active neon border highlights.</p>
+        </div>
+        <div *ngIf="item.componentId === 'frosted-plate' && item.variantId === 'glass-hologram'"
+             class="bg-gradient-to-br from-white/[--glass-op] to-[--primary-val]/5 border-[--border-px] border-white/10 backdrop-blur-[--glass-blur] rounded-2xl p-md shadow-lg relative overflow-hidden max-w-[220px]">
+          <h4 class="font-bold text-on-surface text-[12px] mb-xs">Holo Plate</h4>
+          <p class="text-[10px] text-on-surface-variant leading-relaxed">Backing gradient reflections.</p>
+        </div>
+
+        <!-- Inputs -->
+        <div *ngIf="item.componentId === 'console-input' && item.variantId === 'prompt'"
+             class="flex items-center gap-xs bg-black/60 border border-white/10 rounded-lg px-sm py-xs min-w-[200px]">
+          <span class="font-mono text-[--primary-val] font-bold text-xs">&gt;</span>
+          <input type="text" placeholder="Prompt..." class="bg-transparent border-none outline-none flex-grow font-mono text-[10px] text-[--primary-val] placeholder-[--primary-val]/30 focus:ring-0" />
+        </div>
+        <div *ngIf="item.componentId === 'console-input' && item.variantId === 'glowing-field'"
+             class="relative min-w-[200px]">
+          <input type="text" placeholder="Config..." class="w-full bg-white/5 border-b border-white/10 focus:border-[--primary-val] px-sm py-xs rounded-t-lg outline-none text-[10px] text-on-surface transition-all duration-300" />
+          <div class="absolute bottom-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-[--primary-val] to-[--secondary-val]"></div>
+        </div>
+
+        <!-- Indicators -->
+        <span *ngIf="item.componentId === 'system-indicator' && item.variantId === 'pulse-dot'"
+              class="bg-white/5 border border-green-500/20 px-md py-xs rounded-full text-green-400 font-mono text-[9px] flex items-center gap-xs max-w-fit whitespace-nowrap">
+          <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_#4ade80]"></span>
+          ONLINE
+        </span>
+        <div *ngIf="item.componentId === 'system-indicator' && item.variantId === 'radial-sync'"
+             class="relative w-12 h-12 flex items-center justify-center bg-black/40 rounded-full">
+          <div class="absolute w-full h-full rounded-full border border-dashed border-[--primary-val]/30 animate-[spin_8s_linear_infinite]"></div>
+          <div class="absolute w-[80%] h-[80%] rounded-full border border-[--secondary-val]/20 animate-[spin_12s_linear_infinite_reverse]"></div>
+          <span class="material-symbols-outlined text-[14px] text-[--primary-val] animate-pulse">sync</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="border-white/10" />
+
+  <!-- Base Table Component Showcase Section -->
+  <div class="flex flex-col gap-xs">
+    <h2 class="font-headline-lg text-headline-md tracking-tight text-on-surface">Base Table Library Component</h2>
+    <p class="font-body-md text-on-surface-variant">
+      A lightweight, standalone, fully featured data table with column dragging, resizing, client/server sorting, custom cell template support, and scoped SCSS.
+    </p>
+  </div>
+
+  <div class="glass-plate p-xl rounded-2xl border-white/10 flex flex-col gap-md">
+    <base-table
+      [data]="tableData()"
+      [columns]="tableColumns"
+      [actions]="tableActions"
+      [selectable]="true"
+      [showPagination]="true"
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 10, 20]"
+      [expandable]="true"
+      (actionClick)="onTableAction($event)"
+      (rowClick)="onTableRowClick($event)">
+    </base-table>
+  </div>
+
+  <hr class="border-white/10" />
+
+  <!-- Tailwind Config Output Section -->
+  <div class="glass-plate p-xl rounded-2xl border-white/10 flex flex-col gap-md">
+    <div class="flex justify-between items-center">
+      <h3 class="font-headline-sm text-headline-sm font-semibold tracking-wide text-on-surface flex items-center gap-xs">
+        <span class="material-symbols-outlined text-primary text-[20px]">settings_ethernet</span>
+        <span>{{ lang.t('UI_KIT_TAILWIND_CONFIG_TITLE') }}</span>
+      </h3>
+      <button (click)="copyTailwindConfig()"
+              class="bg-white/5 hover:bg-white/10 text-primary border border-primary/20 px-md py-sm rounded-lg font-label-md hover:border-primary/50 transition-all cursor-pointer flex items-center gap-xs">
+        <span class="material-symbols-outlined text-[14px]">content_copy</span>
+        <span>Copy Config</span>
+      </button>
+    </div>
+    <p class="font-body-md text-on-surface-variant text-[14px] leading-relaxed">
+      Extend your project's `tailwind.config.js` with these tokens to match the Obsidian Flux aesthetic.
+    </p>
+    <pre class="bg-black/60 border border-white/5 rounded-xl p-md font-mono text-[11px] text-primary overflow-x-auto whitespace-pre select-all shadow-inner">// tailwind.config.js
+module.exports = &#123;
+  theme: &#123;
+    extend: &#123;
+      colors: &#123;
+        primary: 'hsl(&#123;&#123; primaryHue &#125;&#125;, &#123;&#123; primarySat &#125;&#125;%, &#123;&#123; primaryLight &#125;&#125;%)',
+        secondary: 'hsl(&#123;&#123; (primaryHue + 60) % 360 &#125;&#125;, &#123;&#123; primarySat &#125;&#125;%, &#123;&#123; primaryLight &#125;&#125;%)',
+        surface: '#050505',
+      &#125;,
+      backdropBlur: &#123;
+        flux: '&#123;&#123; glassBlur &#125;&#125;px',
+      &#125;
+    &#125;
+  &#125;
+&#125;</pre>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="fixed bottom-6 right-6 glass-plate px-lg py-sm rounded-xl border-primary/30 text-primary font-label-md flex items-center gap-sm shadow-[0_10px_30px_rgba(0,0,0,0.8)] transition-transform duration-300 z-50"
+       [style.transform]="toastVisible ? 'translateY(0)' : 'translateY(150%)'">
+    <span class="material-symbols-outlined text-[18px]">check_circle</span>
+    {{ toastMessage }}
+  </div>
+
+</div>

@@ -1,0 +1,12 @@
+<span class="base-tag tag-{{ color }}" 
+      [class.ks-tag-glow]="glow"
+      [class.ks-tag-closable]="closable">
+  <span class="base-tag-content">
+    <ng-content></ng-content>
+  </span>
+  @if (closable) {
+    <button class="base-tag-close-btn" (click)="onCloseClick($event)">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  }
+</span>
