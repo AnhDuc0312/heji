@@ -75,6 +75,17 @@
   --base-toast-bg: #121214;
   --base-toast-border: var(--border-color);
   --base-toast-text: #ffffff;
+
+  /* 9 Components Variables for Dark Mode */
+  --base-card-bg: rgba(255, 255, 255, 0.02);
+  --base-card-border: rgba(255, 255, 255, 0.08);
+  --base-card-border-hover: rgba(255, 255, 255, 0.15);
+  --base-card-bg-hover: rgba(255, 255, 255, 0.04);
+  --base-accordion-active-bg: rgba(255, 255, 255, 0.03);
+  --base-checkbox-check-color: #000000;
+  --base-tag-default-bg: rgba(255, 255, 255, 0.05);
+  --base-tag-default-border: rgba(255, 255, 255, 0.08);
+  --base-tag-default-color: var(--text-secondary);
 }
 
 [data-theme="light"] {
@@ -149,6 +160,45 @@
   --base-toast-bg: #ffffff;
   --base-toast-border: var(--border-color);
   --base-toast-text: #0f172a;
+
+  /* 9 Components Variables for Light Mode */
+  --base-card-bg: #ffffff;
+  --base-card-border: rgba(15, 23, 42, 0.08);
+  --base-card-border-hover: rgba(15, 23, 42, 0.15);
+  --base-card-bg-hover: rgba(15, 23, 42, 0.02);
+  --base-accordion-active-bg: rgba(15, 23, 42, 0.02);
+  --base-checkbox-check-color: #ffffff;
+  --base-tag-default-bg: #e2e8f0;
+  --base-tag-default-border: rgba(15, 23, 42, 0.08);
+  --base-tag-default-color: var(--text-secondary);
+
+  // Ghi đè màu của Tailwind cho Light Mode
+  .text-primary {
+    color: var(--primary-color) !important;
+  }
+  .text-on-surface-variant {
+    color: var(--text-secondary) !important;
+  }
+  .text-on-surface {
+    color: var(--text-primary) !important;
+  }
+  .text-on-background {
+    color: var(--text-primary) !important;
+  }
+  .bg-black\/60, .bg-white\/2 {
+    background-color: var(--bg-tertiary) !important;
+  }
+  .border-white\/10, .border-white\/5 {
+    border-color: var(--border-color) !important;
+  }
+  .glass-plate {
+    background-color: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+    backdrop-filter: none !important;
+  }
+  .playground-controls .control-row label {
+    color: var(--text-secondary) !important;
+  }
 }
 
 body {

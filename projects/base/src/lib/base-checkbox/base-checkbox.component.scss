@@ -57,7 +57,7 @@
     background-color: var(--primary-color, #00dbe9);
     border-color: var(--primary-color, #00dbe9);
     box-shadow: 0 0 10px rgba(0, 219, 233, 0.25);
-    color: #000000;
+    color: var(--base-checkbox-check-color, #000000);
   }
 }
 
