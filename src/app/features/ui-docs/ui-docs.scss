@@ -373,31 +373,32 @@
   }
   
   .ui-docs-sidebar {
-    background: rgba(241, 245, 249, 0.7);
-    border-right-color: rgba(15, 23, 42, 0.08);
+    background: rgba(255, 255, 255, 0.7);
+    border-right-color: rgba(99, 102, 241, 0.08);
+    backdrop-filter: blur(16px);
     
     .nav-section-title {
       color: #64748b;
     }
     
     .nav-link {
-      color: #475569;
+      color: #4b5563;
       
       &:hover {
-        background-color: rgba(15, 23, 42, 0.03);
+        background-color: rgba(95, 90, 246, 0.03);
         color: #0f172a;
       }
       
       &.ks-active {
-        background-color: rgba(2, 132, 199, 0.08);
-        color: #0284c7;
-        box-shadow: inset 2px 0 0 #0284c7;
+        background-color: rgba(95, 90, 246, 0.08);
+        color: #5f5af6;
+        box-shadow: inset 2px 0 0 #5f5af6;
       }
     }
     
     .sidebar-brand {
       color: #0f172a;
-      border-bottom-color: rgba(15, 23, 42, 0.08);
+      border-bottom-color: rgba(99, 102, 241, 0.08);
     }
   }
   
@@ -406,7 +407,7 @@
   }
   
   .docs-subtitle {
-    color: #475569;
+    color: #4b5563;
     strong {
       color: #0f172a;
     }
@@ -414,18 +415,19 @@
   
   .section-heading {
     color: #0f172a;
-    border-bottom-color: rgba(15, 23, 42, 0.08);
+    border-bottom-color: rgba(99, 102, 241, 0.08);
   }
   
   .playground-grid {
-    border-color: rgba(15, 23, 42, 0.08);
+    border-color: rgba(99, 102, 241, 0.08);
     background-color: #ffffff;
+    box-shadow: 0 4px 30px rgba(99, 102, 241, 0.02);
   }
   
   .playground-preview {
-    border-right-color: rgba(15, 23, 42, 0.08);
-    background-color: #f8fafc;
-    background-image: radial-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+    border-right-color: rgba(99, 102, 241, 0.08);
+    background-color: #f8f9fc;
+    background-image: radial-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px);
   }
   
   .playground-controls {
@@ -433,42 +435,42 @@
   }
   
   .docs-control-input, .docs-control-select {
-    background-color: #f1f5f9;
-    border-color: rgba(15, 23, 42, 0.08);
+    background-color: #f8fafc;
+    border-color: rgba(99, 102, 241, 0.12);
     color: #0f172a;
     
     &:focus {
-      border-color: #0284c7;
-      box-shadow: 0 0 8px rgba(2, 132, 199, 0.2);
+      border-color: #5f5af6;
+      box-shadow: 0 0 8px rgba(95, 90, 246, 0.15);
     }
   }
   
   .snippet-header {
-    background-color: #f1f5f9;
-    border-color: rgba(15, 23, 42, 0.08);
-    color: #475569;
+    background-color: #f8fafc;
+    border-color: rgba(99, 102, 241, 0.08);
+    color: #4b5563;
   }
   
   .docs-code-snippet {
-    background-color: #f8fafc;
-    border-color: rgba(15, 23, 42, 0.08);
-    color: #0284c7;
+    background-color: #f8f9fc;
+    border-color: rgba(99, 102, 241, 0.08);
+    color: #4f46e5;
   }
   
   .snippet-copy-btn {
-    background-color: rgba(15, 23, 42, 0.05);
-    border-color: rgba(15, 23, 42, 0.08);
-    color: #475569;
+    background-color: rgba(95, 90, 246, 0.05);
+    border-color: rgba(99, 102, 241, 0.12);
+    color: #4b5563;
     
     &:hover {
-      background-color: rgba(15, 23, 42, 0.08);
+      background-color: rgba(95, 90, 246, 0.08);
       color: #0f172a;
     }
   }
   
   .docs-api-table {
     thead {
-      border-bottom-color: rgba(15, 23, 42, 0.12);
+      border-bottom-color: rgba(99, 102, 241, 0.12);
     }
     
     th {
@@ -476,31 +478,31 @@
     }
     
     tbody tr {
-      border-bottom-color: rgba(15, 23, 42, 0.05);
+      border-bottom-color: rgba(99, 102, 241, 0.05);
       
       &:hover {
-        background-color: rgba(15, 23, 42, 0.01);
+        background-color: rgba(95, 90, 246, 0.02);
       }
     }
     
     td {
-      color: #475569;
+      color: #4b5563;
       
       code {
-        background-color: rgba(15, 23, 42, 0.05);
-        color: #0284c7;
+        background-color: rgba(95, 90, 246, 0.05);
+        color: #4f46e5;
       }
     }
   }
 
   @media (max-width: 992px) {
     .ui-docs-sidebar {
-      border-bottom-color: rgba(15, 23, 42, 0.08);
+      border-bottom-color: rgba(99, 102, 241, 0.08);
     }
   }
 
   .api-table-wrapper {
-    border-color: rgba(15, 23, 42, 0.08);
+    border-color: rgba(99, 102, 241, 0.08);
   }
 }
 
