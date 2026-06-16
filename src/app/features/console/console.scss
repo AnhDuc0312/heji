@@ -1,17 +1,6 @@
 // Custom styles for Neural Command Console
 
 // Glassmorphism utility
-.glass-plate {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-  }
-}
 
 // SVG Connection line flow animation
 @keyframes dash {
