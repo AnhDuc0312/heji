@@ -342,6 +342,34 @@
   .ui-docs-layout {
     background-color: #f8fafc;
     color: #0f172a;
+
+    // Ghi đè màu của Tailwind cho Light Mode chỉ trong trang tài liệu
+    .text-primary {
+      color: var(--primary-color) !important;
+    }
+    .text-on-surface-variant {
+      color: var(--text-secondary) !important;
+    }
+    .text-on-surface {
+      color: var(--text-primary) !important;
+    }
+    .text-on-background {
+      color: var(--text-primary) !important;
+    }
+    .bg-black\/60, .bg-white\/2 {
+      background-color: var(--bg-tertiary) !important;
+    }
+    .border-white\/10, .border-white\/5 {
+      border-color: var(--border-color) !important;
+    }
+    .glass-plate {
+      background-color: var(--bg-secondary) !important;
+      border-color: var(--border-color) !important;
+      backdrop-filter: none !important;
+    }
+    .playground-controls .control-row label {
+      color: var(--text-secondary) !important;
+    }
   }
   
   .ui-docs-sidebar {
