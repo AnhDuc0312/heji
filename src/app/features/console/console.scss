@@ -114,3 +114,63 @@ input[type="range"] {
     }
   }
 }
+
+:host-context([data-theme="light"]) {
+  input[type="range"] {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.15);
+
+    &:hover {
+      background: rgba(99, 102, 241, 0.12);
+    }
+
+    &.accent-primary {
+      &::-webkit-slider-thumb {
+        background: #0891b2; /* Teal đậm */
+        color: rgba(8, 145, 178, 0.4);
+      }
+      &::-moz-range-thumb {
+        background: #0891b2;
+        color: rgba(8, 145, 178, 0.4);
+      }
+    }
+
+    &.accent-secondary {
+      &::-webkit-slider-thumb {
+        background: #4f46e5; /* Indigo đậm */
+        color: rgba(79, 70, 229, 0.4);
+      }
+      &::-moz-range-thumb {
+        background: #4f46e5;
+        color: rgba(79, 70, 229, 0.4);
+      }
+    }
+
+    &.accent-tertiary {
+      &::-webkit-slider-thumb {
+        background: #7c3aed; /* Violet đậm */
+        color: rgba(124, 58, 237, 0.4);
+      }
+      &::-moz-range-thumb {
+        background: #7c3aed;
+        color: rgba(124, 58, 237, 0.4);
+      }
+    }
+  }
+
+  .selected-node {
+    stroke: #4f46e5; /* Sẫm màu chàm ở light mode */
+  }
+
+  .scrollbar-terminal {
+    &::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(79, 70, 229, 0.2);
+      &:hover {
+        background: rgba(79, 70, 229, 0.4);
+      }
+    }
+  }
+}
